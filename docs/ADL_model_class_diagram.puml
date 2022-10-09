@@ -1,0 +1,87 @@
+@startuml
+
+class Order{
+    +UUID id
+    +abstractUser customer
+    +Address orderAddress
+    +List<Product> items
+    +Date creationDate
+    +boolean isPaid
+    +double discountPercent
+}
+
+class User {
+    +UUID id
+    +String login
+    +String password
+    +String email
+    +String phoneNumber
+    +Address orderAddress
+    +Cart cart
+    +Role role
+    +boolean isAdmin
+}
+
+class Address{
+    +UUID id
+    +String country
+    +String city
+    +String street
+    +String houseNumber
+    +String zipCode
+}
+
+class Cart{
+    +List<Product> items
+}
+
+User --> Cart
+User --> Address
+Order --> Address
+Order --> User
+Product --> Order
+
+Laptop --|> Product
+MobilePhone --|> Product
+TV --|> Product
+
+abstract class Product{
+    +UUID id
+    +int availableAmount
+    +Money price
+    +String name
+    +String producer
+    +String productDescription
+}
+
+class Laptop{
+    +String cpu
+    +int ram
+    +String screenSize
+    +String resolution
+    +int batterySize
+    +int diskSize
+    +String panel
+}
+
+class MobilePhone{
+        +String cpu
+        +int ram
+        +String screenSize
+        +String resolution
+        +int batterySize
+        +int memorySize
+        +String panel
+        +String operatingSystem
+        +boolean nfcPresent
+        +boolean audioJackPresent
+}
+
+class TV {
+    +String screenSize
+    +String resolution
+    +String panel
+    +String refreshRate
+}
+
+@enduml
