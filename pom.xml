@@ -7,11 +7,6 @@
     <groupId>com.pas</groupId>
     <artifactId>PAS-Parent</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>PAS-service</module>
-        <module>PAS-model</module>
-        <module>PAS-app</module>
-    </modules>
     <name>PAS-Parent</name>
     <packaging>pom</packaging>
 

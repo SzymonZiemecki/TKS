@@ -3,7 +3,7 @@ package com.pas.app;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-@ApplicationPath("/api")
+@ApplicationPath("/")
 public class HelloApplication extends Application {
 
 }

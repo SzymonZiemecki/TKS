@@ -11,8 +11,6 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public abstract class IdTrait {
     private UUID id;
-    private String firstName;
-    private String lastName;
 }
