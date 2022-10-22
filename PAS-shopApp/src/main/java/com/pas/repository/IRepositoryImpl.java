@@ -1,8 +1,8 @@
 package com.pas.repository;
 
-import com.pas.model.IdTrait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.pas.model.IdTrait;
 
 import java.util.*;
 import java.util.stream.Collectors;

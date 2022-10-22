@@ -1,12 +1,8 @@
 package com.pas.repository;
 
 
-import com.pas.model.IdTrait;
-
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface IRepository<T> {
     void add(T entity);
