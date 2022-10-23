@@ -3,11 +3,13 @@ package com.pas.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Predicate;
 
 public interface IRepository<T> {
-    void add(T entity);
+    T add(T entity);
 
-    void delete(String id);
+    void delete(UUID id);
 
     void delete(T entity);
 
@@ -15,9 +17,11 @@ public interface IRepository<T> {
 
     boolean exists(String id);
 
-    Optional<T> findById(String id);
+    Optional<T> findById(UUID id);
 
     List<T> findAll();
 
     int size();
+
+    List<T> filter(Predicate<T> predicate);
 }
