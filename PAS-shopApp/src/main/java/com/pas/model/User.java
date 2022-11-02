@@ -26,15 +26,8 @@ public class User extends IdTrait {
     private List<Role> roles;
     @JsonProperty
     private Boolean active;
-
-    public User(String firstName, String lastName, String login, String password, List<Role> roles, Boolean isActive) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.login = login;
-        this.password = password;
-        this.roles = roles;
-        this.active = isActive;
-    }
-
-
+    @JsonProperty
+    private Address address;
+    @JsonProperty
+    private Cart cart;
 }

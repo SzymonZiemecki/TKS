@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Order {
+public class Order extends IdTrait {
     private UUID id;
     private User customer;
     private Address address;
@@ -19,15 +19,4 @@ public class Order {
     private Date creationDate;
     private boolean isPaid;
     private double discountPercent;
-
-    public Order(com.pas.model.User customer, Address address, List<Product> items, Date creationDate, boolean isPaid, double discountPercent) {
-        this.id = UUID.randomUUID();
-        this.customer = customer;
-        this.address = address;
-        this.items = items;
-        this.creationDate = creationDate;
-        this.isPaid = isPaid;
-        this.discountPercent = discountPercent;
-    }
-
 }

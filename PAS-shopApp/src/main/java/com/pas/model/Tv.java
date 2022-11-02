@@ -15,13 +15,4 @@ public class Tv extends Product {
     private String resolution;
     private String refreshRate;
     private String panelType;
-
-    public Tv(int availableAmount, Money price, String name, String producer, String productDescription, String screenSize, String resolution, String refreshRate, String panelType) {
-        super(availableAmount, price, name, producer, productDescription);
-        this.screenSize = screenSize;
-        this.resolution = resolution;
-        this.refreshRate = refreshRate;
-        this.panelType = panelType;
-    }
-
 }

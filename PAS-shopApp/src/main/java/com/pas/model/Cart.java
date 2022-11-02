@@ -10,10 +10,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Cart {
+public class Cart extends IdTrait {
     private List<Product> items;
-    public void removeItem(Product item){
-        this.items.remove(item);
-    }
-
 }

@@ -1,5 +1,6 @@
 package com.pas.repository;
 
+import com.pas.model.Address;
 import com.pas.model.User;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -10,5 +11,9 @@ public class UserRepository extends IRepositoryImpl<User> {
 
     public Optional<User> findByLogin(String login){
         return filter(user -> user.getLogin().equals(login)).stream().findFirst();
+    }
+
+    public void addAddressToUser(Address address) {
+
     }
 }

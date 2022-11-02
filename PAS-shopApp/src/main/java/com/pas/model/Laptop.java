@@ -18,17 +18,4 @@ public class Laptop extends Product {
     private int batterySize;
     private int diskSize;
     private String panelType;
-
-    public Laptop(int availableAmount, Money price, String name, String producer, String productDescription, String cpu, int ramAmount, String screenSize, String resolution, int batterySize, int diskSize, String panelType) {
-        super(availableAmount, price, name, producer, productDescription);
-        this.cpu = cpu;
-        this.ramAmount = ramAmount;
-        this.screenSize = screenSize;
-        this.resolution = resolution;
-        this.batterySize = batterySize;
-        this.diskSize = diskSize;
-        this.panelType = panelType;
-    }
-
-
 }
