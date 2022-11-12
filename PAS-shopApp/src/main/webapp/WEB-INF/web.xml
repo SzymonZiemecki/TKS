@@ -4,27 +4,28 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
 
-    <security-role>
-        <role-name>ADMIN</role-name>
+   <!-- <security-role>
+        <role-name>Admin</role-name>
     </security-role>
     <security-role>
-        <role-name>MODERATOR</role-name>
+        <role-name>Manager</role-name>
     </security-role>
     <security-role>
-        <role-name>USER</role-name>
-    </security-role>
-    <security-role>
-        <role-name>GUEST</role-name>
+        <role-name>BaseUser</role-name>
     </security-role>
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Admin perm</web-resource-name>
-            <url-pattern>/user/*</url-pattern>
+            <web-resource-name>Admin full permissions</web-resource-name>
+            <url-pattern>/*</url-pattern>
             <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+            <http-method>PATCH</http-method>
+            <http-method>DELETE</http-method>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>ADMIN</role-name>
+            <role-name>Admin</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
@@ -33,12 +34,17 @@
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Manager perm</web-resource-name>
-            <url-pattern>/user/manager</url-pattern>
+            <web-resource-name>Manager products permissions</web-resource-name>
+            <url-pattern>/products/*</url-pattern>
+            <url-pattern>/products</url-pattern>
             <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+            <http-method>PATCH</http-method>
+            <http-method>DELETE</http-method>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>MODERATOR</role-name>
+            <role-name>Manager</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
@@ -47,12 +53,17 @@
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>User perm</web-resource-name>
-            <url-pattern>/user/user</url-pattern>
+            <web-resource-name>Manager address permissions</web-resource-name>
+            <url-pattern>/addresses/*</url-pattern>
+            <url-pattern>/addresses</url-pattern>
             <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>PUT</http-method>
+            <http-method>PATCH</http-method>
+            <http-method>DELETE</http-method>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>USER</role-name>
+            <role-name>Manager</role-name>
         </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
@@ -61,12 +72,35 @@
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Permissions test</web-resource-name>
-            <url-pattern>/user/guest</url-pattern>
-            <url-pattern>/user/auth</url-pattern>
+            <web-resource-name>baseUser permissions</web-resource-name>
+            <url-pattern>/orders/create</url-pattern>
+            <url-pattern>/products</url-pattern>
+            <url-pattern>/products/*</url-pattern>
+            <url-pattern>/addresses</url-pattern>
+            <url-pattern>/addresses/*</url-pattern>
+            <url-pattern>/users/*/ongoingOrders</url-pattern>
+            <url-pattern>/users/*/finishedOrders</url-pattern>
+            <url-pattern>/users/*/cart</url-pattern>
+            <http-method>POST</http-method>
             <http-method>GET</http-method>
+            <http-method>PUT</http-method>
+            <http-method>PATCH</http-method>
         </web-resource-collection>
+        <auth-constraint>
+            <role-name>BaseUser</role-name>
+        </auth-constraint>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>app</web-resource-name>
+            <url-pattern>/auth/login</url-pattern>
+            <url-pattern>/users/register</url-pattern>
+        </web-resource-collection>
+    </security-constraint>-->
 
 
     <login-config>

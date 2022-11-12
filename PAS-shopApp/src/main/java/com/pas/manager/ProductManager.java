@@ -1,11 +1,11 @@
 package com.pas.manager;
 
-import com.pas.model.Product;
-import com.pas.model.User;
+import com.pas.model.Product.Product;
 import com.pas.repository.ProductRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,18 +19,25 @@ public class ProductManager {
         return productRepository.findById(id);
     }
 
-    public Optional<Product> findByName(String name) {
+    public List<Product> findAllProducts(){
+        return productRepository.findAll();
+    }
+
+    public List<Product> findByName(String name) {
         return productRepository.findByName(name);
     }
 
-    public Optional<Product> findByMake(String make) {
-        return productRepository.findByMake(make);
+    public List<Product> findByProducer(String producer) {
+        return productRepository.findByProducer(producer);
     }
 
     public Product addItem(Product product){
         return productRepository.add(product);
     }
 
+    public Product updateProduct(UUID id, Product product){
+        return productRepository.update(id, product);
+    }
     public void removeItem(UUID id) {
         productRepository.delete(id);
     }

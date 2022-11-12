@@ -18,30 +18,30 @@ public class IRepositoryImpl<T extends IdTrait> implements IRepository<T> {
 
     @Override
     public T add(T entity) {
-        if(entity.getId() == null){
+        if (entity.getId() == null) {
             entity.setId(UUID.randomUUID());
         }
         if (objects.containsKey(entity.getId())) {
             log.info("Entity with provided id already exists in application context");
         } else {
-            objects.put(entity.getId(),entity);
+            objects.put(entity.getId(), entity);
         }
         return entity;
     }
 
     @Override
     public void delete(UUID id) {
-        if (!objects.containsKey(id)){
+        if (!objects.containsKey(id)) {
             log.info("Entity with provided id isnt present in app context");
         } else {
-            T entity = findById(id).get();
+            T entity = findById(id).orElse(null);
             objects.remove(entity.getId());
         }
     }
 
     @Override
     public void delete(T entity) {
-        if (!objects.containsValue(entity)){
+        if (!objects.containsValue(entity)) {
             objects.remove(entity);
         } else {
             throw new EntityNotFoundException("provided entity doesn't exist in app context");
@@ -50,15 +50,13 @@ public class IRepositoryImpl<T extends IdTrait> implements IRepository<T> {
 
     @Override
     @SneakyThrows
-    public void update(T entity) {
-        if(entity.getId() == null){
-            throw new IllegalAccessException("entity id is null");
-        }
-        if (!objects.containsKey(entity.getId())) {
-            log.info("Entity with provided id isnt present in app contex");
+    public T update(UUID id, T entity) {
+        if (!findById(id).isPresent()) {
+            throw new EntityNotFoundException("entity doesnt exist");
         } else {
-            objects.put(entity.getId(),entity);
+            objects.replace(id, entity);
         }
+        return entity;
     }
 
     @Override
@@ -74,7 +72,7 @@ public class IRepositoryImpl<T extends IdTrait> implements IRepository<T> {
     @Override
     public List<T> findAll() {
         return objects.entrySet().stream()
-                .map(entry -> entry.getValue())
+                .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
     }
 
@@ -84,6 +82,8 @@ public class IRepositoryImpl<T extends IdTrait> implements IRepository<T> {
     }
 
     public List<T> filter(Predicate<T> predicate) {
-        return objects.values().stream().filter(predicate).collect(Collectors.toList());
+        return objects.values().stream()
+                .filter(predicate)
+                .collect(Collectors.toList());
     }
 }

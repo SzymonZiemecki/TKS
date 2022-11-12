@@ -1,15 +1,14 @@
-package com.pas.model;
+package com.pas.model.Product;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.javamoney.moneta.Money;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-import java.util.UUID;
-
-@Getter
-@Setter
+@Data
+@SuperBuilder
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class Laptop extends Product {
     private String cpu;
     private int ramAmount;

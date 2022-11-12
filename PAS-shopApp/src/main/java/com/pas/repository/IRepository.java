@@ -13,7 +13,7 @@ public interface IRepository<T> {
 
     void delete(T entity);
 
-    void update(T entity);
+    T update(UUID id, T entity);
 
     boolean exists(String id);
 

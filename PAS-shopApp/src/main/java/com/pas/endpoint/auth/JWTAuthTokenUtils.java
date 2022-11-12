@@ -1,4 +1,4 @@
-package com.pas.service.auth;
+package com.pas.endpoint.auth;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;

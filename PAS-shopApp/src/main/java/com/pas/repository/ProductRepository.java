@@ -1,18 +1,19 @@
 package com.pas.repository;
 
-import com.pas.model.Product;
+import com.pas.model.Product.Product;
 import jakarta.enterprise.context.ApplicationScoped;
 
+import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
 public class ProductRepository extends IRepositoryImpl<Product> {
-    public Optional<Product> findByName(String name){
-        return filter(product -> product.getName().equals(name)).stream().findFirst();
+    public List<Product> findByName(String name){
+        return filter(product -> product.getName().equals(name));
     }
 
-    public Optional<Product> findByMake(String make){
-        return filter(product -> product.getProducer().equals(make)).stream().findFirst();
+    public List<Product> findByProducer(String make){
+        return filter(product -> product.getProducer().equals(make));
     }
 
 }

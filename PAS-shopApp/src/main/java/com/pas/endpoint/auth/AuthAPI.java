@@ -1,6 +1,5 @@
-package com.pas.service.auth;
+package com.pas.endpoint.auth;
 
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.credential.Password;
@@ -20,13 +19,12 @@ import lombok.RequiredArgsConstructor;
 @Path("/auth/login")
 @Produces({ MediaType.APPLICATION_JSON })
 @Consumes({ MediaType.APPLICATION_JSON })
-public class AuthService {
+public class AuthAPI {
 
     @Inject
     private IdentityStoreHandler identityStoreHandler;
 
     @POST
-    @Path("/")
     public Response authenticate(@NotNull Credentials credentials){
         Credential credential = new UsernamePasswordCredential(credentials.getLogin(), new Password(credentials.getPassword()));
         CredentialValidationResult cValResult = identityStoreHandler.validate(credential);
