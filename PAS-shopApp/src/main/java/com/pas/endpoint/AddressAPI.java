@@ -3,9 +3,12 @@ package com.pas.endpoint;
 
 import com.pas.manager.AddressManager;
 import com.pas.model.Address;
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 
 import java.util.List;
@@ -31,13 +34,13 @@ public class AddressAPI {
     }
 
     @POST
-    public Address addAddress(Address address){
+    public Address addAddress(@Valid Address address){
         return addressManager.addAddress(address);
     }
 
     @PATCH
     @Path("/{id}")
-    public Address updateAddress(@PathParam("id") UUID addressId, Address updatedAddress){
+    public Address updateAddress(@PathParam("id") UUID addressId, @Valid Address updatedAddress){
         return addressManager.updateAddress(addressId, updatedAddress);
     }
 

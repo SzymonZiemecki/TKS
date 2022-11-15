@@ -4,7 +4,7 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
 
-   <!-- <security-role>
+    <security-role>
         <role-name>Admin</role-name>
     </security-role>
     <security-role>
@@ -14,15 +14,13 @@
         <role-name>BaseUser</role-name>
     </security-role>
 
-    <security-constraint>
+<!--    <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Admin full permissions</web-resource-name>
-            <url-pattern>/*</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
-            <http-method>PUT</http-method>
-            <http-method>PATCH</http-method>
-            <http-method>DELETE</http-method>
+            <web-resource-name>secure</web-resource-name>
+            <url-pattern>/users/*</url-pattern>
+            <url-pattern>/addresses/*</url-pattern>
+            <url-pattern>/products/*</url-pattern>
+            <url-pattern>/orders/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Admin</role-name>
@@ -34,57 +32,10 @@
 
     <security-constraint>
         <web-resource-collection>
-            <web-resource-name>Manager products permissions</web-resource-name>
+            <web-resource-name>secure</web-resource-name>
+            <url-pattern>/users/*</url-pattern>
             <url-pattern>/products/*</url-pattern>
-            <url-pattern>/products</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
-            <http-method>PUT</http-method>
-            <http-method>PATCH</http-method>
-            <http-method>DELETE</http-method>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>Manager</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Manager address permissions</web-resource-name>
-            <url-pattern>/addresses/*</url-pattern>
-            <url-pattern>/addresses</url-pattern>
-            <http-method>GET</http-method>
-            <http-method>POST</http-method>
-            <http-method>PUT</http-method>
-            <http-method>PATCH</http-method>
-            <http-method>DELETE</http-method>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>Manager</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>baseUser permissions</web-resource-name>
             <url-pattern>/orders/create</url-pattern>
-            <url-pattern>/products</url-pattern>
-            <url-pattern>/products/*</url-pattern>
-            <url-pattern>/addresses</url-pattern>
-            <url-pattern>/addresses/*</url-pattern>
-            <url-pattern>/users/*/ongoingOrders</url-pattern>
-            <url-pattern>/users/*/finishedOrders</url-pattern>
-            <url-pattern>/users/*/cart</url-pattern>
-            <http-method>POST</http-method>
-            <http-method>GET</http-method>
-            <http-method>PUT</http-method>
-            <http-method>PATCH</http-method>
         </web-resource-collection>
         <auth-constraint>
             <role-name>BaseUser</role-name>

@@ -1,5 +1,6 @@
 package com.pas.endpoint.auth;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.credential.Password;
@@ -17,27 +18,23 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Path("/auth/login")
-@Produces({ MediaType.APPLICATION_JSON })
-@Consumes({ MediaType.APPLICATION_JSON })
+@Produces({MediaType.APPLICATION_JSON})
+@Consumes({MediaType.APPLICATION_JSON})
 public class AuthAPI {
 
     @Inject
     private IdentityStoreHandler identityStoreHandler;
 
     @POST
-    public Response authenticate(@NotNull Credentials credentials){
+    @PermitAll
+    public Response authenticate(@NotNull Credentials credentials) {
         Credential credential = new UsernamePasswordCredential(credentials.getLogin(), new Password(credentials.getPassword()));
         CredentialValidationResult cValResult = identityStoreHandler.validate(credential);
         if (cValResult.getStatus() == CredentialValidationResult.Status.VALID) {
             String jwtToken = JWTAuthTokenUtils.generateJwtString(cValResult);
-            return Response
-                    .accepted()
-                    .header("Authentication", "Bearer " + jwtToken)
-                    .type("application/jwt")
-                    .entity(jwtToken)
-                    .build();
+            return Response.accepted().header("Authentication", "Bearer " + jwtToken).type("application/jwt").entity(jwtToken).build();
         } else {
-            return Response.status(Response.Status.UNAUTHORIZED).entity( Response.Status.UNAUTHORIZED).build();
+            return Response.status(Response.Status.UNAUTHORIZED).entity(Response.Status.UNAUTHORIZED).build();
         }
     }
 

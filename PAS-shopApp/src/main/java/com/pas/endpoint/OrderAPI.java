@@ -3,6 +3,9 @@ package com.pas.endpoint;
 import com.pas.manager.OrderManager;
 import com.pas.model.Address;
 import com.pas.model.Order;
+import com.pas.model.dto.OrderDTO;
+import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,38 +24,37 @@ public class OrderAPI {
     @Inject
     OrderManager orderManager;
 
-
     @GET
-    public List<Order> getAllOrders(){
-        return orderManager.findAllOrders();
+    public List<OrderDTO> getAllOrders(){
+        return OrderDTO.entityListToDTO(orderManager.findAllOrders());
     }
 
     @GET
     @Path("/{id}")
-    public Order getOrderById(@PathParam("id") UUID id){
-        return orderManager.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity with given id doesnt exist"));
+    public OrderDTO getOrderById(@PathParam("id") UUID id){
+        return OrderDTO.fromEntityToDTO(orderManager.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity with given id doesnt exist")));
     }
 
     @GET
     @Path("/ongoing")
-    public List<Order> getOngoingOrders(){
-        return orderManager.findOngoingOrders();
+    public List<OrderDTO> getOngoingOrders(){
+        return OrderDTO.entityListToDTO(orderManager.findOngoingOrders());
     }
 
     @GET
     @Path("/finished")
-    public List<Order> getFinishedOrders(){
-        return orderManager.findFinishedOrders();
+    public List<OrderDTO> getFinishedOrders(){
+        return OrderDTO.entityListToDTO(orderManager.findFinishedOrders());
     }
 
     @POST
     @Path("/create")
-    public Order createOrder(@QueryParam("userId") UUID userId, @Valid Address shippingAddress){
-        return orderManager.createOrder(userId, shippingAddress);
+    public OrderDTO createOrder(@QueryParam("userId") UUID userId, @Valid Address shippingAddress){
+        return OrderDTO.fromEntityToDTO(orderManager.createOrder(userId, shippingAddress));
     }
 
     @PATCH
-    @Path("/{id}")
+    @Path("/{id}/deliver")
     public void deliverOrder(@PathParam("id") UUID orderId){
         orderManager.deliverOrder(orderId);
     }

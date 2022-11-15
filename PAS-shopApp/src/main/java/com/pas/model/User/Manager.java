@@ -13,8 +13,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class Manager extends User{
-    public Manager(String firstName, String lastName, String login, String password, Boolean active, Address address, Cart cart, boolean suspended, Double accountBalance) {
-        super(firstName, lastName, login, password, active, address, cart, suspended, accountBalance);
+public class Manager extends User {
+    public Manager(String firstName, String lastName, String login, String password, Address address, Cart cart, boolean suspended, Double accountBalance) {
+        super(firstName, lastName, login, password, address, cart, suspended, accountBalance);
     }
 }

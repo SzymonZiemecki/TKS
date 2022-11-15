@@ -30,7 +30,6 @@ public class AddressManager {
     public Address updateAddress(UUID id, Address updatedAddress){
         return addressRepository.update(id, updatedAddress);
     }
-
     public void deleteAddress(UUID addressId){
         addressRepository.delete(addressId);
     }

@@ -14,6 +14,6 @@ public class OrderRepository extends IRepositoryImpl<Order> {
     }
 
     public List<Order> findFinishedOrders(){
-        return filter(order -> order.isDelivered());
+        return filter(Order::isDelivered);
     }
 }

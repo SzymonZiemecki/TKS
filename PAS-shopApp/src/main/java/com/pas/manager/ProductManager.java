@@ -1,10 +1,12 @@
 package com.pas.manager;
 
 import com.pas.model.Product.Product;
+import com.pas.repository.OrderRepository;
 import com.pas.repository.ProductRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,6 +16,9 @@ public class ProductManager {
 
     @Inject
     private ProductRepository productRepository;
+
+    @Inject
+    OrderRepository orderRepository;
 
     public Optional<Product> findById(UUID id) {
         return productRepository.findById(id);
@@ -39,6 +44,17 @@ public class ProductManager {
         return productRepository.update(id, product);
     }
     public void removeItem(UUID id) {
-        productRepository.delete(id);
+        if(!isInOngoingOrder(id)) {
+            productRepository.delete(id);
+        }
+    }
+    private boolean isInOngoingOrder(UUID productId){
+        return orderRepository.filter(order -> !order.isDelivered()).stream()
+                .map(order -> order.getItems().keySet())
+                .flatMap(Collection::stream)
+                .map(product -> product.getId().equals(productId))
+                .filter($ -> $.equals(true))
+                .findAny()
+                .orElse(false);
     }
 }

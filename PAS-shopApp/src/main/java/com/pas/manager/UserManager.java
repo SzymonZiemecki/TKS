@@ -1,5 +1,6 @@
 package com.pas.manager;
 
+import com.pas.model.Cart;
 import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import com.pas.model.User.User;
@@ -34,21 +35,28 @@ public class UserManager {
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity with given ID doesnt exist"));
     }
 
-    public User findByLogin(String login) {
-        return userRepository.findByLogin(login).orElseThrow(() -> new EntityNotFoundException("Entity with given ID doesnt exist"));
+    public List<User> findByLogin(String login) {
+        return userRepository.findByLogin(login);
     }
+
+    public User findOneByLogin(String login) {
+        return userRepository.findOneByLogin(login).orElseThrow(() -> new EntityNotFoundException("Entity with given ID doesnt exist"));
+    }
+
     public List<Order> findOngoingUserOrders(UUID userId) {
         return orderRepository.filter(order -> order.getCustomer().getId().equals(userId))
                 .stream()
                 .filter(order -> order.isDelivered() == false)
                 .collect(Collectors.toList());
     }
+
     public List<Order> findFinishedUserOrders(UUID userId) {
         return orderRepository.filter(order -> order.getCustomer().getId().equals(userId))
                 .stream()
-                .filter(order -> order.isDelivered() == true)
+                .filter(Order::isDelivered)
                 .collect(Collectors.toList());
     }
+
     public User register(User user) {
         return userRepository.add(user);
     }
@@ -57,12 +65,8 @@ public class UserManager {
         return userRepository.findAll();
     }
 
-    public void updateUser(UUID id, User user) {
-        userRepository.update(id, user);
-    }
-
-    public void deleteUser(UUID userId) {
-        userRepository.delete(userId);
+    public User updateUser(UUID id, User user) {
+        return userRepository.update(id, user);
     }
 
     public void suspendOrResumeUser(UUID userId, boolean suspendOrResume) {
@@ -73,22 +77,32 @@ public class UserManager {
         userRepository.update(found.get().getId(), found.get());
     }
 
-    public void addToCart(UUID userId, UUID productId, Long quantity) {
+    public Cart addToCart(UUID userId, UUID productId, Long quantity) {
         Optional<User> found = userRepository.findById(userId);
         Optional<Product> product = productRepository.findById(productId);
         if (found.isPresent() && product.isPresent()) {
             found.get().getCart().getItems().put(product.get(), quantity);
+            return found.get().getCart();
+        } else {
+            throw new EntityNotFoundException("couldnt find user with given id");
         }
     }
 
-    public void removeFromCart(UUID userId, UUID productId) {
+    public Cart removeFromCart(UUID userId, UUID productId) {
         Optional<User> found = userRepository.findById(userId);
         Optional<Product> product = productRepository.findById(productId);
         if (found.isPresent() && product.isPresent()) {
             Map<Product, Long> itemsInCart = found.get().getCart().getItems();
             itemsInCart.remove(product.get());
             found.get().getCart().setItems(itemsInCart);
+            return found.get().getCart();
+        } else {
+            throw new EntityNotFoundException("couldnt find user with given id");
         }
+    }
+
+    public List<Order> findUserOrders(UUID userId){
+        return userRepository.findUserOrders(userId);
     }
 
 }

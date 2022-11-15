@@ -17,7 +17,7 @@ public class IRepositoryImpl<T extends IdTrait> implements IRepository<T> {
     private static final Logger log = LoggerFactory.getLogger(IRepositoryImpl.class);
 
     @Override
-    public T add(T entity) {
+    public synchronized T add(T entity) {
         if (entity.getId() == null) {
             entity.setId(UUID.randomUUID());
         }
@@ -30,7 +30,7 @@ public class IRepositoryImpl<T extends IdTrait> implements IRepository<T> {
     }
 
     @Override
-    public void delete(UUID id) {
+    public synchronized void delete(UUID id) {
         if (!objects.containsKey(id)) {
             log.info("Entity with provided id isnt present in app context");
         } else {
@@ -40,7 +40,7 @@ public class IRepositoryImpl<T extends IdTrait> implements IRepository<T> {
     }
 
     @Override
-    public void delete(T entity) {
+    public synchronized void delete(T entity) {
         if (!objects.containsValue(entity)) {
             objects.remove(entity);
         } else {
@@ -50,7 +50,7 @@ public class IRepositoryImpl<T extends IdTrait> implements IRepository<T> {
 
     @Override
     @SneakyThrows
-    public T update(UUID id, T entity) {
+    public synchronized T update(UUID id, T entity) {
         if (!findById(id).isPresent()) {
             throw new EntityNotFoundException("entity doesnt exist");
         } else {
