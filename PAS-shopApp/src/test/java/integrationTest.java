@@ -8,6 +8,7 @@ import com.jayway.restassured.specification.RequestSpecification;
 import com.pas.model.Address;
 import com.pas.model.dto.UserDTO;
 import org.junit.Before;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
@@ -34,12 +35,21 @@ public class integrationTest extends TestContainerInitializer {
         String json = objectMapper.writeValueAsString(obj);
 
         String res = given(req)
+                .header("Content-Type", "application/json")
+                .body(json)
+                .log().all()
+                .post("/users/register")
+                .then()
+                .extract().body().asString();
+        UserDTO user = objectMapper.readValue(res, UserDTO.class);
+        Assertions.assertEquals(user.getFirstName(), "Szymon");
+
+
+/*        Response res = given(req)
                 .when()
                 .log().all()
                 .header("Content-Type", "application/json")
                 .body(json)
-                .post("/users/register")
-                .then().extract().response().asString();
-        System.out.println(res);
+                .post("/users/register");*/
     }
 }
