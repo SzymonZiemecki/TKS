@@ -46,6 +46,8 @@ public class ProductManager {
     public void removeItem(UUID id) {
         if(!isInOngoingOrder(id)) {
             productRepository.delete(id);
+        } else {
+            throw new IllegalStateException("Cant delete item present in ongoin order");
         }
     }
     private boolean isInOngoingOrder(UUID productId){

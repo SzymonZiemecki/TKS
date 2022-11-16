@@ -51,6 +51,24 @@ public class UserDTO {
         this.role = "BaseUser";
     }
 
+    public UserDTO(String firstName, String lastName, String login,String password, Address address, Double accountBalance) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.password = password;
+        this.address = address;
+        this.accountBalance = accountBalance;
+        this.role = "BaseUser";
+    }
+
+    public UserDTO(String firstName, String lastName, String login, String password, Double accountBalance) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.password = password;
+        this.accountBalance = accountBalance;
+    }
+
     public static UserDTO fromEntityToDTO(User user) {
         return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(), user.getAddress(), user.getAccountBalance());
     }

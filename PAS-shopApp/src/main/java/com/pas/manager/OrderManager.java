@@ -124,6 +124,8 @@ public class OrderManager {
         if(order.isDelivered()) {
             user.setAccountBalance(user.getAccountBalance() + calculateOrderValue(order.getItems()));
             orderRepository.delete(orderId);
+        } else {
+            throw new IllegalStateException("Cant delete ongoing order");
         }
     }
 
