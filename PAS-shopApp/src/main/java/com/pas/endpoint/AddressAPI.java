@@ -22,6 +22,8 @@ public class AddressAPI {
     @Inject
     private AddressManager addressManager;
 
+    private static final String ENTITY_NOT_FOUND_MESSAGE="Entity with given ID doesn't exist";
+
     @GET
     public List<Address> getAllAddresses(){
         return addressManager.findAllAddresses();
@@ -30,7 +32,7 @@ public class AddressAPI {
     @GET
     @Path("/{id}")
     public Address getAddressById(@PathParam("id") UUID id){
-        return addressManager.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity with given id doesnt exist"));
+        return addressManager.findById(id).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE));
     }
 
     @POST

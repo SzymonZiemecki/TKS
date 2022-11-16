@@ -25,7 +25,7 @@ public class UserRepository extends IRepositoryImpl<User> {
     @Override
     public synchronized User add(User entity) {
         if (!findByLogin(entity.getLogin()).isEmpty()) {
-            throw new EntityExistsException("Entity with given login already exist");
+            throw new EntityExistsException("Login already taken");
         } else {
             return super.add(entity);
         }

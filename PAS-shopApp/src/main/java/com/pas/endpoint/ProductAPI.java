@@ -23,6 +23,8 @@ public class ProductAPI {
     @Inject
     ProductManager productManager;
 
+    private static final String ENTITY_NOT_FOUND_MESSAGE="Entity with given ID doesn't exist";
+
     @GET
     public List<Product> getAllProducts(@QueryParam("producer") Optional<String> producer, @QueryParam("name") Optional<String> name){
         if(producer.isPresent()){
@@ -37,7 +39,7 @@ public class ProductAPI {
     @GET
     @Path("/{id}")
     public Product getProductById(@PathParam("id") UUID id){
-        return productManager.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity with given id doesnt exist"));
+        return productManager.findById(id).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE));
     }
     @POST
     public Product addProduct(@Valid Product product){

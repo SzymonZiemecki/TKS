@@ -41,7 +41,7 @@ public class integrationTest extends TestContainerInitializer {
                 .post("/users/register")
                 .then()
                 .extract().body().asString();
-        UserDTO user = objectMapper.readValue(res, UserDTO.class);
+        UserDTO user = objectMapper.readValue(json, UserDTO.class);
         Assertions.assertEquals(user.getFirstName(), "Szymon");
 
 

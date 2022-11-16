@@ -31,8 +31,10 @@ public class UserManager {
     @Inject
     private OrderRepository orderRepository;
 
+    private static final String ENTITY_NOT_FOUND_MESSAGE="Entity with given ID doesn't exist";
+
     public User findById(UUID id) {
-        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity with given ID doesnt exist"));
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE));
     }
 
     public List<User> findByLogin(String login) {
@@ -40,13 +42,13 @@ public class UserManager {
     }
 
     public User findOneByLogin(String login) {
-        return userRepository.findOneByLogin(login).orElseThrow(() -> new EntityNotFoundException("Entity with given ID doesnt exist"));
+        return userRepository.findOneByLogin(login).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE));
     }
 
     public List<Order> findOngoingUserOrders(UUID userId) {
         return orderRepository.filter(order -> order.getCustomer().getId().equals(userId))
                 .stream()
-                .filter(order -> order.isDelivered() == false)
+                .filter(order -> !order.isDelivered())
                 .collect(Collectors.toList());
     }
 
@@ -73,8 +75,10 @@ public class UserManager {
         Optional<User> found = userRepository.findById(userId);
         if (found.isPresent()) {
             found.get().setSuspended(suspendOrResume);
+            userRepository.update(found.get().getId(), found.get());
+        } else {
+            throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE);
         }
-        userRepository.update(found.get().getId(), found.get());
     }
 
     public Cart addToCart(UUID userId, UUID productId, Long quantity) {
@@ -84,7 +88,7 @@ public class UserManager {
             found.get().getCart().getItems().put(product.get(), quantity);
             return found.get().getCart();
         } else {
-            throw new EntityNotFoundException("couldnt find user with given id");
+            throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE);
         }
     }
 
@@ -97,7 +101,7 @@ public class UserManager {
             found.get().getCart().setItems(itemsInCart);
             return found.get().getCart();
         } else {
-            throw new EntityNotFoundException("couldnt find user with given id");
+            throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE);
         }
     }
 

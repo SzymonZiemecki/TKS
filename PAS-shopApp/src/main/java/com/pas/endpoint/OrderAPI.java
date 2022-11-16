@@ -23,6 +23,7 @@ public class OrderAPI {
 
     @Inject
     OrderManager orderManager;
+    private static final String ENTITY_NOT_FOUND_MESSAGE="Entity with given ID doesn't exist";
 
     @GET
     public List<OrderDTO> getAllOrders(){
@@ -32,7 +33,7 @@ public class OrderAPI {
     @GET
     @Path("/{id}")
     public OrderDTO getOrderById(@PathParam("id") UUID id){
-        return OrderDTO.fromEntityToDTO(orderManager.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity with given id doesnt exist")));
+        return OrderDTO.fromEntityToDTO(orderManager.findById(id).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE)));
     }
 
     @GET

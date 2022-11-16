@@ -1,5 +1,6 @@
 package com.pas.manager;
 
+import com.pas.exception.BusinessLogicException;
 import com.pas.model.Product.Product;
 import com.pas.repository.OrderRepository;
 import com.pas.repository.ProductRepository;
@@ -47,7 +48,7 @@ public class ProductManager {
         if(!isInOngoingOrder(id)) {
             productRepository.delete(id);
         } else {
-            throw new IllegalStateException("Cant delete item present in ongoin order");
+            throw new BusinessLogicException("Cant delete item present in unfinished order");
         }
     }
     private boolean isInOngoingOrder(UUID productId){
