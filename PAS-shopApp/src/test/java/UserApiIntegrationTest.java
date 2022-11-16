@@ -21,17 +21,18 @@ public class UserApiIntegrationTest extends TestContainerInitializer {
         UserDTO obj = new UserDTO("Szymon", "Ziemecki", "login", "password", 120d);
         String json = objectMapper.writeValueAsString(obj);
 
-        String res = given(req)
+        //register once
+        UserDTO res = given(req)
                 .header("Content-Type", "application/json")
                 .body(json)
                 .log().all()
                 .post("/users/register")
                 .then()
-                .extract().body().asString();
-        UserDTO user = objectMapper.readValue(json, UserDTO.class);
-        Assertions.assertEquals(user.getFirstName(), "Szymon");
+                .extract().body().as(UserDTO.class);
+        Assertions.assertEquals(res.getFirstName(), "Szymon");
 
-        String message = given(req)
+        //registering user with exact same login should fail
+        String messageWithExpectedError = given(req)
                 .header("Content-Type", "application/json")
                 .body(json)
                 .log().all()
@@ -39,6 +40,6 @@ public class UserApiIntegrationTest extends TestContainerInitializer {
                 .then()
                 .statusCode(500)
                 .extract().body().asString();
-        assertTrue(message.contains("Login already taken"));
+        assertTrue(messageWithExpectedError.contains("Login already taken"));
     }
 }
