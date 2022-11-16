@@ -4,6 +4,7 @@ import com.pas.manager.OrderManager;
 import com.pas.model.Address;
 import com.pas.model.Order;
 import com.pas.model.dto.OrderDTO;
+import com.pas.utils.exceptionMessages.exMsg;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -23,7 +24,6 @@ public class OrderAPI {
 
     @Inject
     OrderManager orderManager;
-    private static final String ENTITY_NOT_FOUND_MESSAGE="Entity with given ID doesn't exist";
 
     @GET
     public List<OrderDTO> getAllOrders(){
@@ -33,7 +33,7 @@ public class OrderAPI {
     @GET
     @Path("/{id}")
     public OrderDTO getOrderById(@PathParam("id") UUID id){
-        return OrderDTO.fromEntityToDTO(orderManager.findById(id).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE)));
+        return OrderDTO.fromEntityToDTO(orderManager.findById(id).orElseThrow(() -> new EntityNotFoundException(exMsg.ENTITY_NOT_FOUND_MESSAGE.toString())));
     }
 
     @GET

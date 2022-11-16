@@ -1,6 +1,8 @@
 package com.pas.model.Product;
 
 import com.pas.model.Product.Product;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -11,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class Tv extends Product {
+    @Size(min = 2, max = 4)
     private String screenSize;
     private String resolution;
     private String refreshRate;

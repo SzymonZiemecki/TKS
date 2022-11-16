@@ -2,6 +2,7 @@ package com.pas.endpoint;
 
 import com.pas.manager.ProductManager;
 import com.pas.model.Product.Product;
+import com.pas.utils.exceptionMessages.exMsg;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -23,8 +24,6 @@ public class ProductAPI {
     @Inject
     ProductManager productManager;
 
-    private static final String ENTITY_NOT_FOUND_MESSAGE="Entity with given ID doesn't exist";
-
     @GET
     public List<Product> getAllProducts(@QueryParam("producer") Optional<String> producer, @QueryParam("name") Optional<String> name){
         if(producer.isPresent()){
@@ -39,7 +38,7 @@ public class ProductAPI {
     @GET
     @Path("/{id}")
     public Product getProductById(@PathParam("id") UUID id){
-        return productManager.findById(id).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE));
+        return productManager.findById(id).orElseThrow(() -> new EntityNotFoundException(exMsg.ENTITY_NOT_FOUND_MESSAGE.toString()));
     }
     @POST
     public Product addProduct(@Valid Product product){

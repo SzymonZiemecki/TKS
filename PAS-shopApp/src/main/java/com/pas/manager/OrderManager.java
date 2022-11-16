@@ -7,6 +7,7 @@ import com.pas.model.Product.Product;
 import com.pas.model.User.User;
 import com.pas.repository.OrderRepository;
 import com.pas.repository.UserRepository;
+import com.pas.utils.exceptionMessages.exMsg;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,8 +23,6 @@ public class OrderManager {
 
     @Inject
     private UserRepository userRepository;
-
-    private static final String ENTITY_NOT_FOUND_MESSAGE="Entity with given ID doesn't exist";
 
     public Optional<Order> findById(UUID id) {
         return orderRepository.findById(id);
@@ -44,7 +43,7 @@ public class OrderManager {
             clearUserCart(customer.get());
             return order;
         } else {
-            throw new BusinessLogicException("Couldn't create order, violated business logic");
+            throw new BusinessLogicException(exMsg.ORDER_VIOLATED_BUSINESS_LOGIC.toString());
         }
     }
 
@@ -86,7 +85,7 @@ public class OrderManager {
                 .map((entry -> isEnoughItems(entry.getKey(), entry.getValue())))
                 .filter(result -> result.equals(true))
                 .findAny()
-                .orElseThrow(() -> new BusinessLogicException("Cant create order, items out of stock"));
+                .orElseThrow(() -> new BusinessLogicException(exMsg.ORDER_ITEM_OUT_OF_STOCK.toString()));
     }
 
     private boolean isUserSuspended(UUID userId) {
@@ -94,7 +93,7 @@ public class OrderManager {
         return Optional.ofNullable(found)
                 .map(User::isSuspended)
                 .filter(result -> result.equals(false))
-                .orElseThrow(() -> new BusinessLogicException("Cant create order, customer suspended"));
+                .orElseThrow(() -> new BusinessLogicException(exMsg.ORDER_CUSTOMER_SUSPENDED.toString()));
     }
 
     private boolean checkIfEnoughMoney(UUID userId, Double orderValue) {
@@ -102,7 +101,7 @@ public class OrderManager {
         return Optional.ofNullable(found)
                 .map(user -> isEnoughMoney(user.getAccountBalance(), orderValue))
                 .filter(result -> result.equals(true))
-                .orElseThrow(() -> new BusinessLogicException("Cant create order, user don't have enough money"));
+                .orElseThrow(() -> new BusinessLogicException(exMsg.ORDER_INSUFFICIENT_FUNDS.toString()));
     }
 
     private boolean isEnoughItems(Product product, Long availableAmount) {
@@ -123,12 +122,12 @@ public class OrderManager {
 
     public void deleteOrder(UUID orderId) {
         User user = findUserInOrder(orderId);
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE));
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException(exMsg.ENTITY_NOT_FOUND_MESSAGE.toString()));
         if(order.isDelivered()) {
             user.setAccountBalance(user.getAccountBalance() + calculateOrderValue(order.getItems()));
             orderRepository.delete(orderId);
         } else {
-            throw new BusinessLogicException("Cant delete ongoing order");
+            throw new BusinessLogicException(exMsg.ORDER_DELETE_ONGOING_ERROR.toString());
         }
     }
 
@@ -141,6 +140,6 @@ public class OrderManager {
     }
 
     public User findUserInOrder(UUID orderId){
-        return orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE)).getCustomer();
+        return orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException(exMsg.ENTITY_NOT_FOUND_MESSAGE.toString())).getCustomer();
     }
 }

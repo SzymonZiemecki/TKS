@@ -3,6 +3,7 @@ package com.pas.endpoint;
 
 import com.pas.manager.AddressManager;
 import com.pas.model.Address;
+import com.pas.utils.exceptionMessages.exMsg;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -22,7 +23,6 @@ public class AddressAPI {
     @Inject
     private AddressManager addressManager;
 
-    private static final String ENTITY_NOT_FOUND_MESSAGE="Entity with given ID doesn't exist";
 
     @GET
     public List<Address> getAllAddresses(){
@@ -32,7 +32,7 @@ public class AddressAPI {
     @GET
     @Path("/{id}")
     public Address getAddressById(@PathParam("id") UUID id){
-        return addressManager.findById(id).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE));
+        return addressManager.findById(id).orElseThrow(() -> new EntityNotFoundException(exMsg.ENTITY_NOT_FOUND_MESSAGE.toString()));
     }
 
     @POST

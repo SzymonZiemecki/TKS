@@ -4,9 +4,12 @@ import com.pas.exception.BusinessLogicException;
 import com.pas.model.Product.Product;
 import com.pas.repository.OrderRepository;
 import com.pas.repository.ProductRepository;
+import com.pas.utils.exceptionMessages.exMsg;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import javax.crypto.ExemptionMechanism;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +51,7 @@ public class ProductManager {
         if(!isInOngoingOrder(id)) {
             productRepository.delete(id);
         } else {
-            throw new BusinessLogicException("Cant delete item present in unfinished order");
+            throw new BusinessLogicException(exMsg.PRODUCT_IN_UNFINISHED_ORDER.toString());
         }
     }
     private boolean isInOngoingOrder(UUID productId){
