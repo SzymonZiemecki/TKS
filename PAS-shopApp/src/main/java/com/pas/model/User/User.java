@@ -20,26 +20,21 @@ import java.util.List;
 @JsonTypeInfo(use = JsonTypeInfo.Id.DEDUCTION)
 @JsonSubTypes({
         @JsonSubTypes.Type(Admin.class),
-        @JsonSubTypes.Type(BaseUser.class) }
+        @JsonSubTypes.Type(BaseUser.class),
+        @JsonSubTypes.Type(Manager.class)}
 )
 public abstract class User extends IdTrait {
-    @NotNull
     @Size(min = 2, max = 20)
     private String firstName;
-    @NotNull
     @Size(min = 2, max = 20)
     private String lastName;
-    @NotNull
     @Size(min = 2, max = 20)
     private String login;
-    @NotNull
     @Size(min = 2, max = 20)
     private String password;
-    @NotNull
     private Address address;
     private Cart cart;
     private boolean suspended;
-    @NotNull
     private Double accountBalance;
 
     public User(String firstName, String lastName, String login, String password, Address address, Cart cart, boolean suspended, Double accountBalance) {

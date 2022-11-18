@@ -2,29 +2,20 @@ package com.pas.endpoint;
 
 import com.pas.manager.ProductManager;
 import com.pas.manager.UserManager;
-import com.pas.model.Address;
 import com.pas.model.Cart;
-import com.pas.model.Order;
-import com.pas.model.Product.Laptop;
-import com.pas.model.Product.Product;
-import com.pas.model.Product.Tv;
 import com.pas.model.User.BaseUser;
 import com.pas.model.User.User;
 import com.pas.model.dto.OrderDTO;
 import com.pas.model.dto.UserDTO;
-import jakarta.annotation.security.DeclareRoles;
-import jakarta.annotation.security.PermitAll;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Response;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Path("/users")
 @Consumes("application/json")
@@ -35,16 +26,10 @@ public class UserAPI {
     @Inject
     UserManager userManager;
 
-    @Inject
-    ProductManager productManager;
 
     @GET
-    public List<UserDTO> getAllUsers(@QueryParam("allMatchingByLogin") Optional<String> allMatchingByLogin, @QueryParam("oneByLogin") Optional<String> oneByLogin) {
-        if (allMatchingByLogin.isPresent()) {
-            return getUsersByLogin(allMatchingByLogin.get());
-        } else {
-            return oneByLogin.map(s -> Collections.singletonList(UserDTO.fromEntityToDTO(userManager.findOneByLogin(s)))).orElseGet(this::getAllUsers);
-        }
+    public List<UserDTO> getUsers(@QueryParam("allMatchingByLogin") Optional<String> allMatchingByLogin, @QueryParam("oneByLogin") Optional<String> oneByLogin) {
+        return UserDTO.entityListToDTO(userManager.findUsers(allMatchingByLogin, oneByLogin));
     }
 
     @GET
@@ -67,7 +52,7 @@ public class UserAPI {
 
     @PUT
     @Path("/{id}")
-    public UserDTO updateUser(@PathParam("id") UUID id, @Valid User updatedUser) {
+    public UserDTO updateUser(@PathParam("id") UUID id, UserDTO updatedUser) {
         return UserDTO.fromEntityToDTO(userManager.updateUser(id, updatedUser));
     }
 
@@ -101,24 +86,16 @@ public class UserAPI {
         User toRegister = new BaseUser(user.getFirstName(), user.getLastName(), user.getLogin(), user.getPassword(), user.getAddress(), new Cart(), false, user.getAccountBalance());
         return UserDTO.fromEntityToDTO(userManager.register(toRegister));
     }
+
     @POST
-    public User addUser(@Valid User user){
+    public User addUser(@Valid User user) {
         return userManager.register(user);
     }
+
     @PATCH
     @Path("/{id}/suspendOrResume")
-    public void suspendOrResumeUser(@PathParam("id") UUID userId, @QueryParam("suspendOrResume") boolean suspendOrResume) {
+    public Response suspendOrResumeUser(@PathParam("id") UUID userId, @QueryParam("suspendOrResume") boolean suspendOrResume) {
         userManager.suspendOrResumeUser(userId, suspendOrResume);
-    }
-
-    private List<UserDTO> getAllUsers() {
-        return userManager.findAllUsers().stream()
-                .map(UserDTO::fromEntityToDTO)
-                .collect(Collectors.toList());
-    }
-
-    private List<UserDTO> getUsersByLogin(String login) {
-        return UserDTO.entityListToDTO(userManager.findByLogin(login));
-
+        return Response.ok().build();
     }
 }

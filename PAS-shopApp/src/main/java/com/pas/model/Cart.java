@@ -1,6 +1,8 @@
 package com.pas.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.pas.model.Product.Product;
+import com.pas.utils.ItemMapDeserializer;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -12,6 +14,7 @@ import java.util.Map;
 @Setter
 @ToString
 public class Cart{
+    @JsonDeserialize(keyUsing = ItemMapDeserializer.class)
     private Map<Product, Long> items;
 
     public Cart() {

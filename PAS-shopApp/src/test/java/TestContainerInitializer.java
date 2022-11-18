@@ -1,5 +1,10 @@
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.builder.RequestSpecBuilder;
+import com.jayway.restassured.specification.RequestSpecification;
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
@@ -16,11 +21,21 @@ public class TestContainerInitializer {
 
     public static String baseUri;
 
+    public RequestSpecification requestSpecification;
+
+    public static ObjectMapper objectMapper = new ObjectMapper();
+
+    @BeforeAll
+    public static void init() {
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
+
     @BeforeEach
     public void setup() {
         RestAssured.baseURI = microContainer.getHost();
         RestAssured.port = microContainer.getMappedPort(8080);
         baseUri = "http://" + microContainer.getHost() + ":" + microContainer.getMappedPort(8080) + "/app";
+        requestSpecification = new RequestSpecBuilder().setBaseUri(baseUri).build();
     }
 
     @Container

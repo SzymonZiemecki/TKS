@@ -1,5 +1,6 @@
 package com.pas.repository;
 
+import com.pas.exception.LoginAlreadyTakenException;
 import com.pas.model.Address;
 import com.pas.model.Cart;
 import com.pas.model.Order;
@@ -12,9 +13,11 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityExistsException;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class UserRepository extends IRepositoryImpl<User> {
@@ -25,7 +28,7 @@ public class UserRepository extends IRepositoryImpl<User> {
     @Override
     public synchronized User add(User entity) {
         if (!findByLogin(entity.getLogin()).isEmpty()) {
-            throw new EntityExistsException("Login already taken");
+            throw new LoginAlreadyTakenException("Login already taken");
         } else {
             return super.add(entity);
         }
@@ -35,9 +38,8 @@ public class UserRepository extends IRepositoryImpl<User> {
         return filter(user -> user.getLogin().contains(login));
     }
 
-    public Optional<User> findOneByLogin(String login) {
-        return filter(user -> user.getLogin().equals(login)).stream()
-                .findFirst();
+    public List<User> findOneByLogin(String login) {
+        return new ArrayList<>(filter(user -> user.getLogin().equals(login)));
     }
 
     public List<Order> findUserOrders(UUID login) {

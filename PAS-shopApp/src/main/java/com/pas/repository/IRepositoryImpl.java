@@ -1,5 +1,6 @@
 package com.pas.repository;
 
+import com.pas.utils.ErrorInfo;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
@@ -10,21 +11,21 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static com.pas.utils.ErrorInfo.ENTITY_ALREADY_EXIST_MESSAGE;
+import static com.pas.utils.ErrorInfo.ENTITY_NOT_FOUND_MESSAGE;
+
 public class IRepositoryImpl<T extends IdTrait> implements IRepository<T> {
 
     private Map<UUID, T> objects = Collections.synchronizedMap(new HashMap<>());
 
     private static final Logger log = LoggerFactory.getLogger(IRepositoryImpl.class);
-
-    private static final String ENTITY_NOT_FOUND_MESSAGE="Entity with given ID doesn't exist";
-
     @Override
     public synchronized T add(T entity) {
         if (entity.getId() == null) {
             entity.setId(UUID.randomUUID());
         }
         if (objects.containsKey(entity.getId())) {
-            log.info("Entity with provided id already exists in application context");
+            log.info(ENTITY_ALREADY_EXIST_MESSAGE.toString());
         } else {
             objects.put(entity.getId(), entity);
         }
@@ -46,7 +47,7 @@ public class IRepositoryImpl<T extends IdTrait> implements IRepository<T> {
         if (!objects.containsValue(entity)) {
             objects.remove(entity);
         } else {
-            throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.toString());
         }
     }
 
@@ -54,7 +55,7 @@ public class IRepositoryImpl<T extends IdTrait> implements IRepository<T> {
     @SneakyThrows
     public synchronized T update(UUID id, T entity) {
         if (!findById(id).isPresent()) {
-            throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE);
+            throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.toString());
         } else {
             objects.replace(id, entity);
         }

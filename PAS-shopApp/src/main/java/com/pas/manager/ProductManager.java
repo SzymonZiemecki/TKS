@@ -4,16 +4,18 @@ import com.pas.exception.BusinessLogicException;
 import com.pas.model.Product.Product;
 import com.pas.repository.OrderRepository;
 import com.pas.repository.ProductRepository;
-import com.pas.utils.exceptionMessages.exMsg;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityNotFoundException;
 
-import javax.crypto.ExemptionMechanism;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.pas.utils.ErrorInfo.ENTITY_NOT_FOUND_MESSAGE;
+import static com.pas.utils.ErrorInfo.PRODUCT_IN_UNFINISHED_ORDER;
 
 @ApplicationScoped
 public class ProductManager {
@@ -24,11 +26,11 @@ public class ProductManager {
     @Inject
     OrderRepository orderRepository;
 
-    public Optional<Product> findById(UUID id) {
-        return productRepository.findById(id);
+    public Product findById(UUID id) {
+        return productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue()));
     }
 
-    public List<Product> findAllProducts(){
+    public List<Product> findAllProducts() {
         return productRepository.findAll();
     }
 
@@ -40,27 +42,33 @@ public class ProductManager {
         return productRepository.findByProducer(producer);
     }
 
-    public Product addItem(Product product){
+    public Product addItem(Product product) {
         return productRepository.add(product);
     }
 
-    public Product updateProduct(UUID id, Product product){
+    public Product updateProduct(UUID id, Product product) {
         return productRepository.update(id, product);
     }
+
     public void removeItem(UUID id) {
-        if(!isInOngoingOrder(id)) {
+        if (!isInOngoingOrder(id)) {
             productRepository.delete(id);
         } else {
-            throw new BusinessLogicException(exMsg.PRODUCT_IN_UNFINISHED_ORDER.toString());
+            throw new BusinessLogicException(PRODUCT_IN_UNFINISHED_ORDER.getValue());
         }
     }
-    private boolean isInOngoingOrder(UUID productId){
-        return orderRepository.filter(order -> !order.isDelivered()).stream()
-                .map(order -> order.getItems().keySet())
-                .flatMap(Collection::stream)
-                .map(product -> product.getId().equals(productId))
-                .filter($ -> $.equals(true))
-                .findAny()
-                .orElse(false);
+
+    private boolean isInOngoingOrder(UUID productId) {
+        return orderRepository.filter(order -> !order.isDelivered()).stream().map(order -> order.getItems().keySet()).flatMap(Collection::stream).map(product -> product.getId().equals(productId)).filter($ -> $.equals(true)).findAny().orElse(false);
+    }
+
+    public List<Product> getProducts(Optional<String> producer, Optional<String> name) {
+        if (producer.isPresent()) {
+            return findByProducer(producer.get());
+        } else if (name.isPresent()) {
+            return findByName(name.get());
+        } else {
+            return findAllProducts();
+        }
     }
 }

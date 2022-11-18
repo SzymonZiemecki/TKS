@@ -22,7 +22,7 @@ public class RestIdentityStore implements IdentityStore {
         if (credential instanceof UsernamePasswordCredential) {
             UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) credential;
             String givenPassword = usernamePasswordCredential.getPasswordAsString();
-            User user = userManager.findByLogin((usernamePasswordCredential.getCaller())).get(0);
+            User user = userManager.findOneByLogin((usernamePasswordCredential.getCaller())).get(0);
             if(user.getPassword().equals(givenPassword) && !user.isSuspended()) {
                 CredentialValidationResult cr = new CredentialValidationResult(user.getLogin(), new HashSet<>(Collections.singletonList(user.getClass().getSimpleName())));
                 return cr;

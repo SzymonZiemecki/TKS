@@ -4,21 +4,20 @@ import com.pas.model.Cart;
 import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import com.pas.model.User.User;
+import com.pas.model.dto.UserDTO;
 import com.pas.repository.OrderRepository;
 import com.pas.repository.ProductRepository;
 import com.pas.repository.UserRepository;
 
-import com.pas.utils.exceptionMessages.exMsg;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.pas.utils.ErrorInfo.ENTITY_NOT_FOUND_MESSAGE;
 
 @ApplicationScoped
 @Slf4j
@@ -34,29 +33,19 @@ public class UserManager {
     private OrderRepository orderRepository;
 
     public User findById(UUID id) {
-        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(exMsg.ENTITY_NOT_FOUND_MESSAGE.toString()));
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue()));
     }
 
-    public List<User> findByLogin(String login) {
-        return userRepository.findByLogin(login);
-    }
-
-    public User findOneByLogin(String login) {
-        return userRepository.findOneByLogin(login).orElseThrow(() -> new EntityNotFoundException(exMsg.ENTITY_NOT_FOUND_MESSAGE.toString()));
+    public List<User> findOneByLogin(String login) {
+        return userRepository.findOneByLogin(login);
     }
 
     public List<Order> findOngoingUserOrders(UUID userId) {
-        return orderRepository.filter(order -> order.getCustomer().getId().equals(userId))
-                .stream()
-                .filter(order -> !order.isDelivered())
-                .collect(Collectors.toList());
+        return orderRepository.filter(order -> order.getCustomer().getId().equals(userId)).stream().filter(order -> !order.isDelivered()).collect(Collectors.toList());
     }
 
     public List<Order> findFinishedUserOrders(UUID userId) {
-        return orderRepository.filter(order -> order.getCustomer().getId().equals(userId))
-                .stream()
-                .filter(Order::isDelivered)
-                .collect(Collectors.toList());
+        return orderRepository.filter(order -> order.getCustomer().getId().equals(userId)).stream().filter(Order::isDelivered).collect(Collectors.toList());
     }
 
     public User register(User user) {
@@ -67,7 +56,12 @@ public class UserManager {
         return userRepository.findAll();
     }
 
-    public User updateUser(UUID id, User user) {
+    public User updateUser(UUID id, UserDTO updatedUser) {
+        User user = findById(updatedUser.getId());
+        user.setPassword(updatedUser.getPassword());
+        user.setAccountBalance(updatedUser.getAccountBalance());
+        user.setFirstName(updatedUser.getFirstName());
+        user.setLastName(updatedUser.getLastName());
         return userRepository.update(id, user);
     }
 
@@ -77,7 +71,7 @@ public class UserManager {
             found.get().setSuspended(suspendOrResume);
             userRepository.update(found.get().getId(), found.get());
         } else {
-            throw new EntityNotFoundException(exMsg.ENTITY_NOT_FOUND_MESSAGE.toString());
+            throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue());
         }
     }
 
@@ -88,7 +82,7 @@ public class UserManager {
             found.get().getCart().getItems().put(product.get(), quantity);
             return found.get().getCart();
         } else {
-            throw new EntityNotFoundException(exMsg.ENTITY_NOT_FOUND_MESSAGE.toString());
+            throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue());
         }
     }
 
@@ -101,12 +95,26 @@ public class UserManager {
             found.get().getCart().setItems(itemsInCart);
             return found.get().getCart();
         } else {
-            throw new EntityNotFoundException(exMsg.ENTITY_NOT_FOUND_MESSAGE.toString());
+            throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue());
         }
     }
 
-    public List<Order> findUserOrders(UUID userId){
+    public List<Order> findUserOrders(UUID userId) {
         return userRepository.findUserOrders(userId);
     }
 
+    public List<User> findUsers(Optional<String> allMatchingByLogin, Optional<String> oneByLogin) {
+        if (allMatchingByLogin.isPresent()) {
+            return userRepository.findByLogin(allMatchingByLogin.get());
+        } else if (oneByLogin.isPresent()) {
+            return userRepository.findOneByLogin(oneByLogin.get());
+        } else {
+            return findAllUsers();
+        }
+    }
+    public void clearUserCart(UUID userID){
+        User user = findById(userID);
+        user.getCart().setItems(new HashMap<>());
+        userRepository.update(user.getId(), user);
+    }
 }

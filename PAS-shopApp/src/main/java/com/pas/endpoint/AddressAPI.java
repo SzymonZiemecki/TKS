@@ -3,14 +3,11 @@ package com.pas.endpoint;
 
 import com.pas.manager.AddressManager;
 import com.pas.model.Address;
-import com.pas.utils.exceptionMessages.exMsg;
-import jakarta.annotation.security.DeclareRoles;
-import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +29,7 @@ public class AddressAPI {
     @GET
     @Path("/{id}")
     public Address getAddressById(@PathParam("id") UUID id){
-        return addressManager.findById(id).orElseThrow(() -> new EntityNotFoundException(exMsg.ENTITY_NOT_FOUND_MESSAGE.toString()));
+        return addressManager.findById(id);
     }
 
     @POST
@@ -48,7 +45,8 @@ public class AddressAPI {
 
     @DELETE
     @Path("/{id}")
-    public void deleteAddress(@PathParam("id") UUID id){
+    public Response deleteAddress(@PathParam("id") UUID id){
         addressManager.deleteAddress(id);
+        return Response.ok().build();
     }
 }

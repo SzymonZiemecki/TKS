@@ -14,6 +14,11 @@
         <role-name>BaseUser</role-name>
     </security-role>
 
+    <context-param>
+        <param-name>jersey.config.jsonFeature</param-name>
+        <param-value>JacksonFeature</param-value>
+    </context-param>
+
 <!--    <security-constraint>
         <web-resource-collection>
             <web-resource-name>secure</web-resource-name>

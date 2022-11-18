@@ -1,10 +1,12 @@
 package com.pas.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.pas.model.Address;
 import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import com.pas.model.User.User;
+import com.pas.utils.ItemMapDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +31,7 @@ public class OrderDTO {
     @JsonProperty
     private Address address;
     @JsonProperty
+    @JsonDeserialize(keyUsing = ItemMapDeserializer.class)
     private Map<Product, Long> items;
     @JsonProperty
     private Date creationDate;

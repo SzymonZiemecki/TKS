@@ -1,6 +1,0 @@
-@startuml
-
-Bob->Alice : Hello!
-Maciek->Tomek : pozdro
-
-@enduml

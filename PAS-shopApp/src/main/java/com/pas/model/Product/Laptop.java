@@ -1,5 +1,8 @@
 package com.pas.model.Product;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -17,4 +20,14 @@ public class Laptop extends Product {
     private int batterySize;
     private int diskSize;
     private String panelType;
+    public Laptop(int availableAmount, Double price, String name, String producer, String productDescription, String cpu, int ramAmount, String screenSize, String resolution, int batterySize, int diskSize, String panelType) {
+        super(availableAmount, price, name, producer, productDescription);
+        this.cpu = cpu;
+        this.ramAmount = ramAmount;
+        this.screenSize = screenSize;
+        this.resolution = resolution;
+        this.batterySize = batterySize;
+        this.diskSize = diskSize;
+        this.panelType = panelType;
+    }
 }

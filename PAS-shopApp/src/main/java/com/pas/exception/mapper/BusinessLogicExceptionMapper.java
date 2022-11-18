@@ -14,7 +14,7 @@ public class BusinessLogicExceptionMapper implements ExceptionMapper<BusinessLog
 
     public Response toResponse(BusinessLogicException exception) {
         log.info("An error occurred", exception);
-        return Response.status(500).entity(exception.getMessage()).type("text/plain").build();
+        return Response.status(500).entity(exception.getMessage()).type("application/json").build();
     }
 
 }
