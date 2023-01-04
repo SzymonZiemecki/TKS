@@ -32,7 +32,7 @@ public class UserDTO {
     private String lastName;
     @JsonProperty
     private String login;
-    @JsonProperty
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @JsonProperty
     private Address address;

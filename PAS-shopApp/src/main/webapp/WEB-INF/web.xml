@@ -4,68 +4,36 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
 
-    <security-role>
-        <role-name>Admin</role-name>
-    </security-role>
-    <security-role>
-        <role-name>Manager</role-name>
-    </security-role>
-    <security-role>
-        <role-name>BaseUser</role-name>
-    </security-role>
-
     <context-param>
         <param-name>jersey.config.jsonFeature</param-name>
         <param-value>JacksonFeature</param-value>
     </context-param>
 
-<!--    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>secure</web-resource-name>
-            <url-pattern>/users/*</url-pattern>
-            <url-pattern>/addresses/*</url-pattern>
-            <url-pattern>/products/*</url-pattern>
-            <url-pattern>/orders/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>Admin</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>secure</web-resource-name>
-            <url-pattern>/users/*</url-pattern>
-            <url-pattern>/products/*</url-pattern>
-            <url-pattern>/orders/create</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>BaseUser</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>app</web-resource-name>
-            <url-pattern>/auth/login</url-pattern>
-            <url-pattern>/users/register</url-pattern>
-        </web-resource-collection>
-    </security-constraint>-->
-
-
-    <login-config>
-        <auth-method>BASIC</auth-method>
-    </login-config>
-
-    <env-entry>
-        <env-entry-name>SECRET</env-entry-name>
-        <env-entry-type>java.lang.String</env-entry-type>
-        <env-entry-value>258AbqJCvhoWtVSI64m7Xpb6tpSJKpt6d7GRep82csg7jJzo9yu2whTOSQmkMjfpc2srXurE0G9LNn3NWbbT0yFgmWeW1y3VjB0sS-f0aUYOj4oYeGA-fK2G8Ju-sqDH16TRy1Es0pf1BhcbhFHARSnL9Y7QdA9us-KN_KTHqDc</env-entry-value>
-    </env-entry>
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+    <context-param>
+        <param-name>application.description</param-name>
+        <param-value>Przykładowa aplikacja JSF</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>index.xhtml</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
 </web-app>

@@ -3,7 +3,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.builder.RequestSpecBuilder;
 import com.jayway.restassured.specification.RequestSpecification;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.GenericContainer;
@@ -38,7 +37,6 @@ public class TestContainerInitializer {
         requestSpecification = new RequestSpecBuilder().setBaseUri(baseUri).build();
     }
 
-    @Container
     static GenericContainer microContainer = new GenericContainer("payara/micro:5.2021.9-jdk11")
             .withExposedPorts(8080)
             .withCopyFileToContainer(warFile, "/opt/payara/deployments/app.war")

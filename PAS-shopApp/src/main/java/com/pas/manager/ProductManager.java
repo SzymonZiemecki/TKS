@@ -59,7 +59,13 @@ public class ProductManager {
     }
 
     private boolean isInOngoingOrder(UUID productId) {
-        return orderRepository.filter(order -> !order.isDelivered()).stream().map(order -> order.getItems().keySet()).flatMap(Collection::stream).map(product -> product.getId().equals(productId)).filter($ -> $.equals(true)).findAny().orElse(false);
+        return orderRepository.filter(order -> !order.isDelivered()).stream()
+                .map(order -> order.getItems().keySet())
+                .flatMap(Collection::stream)
+                .map(product -> product.getId().equals(productId))
+                .filter($ -> $.equals(true))
+                .findAny()
+                .orElse(false);
     }
 
     public List<Product> getProducts(Optional<String> producer, Optional<String> name) {

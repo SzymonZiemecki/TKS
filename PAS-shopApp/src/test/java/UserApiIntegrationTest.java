@@ -67,7 +67,7 @@ public class UserApiIntegrationTest extends TestContainerInitializer {
                 .log().all()
                 .post("/users/register")
                 .then()
-                .statusCode(400)//not sure if correct code
+                .statusCode(400)
                 .extract().body().asString();
         assertTrue(messageWithExpectedError.contains("The request sent by the client was syntactically incorrect."));
     }
