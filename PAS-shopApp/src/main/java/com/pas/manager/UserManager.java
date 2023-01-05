@@ -56,13 +56,13 @@ public class UserManager {
         return userRepository.findAll();
     }
 
-    public User updateUser(UUID id, UserDTO updatedUser) {
+    public User updateUser(UUID id, User updatedUser) {
         User user = findById(updatedUser.getId());
         user.setPassword(updatedUser.getPassword());
         user.setAccountBalance(updatedUser.getAccountBalance());
         user.setFirstName(updatedUser.getFirstName());
         user.setLastName(updatedUser.getLastName());
-        return userRepository.update(id, user);
+        return userRepository.update(id, updatedUser);
     }
 
     public void suspendOrResumeUser(UUID userId, boolean suspendOrResume) {

@@ -23,7 +23,7 @@ import java.util.List;
         @JsonSubTypes.Type(BaseUser.class),
         @JsonSubTypes.Type(Manager.class)}
 )
-public abstract class User extends IdTrait {
+public abstract class User extends IdTrait implements Cloneable {
     @Size(min = 2, max = 20)
     private String firstName;
     @Size(min = 2, max = 20)
@@ -54,5 +54,21 @@ public abstract class User extends IdTrait {
         this.login = login;
         this.password = password;
         this.address = address;
+    }
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    public User(User user) {
+        this.setId(user.getId());
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.login = user.login;
+        this.password = user.password;
+        this.address = user.address;
+        this.cart = user.cart;
+        this.suspended = user.suspended;
+        this.accountBalance = user.accountBalance;
     }
 }

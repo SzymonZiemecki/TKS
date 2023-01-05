@@ -14,4 +14,8 @@ public class BaseUser extends User{
     public BaseUser(String firstName, String lastName, String login, String password, Address address, Cart cart, boolean suspended, Double accountBalance) {
         super(firstName, lastName, login, password, address, cart, suspended, accountBalance);
     }
+
+    public BaseUser(User user) {
+        super(user);
+    }
 }

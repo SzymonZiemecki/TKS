@@ -10,9 +10,17 @@
             <var>msg</var>
         </resource-bundle>
         <locale-config>
-            <default-locale>en</default-locale>
-            <supported-locale>en</supported-locale>
+            <default-locale>pl</default-locale>
             <supported-locale>pl</supported-locale>
         </locale-config>
     </application>
+
+    <navigation-rule>
+        <from-view-id/>
+        <navigation-case>
+            <from-outcome>ListAllUsers</from-outcome>
+            <to-view-id>/ListAllUsers.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

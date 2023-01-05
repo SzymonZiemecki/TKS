@@ -17,4 +17,8 @@ public class Manager extends User {
     public Manager(String firstName, String lastName, String login, String password, Address address, Cart cart, boolean suspended, Double accountBalance) {
         super(firstName, lastName, login, password, address, cart, suspended, accountBalance);
     }
+
+    public Manager(User user) {
+        super(user);
+    }
 }

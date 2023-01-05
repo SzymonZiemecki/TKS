@@ -9,9 +9,9 @@ import java.util.UUID;
 
 @Data
 @SuperBuilder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class Address extends IdTrait {
     @NotNull

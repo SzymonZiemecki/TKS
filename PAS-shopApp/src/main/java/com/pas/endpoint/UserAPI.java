@@ -52,7 +52,7 @@ public class UserAPI {
 
     @PUT
     @Path("/{id}")
-    public UserDTO updateUser(@PathParam("id") UUID id, UserDTO updatedUser) {
+    public UserDTO updateUser(@PathParam("id") UUID id, User updatedUser) {
         return UserDTO.fromEntityToDTO(userManager.updateUser(id, updatedUser));
     }
 
