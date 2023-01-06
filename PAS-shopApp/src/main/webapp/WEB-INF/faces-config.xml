@@ -44,12 +44,17 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>UserCart</from-outcome>
-            <to-view-id>/ListAllUsers.xhtml</to-view-id>
+            <to-view-id>/UserCart.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         <navigation-case>
-            <from-outcome>UserDetails</from-outcome>
-            <to-view-id>/UserDetails.xhtml</to-view-id>
+            <from-outcome>EditProduct</from-outcome>
+            <to-view-id>/EditProduct.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>ProductDetails</from-outcome>
+            <to-view-id>/ProductDetails.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
     </navigation-rule>

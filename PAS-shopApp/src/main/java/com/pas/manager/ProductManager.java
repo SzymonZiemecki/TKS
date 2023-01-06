@@ -1,6 +1,7 @@
 package com.pas.manager;
 
 import com.pas.exception.BusinessLogicException;
+import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import com.pas.repository.OrderRepository;
 import com.pas.repository.ProductRepository;
@@ -13,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.pas.utils.ErrorInfo.ENTITY_NOT_FOUND_MESSAGE;
 import static com.pas.utils.ErrorInfo.PRODUCT_IN_UNFINISHED_ORDER;
@@ -76,5 +78,11 @@ public class ProductManager {
         } else {
             return findAllProducts();
         }
+    }
+
+    public List<Order> ordersContainingProduct(Product product){
+        return orderRepository.findAll().stream()
+                .filter(order -> order.getItems().keySet().stream().collect(Collectors.toList()).contains(product))
+                .collect(Collectors.toList());
     }
 }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div class="navbar-nav mr-auto" xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://xmlns.jcp.org/jsf/html"
+     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+     xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_screenSize}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass="" value="#{productsController.copyOfProduct.screenSize}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_name}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_resolution}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass=""
+                         value="#{productsController.copyOfProduct.resolution}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_price}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_refreshRate}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass=""
+                         value="#{productsController.copyOfProduct.refreshRate}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_producer}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_panelType}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass=""
+                         value="#{productsController.copyOfProduct.panelType}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_description}"/>
+        </div>
+    </div>
+</div>
+

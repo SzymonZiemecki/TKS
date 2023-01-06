@@ -35,6 +35,18 @@
                     <f:facet name="header">#{msg.product_field_availableAmount}</f:facet>
                     ${product.availableAmount}
                 </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.product_field_category}</f:facet>
+                    ${viewUtils.getClassName(product)}
+                </h:column>
+                <h:column>
+                    <h:commandButton id="productDetailsBtn" action="#{productsController.getDetails(product)}" class="negative_btn" value="#{msg.details}">
+                    </h:commandButton>
+                    <h:commandButton id="productEditBtn" action="#{productsController.editProduct(product)}" class="negative_btn" value="#{msg.edit}">
+                    </h:commandButton>
+                    <h:commandButton id="productDeleteBtn" action="#{productsController.delete(product)}" class="negative_btn" value="#{msg.delete}">
+                    </h:commandButton>
+                </h:column>
             </h:dataTable>
         </h:form>
     </ui:define>

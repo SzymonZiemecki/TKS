@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.pas.model.IdTrait;
+import com.pas.model.User.User;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -25,7 +26,7 @@ import org.javamoney.moneta.Money;
         @JsonSubTypes.Type(value = MobilePhone.class, name = "MobilePhone"),
         @JsonSubTypes.Type(value = Laptop.class, name = "Laptop"),
 })
-public abstract class Product extends IdTrait {
+public abstract class Product extends IdTrait implements Cloneable{
     @JsonProperty
     private int availableAmount;
     @JsonProperty
@@ -45,5 +46,10 @@ public abstract class Product extends IdTrait {
         this.name = name;
         this.producer = producer;
         this.productDescription = productDescription;
+    }
+
+    @Override
+    public Product clone() throws CloneNotSupportedException {
+        return (Product) super.clone();
     }
 }
