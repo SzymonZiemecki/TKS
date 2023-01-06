@@ -25,9 +25,6 @@ public class OrderManager {
     @Inject
     private UserManager userManager;
 
-    @Inject
-    private AddressManager addressManager;
-
     public Order findById(UUID id) {
         return orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue()));
     }
@@ -43,7 +40,7 @@ public class OrderManager {
 
         if (shouldCreateOrder(userId, orderItems, shippingAddress, orderValue)) {
             process(customer, orderItems, orderValue, shippingAddress);
-            Order order = orderRepository.add(new Order(customer, shippingAddress, orderItems, new Date(), true, 0, false));
+            Order order = orderRepository.add(new Order(customer, shippingAddress, orderItems, new Date(), true, 0, false, calculateOrderValue(orderItems)));
             userManager.clearUserCart(customer.getId());
             return order;
         } else {
@@ -65,7 +62,6 @@ public class OrderManager {
     private synchronized void process(User user, Map<Product, Long> products, Double orderValue, Address address) {
         user.setAccountBalance(user.getAccountBalance() - orderValue);
         products.forEach((product, quantity) -> product.setAvailableAmount(product.getAvailableAmount() - quantity.intValue()));
-        addressManager.addAddress(address);
     }
 
     private boolean shouldCreateOrder(UUID userId, Map<Product, Long> orderItems, Address shippingAddress, Double orderValue) {

@@ -1,66 +1,59 @@
 package com.pas.controller;
 
+import com.pas.manager.OrderManager;
 import com.pas.manager.ProductManager;
 import com.pas.manager.UserManager;
 import com.pas.model.Address;
+import com.pas.model.Cart;
+import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import com.pas.model.User.Admin;
 import com.pas.model.User.BaseUser;
 import com.pas.model.User.Manager;
 import com.pas.model.User.User;
 import jakarta.enterprise.context.ConversationScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.validator.ValidatorException;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
+
+import static com.pas.controller.ViewUtils.getClassName;
 
 @Named
 @ConversationScoped
+@Getter
+@Setter
 public class UsersController extends Conversational implements Serializable {
     @Inject
     UserManager userManager;
+    @Inject
+    OrderManager orderManager;
     List<User> currentUsers;
 
+    User currentUser;
+
+    Cart currentUserCart;
+    User createdUser = new BaseUser();
+
+    List<Order> currentUserOrders;
     User copyOfUser;
 
     String userType;
 
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public User getCopyOfUser() {
-        return copyOfUser;
-    }
-
-    public void setCopyOfUser(User copyOfUser) {
-        this.copyOfUser = copyOfUser;
-    }
-
     String searchInput = "";
 
-    public String getSearchInput() {
-        return searchInput;
-    }
-
-    public void setSearchInput(String searchInput) {
-        this.searchInput = searchInput;
-    }
-
-    public List<User> getCurrentUsers() {
-        return currentUsers;
-    }
-
-    public void setCurrentUsers(List<User> currentUsers) {
-        this.currentUsers = currentUsers;
-    }
+    private final ResourceBundle resourceBundle = ResourceBundle.getBundle(
+            "messages", FacesContext.getCurrentInstance().getViewRoot().getLocale());
 
     @PostConstruct
     public void initCurrentProducts(){
@@ -76,23 +69,6 @@ public class UsersController extends Conversational implements Serializable {
         currentUsers = userManager.findUsers(Optional.of(searchInput), null);
     }
 
-    public String addressToUiView(Address address){
-        StringBuilder sb = new StringBuilder();
-        sb = address.getCountry() != null ? sb.append(address.getCountry() + ",") : sb.append("");
-        sb = address.getCountry() != null ? sb.append(address.getCity() + ",") : sb.append("");
-        sb = address.getStreet() != null ? sb.append(address.getStreet() + ",") : sb.append("");
-        sb = address.getHouseNumber() != null ? sb.append(address.getHouseNumber() + ",") : sb.append("");
-        sb = address.getZipCode() != null ? sb.append(address.getZipCode() + ",") : sb.append("");
-        if(sb.charAt(sb.length()-1) == ','){
-            sb.deleteCharAt(sb.length()-1);
-        }
-        return sb.toString();
-    }
-
-    public String getClassName(User user){
-        return user.getClass().getSimpleName();
-    }
-
     public String editUser(User user){
         beginNewConversation();
         try {
@@ -105,24 +81,63 @@ public class UsersController extends Conversational implements Serializable {
     }
 
     public String saveUpdate(User user) throws CloneNotSupportedException {
-        if(userType.equals("BaseUser")){
-            BaseUser changedType = new BaseUser(user);
-            userType = getClassName(changedType);
-            userManager.updateUser(user.getId(), changedType);
-        } else if(userType.equals("Manager")){
-            Manager changedType = new Manager(user);
-            userType = getClassName(changedType);
-            userManager.updateUser(user.getId(), changedType);
-        } else {
-            Admin changedType = new Admin(user);
-            userType = getClassName(changedType);
-            userManager.updateUser(user.getId(), changedType);
-        }
-        refreshView();
+        user = createUserOfType(user);
+        userManager.updateUser(user.getId(), user);
         return "ListAllUsers";
     }
 
-    private void refreshView(){
-        currentUsers = userManager.findAllUsers();
+    public String getDetails(User user){
+        userType = getClassName(user);
+        try {
+            currentUser = user.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        currentUserOrders = userManager.findUserOrders(currentUser.getId());
+        return "UserDetails";
+    }
+    public String addUser(){
+        createdUser = createUserOfType(createdUser);
+        userManager.register(createdUser);
+        return "ListAllUsers";
+    }
+    private User createUserOfType(User user){
+        if(userType.equals("BaseUser")){
+            user = new BaseUser(user);
+        } else if(userType.equals("Manager")){
+            user = new Manager(user);
+        } else {
+            user = new Admin(user);
+        }
+        return user;
+    }
+
+    public String getCart(User user){
+        beginNewConversation();
+        try {
+            currentUser = user.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return "UserCart";
+    }
+
+    public String createOrder(){
+        orderManager.createOrder(currentUser.getId(), currentUser.getAddress());
+        return "ListAllUsers";
+    }
+
+    public String removeFromCart(Product product){
+        beginNewConversation();
+        userManager.removeFromCart(currentUser.getId(), product.getId());
+        currentUser = userManager.findById(currentUser.getId());
+        return "UserCart";
+    }
+
+    public void loginValidator(FacesContext context, UIComponent component, Object value){
+        String login = (String) value;
+        if (!userManager.findOneByLogin(login).isEmpty()) {
+            throw new ValidatorException(new FacesMessage(resourceBundle.getString("validatorMessageLoginUsed")));
+        }
     }
 }

@@ -34,8 +34,10 @@ public class Order extends IdTrait {
     private boolean isDelivered;
     @JsonProperty
     private Date deliveryDate;
+    @JsonProperty
+    private Double price;
 
-    public Order(User customer, Address address, Map<Product, Long> items, Date creationDate, boolean isPaid, double discountPercent, boolean isDelivered) {
+    public Order(User customer, Address address, Map<Product, Long> items, Date creationDate, boolean isPaid, double discountPercent, boolean isDelivered, Double price) {
         this.customer = customer;
         this.address = address;
         this.items = items;
@@ -43,6 +45,7 @@ public class Order extends IdTrait {
         this.isPaid = isPaid;
         this.discountPercent = discountPercent;
         this.isDelivered = isDelivered;
+        this.price = price;
     }
 
 }

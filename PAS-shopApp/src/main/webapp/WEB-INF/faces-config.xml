@@ -22,5 +22,35 @@
             <to-view-id>/ListAllUsers.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>ListAllOrders</from-outcome>
+            <to-view-id>/ListAllOrders.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>ListAllProducts</from-outcome>
+            <to-view-id>/ListAllProducts.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>NewUser</from-outcome>
+            <to-view-id>/NewUser.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>EditUser</from-outcome>
+            <to-view-id>/EditUser.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>UserCart</from-outcome>
+            <to-view-id>/ListAllUsers.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>UserDetails</from-outcome>
+            <to-view-id>/UserDetails.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
     </navigation-rule>
 </faces-config>

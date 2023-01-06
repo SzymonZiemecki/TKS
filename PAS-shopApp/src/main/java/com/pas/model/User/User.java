@@ -1,19 +1,19 @@
 package com.pas.model.User;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.pas.model.Address;
 import com.pas.model.Cart;
 import com.pas.model.IdTrait;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-
-import java.util.List;
 
 @Data
 @SuperBuilder
-@NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -55,9 +55,14 @@ public abstract class User extends IdTrait implements Cloneable {
         this.password = password;
         this.address = address;
     }
+
+    public User() {
+        this.address=new Address();
+    }
+
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public User clone() throws CloneNotSupportedException {
+        return (User) super.clone();
     }
 
     public User(User user) {

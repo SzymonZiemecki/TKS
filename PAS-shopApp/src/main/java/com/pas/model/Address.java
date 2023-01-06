@@ -12,8 +12,7 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class Address extends IdTrait {
+public class Address{
     @NotNull
     @Size(min = 2, max = 20)
     private String country;

@@ -48,10 +48,9 @@ public class UserRepository extends IRepositoryImpl<User> {
 
     @PostConstruct
     public void init() {
-        Address initAddress = new Address("Poland", "Lodz", "Pomorska", "20", "90-001");
-        User baseUser = new BaseUser("Szymon", "Ziemecki", "baseUser", "testpass", initAddress, new Cart(), false, 200d);
-        User manager = new Manager("Szymon", "Ziemecki", "manager", "testpass", initAddress, new Cart(), false, 200d);
-        User admin = new Admin("Szymon", "Ziemecki", "admin", "testpass", initAddress, new Cart(), false, 200d);
+        User baseUser = new BaseUser("Szymon", "Ziemecki", "baseUser", "testpass", new Address("Poland", "Lodz", "Pomorska", "20", "90-001"), new Cart(), false, 200d);
+        User manager = new Manager("Szymon", "Ziemecki", "manager", "testpass", new Address("Poland", "Lodz", "Pomorska", "20", "90-001"), new Cart(), false, 200d);
+        User admin = new Admin("Szymon", "Ziemecki", "admin", "testpass", new Address("Poland", "Lodz", "Pomorska", "20", "90-001"), new Cart(), false, 200d);
 
         this.add(baseUser);
         this.add(manager);

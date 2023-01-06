@@ -29,7 +29,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">#{msg.user_field_address}</f:facet>
-                    ${usersController.addressToUiView(user.address)}
+                    ${viewUtils.addressToUiView(user.address)}
                 </h:column>
                 <h:column>
                     <f:facet name="header">#{msg.user_field_account_balance}</f:facet>
@@ -41,12 +41,16 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">#{msg.user_field_type}</f:facet>
-                    ${usersController.getClassName(user)}
+                    ${viewUtils.getClassName(user)}
                 </h:column>
                 <h:column>
-                    <h:commandButton id="hdnBtn" action="#{usersController.suspendOrResumeUser(user)}" class="negative_btn" value="#{msg.user_suspend_msg}">
+                    <h:commandButton id="changeUserStatusBtn" action="#{usersController.suspendOrResumeUser(user)}" class="negative_btn" value="#{msg.user_suspend_msg}">
                     </h:commandButton>
-                    <h:commandButton id="editButton" action="#{usersController.editUser(user)}" class="negative_btn" value="#{msg.user_edit}">
+                    <h:commandButton id="editUserBtn" action="#{usersController.editUser(user)}" class="negative_btn" value="#{msg.user_edit}">
+                    </h:commandButton>
+                    <h:commandButton id="userDetailsButton" action="#{usersController.getDetails(user)}" class="negative_btn" value="#{msg.user_details}">
+                    </h:commandButton>
+                    <h:commandButton id="cartButton" action="#{usersController.getCart(user)}" class="negative_btn" value="#{msg.user_cart}">
                     </h:commandButton>
                 </h:column>
             </h:dataTable>
