@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                template="./templates/MainTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="title">#{msg.user_edit_title}</ui:define>
+
+    <ui:define name="content">
+        <div id="container">
+            <h:form id="Modificaton">
+                <h:inputText id="login"
+                             value="#{usersController.copyOfUser.login}"
+                             requiredMessage="#{msg.user_field_login}">
+                </h:inputText>
+                <h:message for="login"/>
+
+                <h:inputText id="name"
+                             value="#{usersController.copyOfUser.firstName}"
+                             requiredMessage="#{msg.user_field_first_name}">
+                </h:inputText>
+                <h:message for="name"/>
+
+                <h:inputText id="surname"
+                             value="#{usersController.copyOfUser.lastName}"
+                             requiredMessage="#{msg.user_field_last_name}">
+                </h:inputText>
+                <h:message for="surname"/>
+
+                <h:inputText id="numberOfChildren"
+                             value="#{usersController.copyOfUser.accountBalance}"
+                             requiredMessage="#{msg.user_field_account_balance}">
+                </h:inputText>
+                <h:message for="numberOfChildren"/>
+
+                <h:inputText id="accessLevel"
+                             value="#{usersController.userType}"
+                             requiredMessage="#{msg.user_field_account_balance}">
+                </h:inputText>
+                <h:message for="numberOfChildren"/>
+
+                <h:selectOneListbox size="0" id="selectedMenu" value="#{usersController.userType}">
+                    <f:selectItem itemLabel="BaseUser" itemValue="BaseUser" />
+                    <f:selectItem itemLabel="Manager" itemValue="Manager" />
+                    <f:selectItem itemLabel="Admin" itemValue="Admin" />
+                </h:selectOneListbox>
+
+                <h:commandButton value="#{msg.change}" action="#{usersController.saveUpdate(usersController.copyOfUser)}"
+                                 class="positive_btn"/>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>
