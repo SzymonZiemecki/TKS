@@ -1,20 +1,16 @@
 package com.pas.model.Product;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.pas.model.IdTrait;
-import com.pas.model.User.User;
 import jakarta.validation.constraints.Size;
-import lombok.*;
-
-import java.util.UUID;
-
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import org.javamoney.moneta.Money;
 
-@Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
@@ -51,5 +47,25 @@ public abstract class Product extends IdTrait implements Cloneable{
     @Override
     public Product clone() throws CloneNotSupportedException {
         return (Product) super.clone();
+    }
+
+    public int getAvailableAmount() {
+        return this.availableAmount;
+    }
+
+    public Double getPrice() {
+        return this.price;
+    }
+
+    public @Size(min = 2, max = 20) String getName() {
+        return this.name;
+    }
+
+    public @Size(min = 2, max = 20) String getProducer() {
+        return this.producer;
+    }
+
+    public String getProductDescription() {
+        return this.productDescription;
     }
 }

@@ -1,3 +1,4 @@
+/*
 package com.pas.endpoint.auth;
 
 import com.nimbusds.jwt.SignedJWT;
@@ -58,3 +59,4 @@ public class JWTAuthMechanism implements HttpAuthenticationMechanism {
         return null;
     }
 }
+*/

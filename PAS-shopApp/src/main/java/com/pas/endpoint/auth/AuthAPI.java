@@ -1,3 +1,4 @@
+/*
 package com.pas.endpoint.auth;
 
 import jakarta.annotation.security.PermitAll;
@@ -63,3 +64,4 @@ public class AuthAPI {
         }
     }
 }
+*/

@@ -18,6 +18,10 @@
             <artifactId>jakarta.jakartaee-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>jakarta.faces</groupId>
+            <artifactId>jakarta.faces-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>

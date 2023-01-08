@@ -83,6 +83,7 @@ public class UsersController extends Conversational implements Serializable {
     public String saveUpdate(User user) throws CloneNotSupportedException {
         user = createUserOfType(user);
         userManager.updateUser(user.getId(), user);
+        currentUsers = userManager.findAllUsers();
         return "ListAllUsers";
     }
 

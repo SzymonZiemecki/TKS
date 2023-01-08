@@ -39,26 +39,28 @@ public class ProductsController extends Conversational implements Serializable {
     List<Product> currentProducts;
 
     Product copyOfProduct = new Tv();
-    String productType;
+    String productType ="";
 
     List<Order> currentProductOrders;
-    Map<UUID,String> currentUsers;
-    @Getter @Setter
+    Map<UUID, String> currentUsers;
+    @Getter
+    @Setter
     String currentUserId;
 
     boolean isCreatingNewProduct = true;
 
+
     @PostConstruct
-    public void initCurrentProducts(){
+    public void initCurrentProducts() {
         currentProducts = productManager.findAllProducts();
     }
 
-    public String delete(Product product){
+    public String delete(Product product) {
         productManager.removeItem(product.getId());
         return "ListAllProducts";
     }
 
-    public String editProduct(Product product){
+    public String editProduct(Product product) {
         beginNewConversation();
         isCreatingNewProduct = false;
         try {
@@ -70,7 +72,7 @@ public class ProductsController extends Conversational implements Serializable {
         return "EditProduct";
     }
 
-    public String getDetails(Product product){
+    public String getDetails(Product product) {
         beginNewConversation();
         productType = getClassName(product);
         try {
@@ -83,38 +85,28 @@ public class ProductsController extends Conversational implements Serializable {
         return "ProductDetails";
     }
 
-    public String saveUpdate(Product product) throws CloneNotSupportedException {
-        productManager.updateProduct(product.getId(), product);
+    public String saveUpdate() throws CloneNotSupportedException {
+        productManager.updateProduct(copyOfProduct.getId(), copyOfProduct);
         currentProducts = productManager.findAllProducts();
         return "ListAllProducts";
     }
 
-    public String addToCart(){
+    public String addToCart() {
         userManager.addToCart(UUID.fromString(currentUserId), copyOfProduct.getId(), 1l);
         return "ListAllProducts";
     }
 
-    public String update(){
-        productManager.updateProduct(copyOfProduct.getId(), copyOfProduct);
-        return "ListAllProducts";
-    }
-
-    public String add(){
+    public String addProduct() {
         productManager.addItem(copyOfProduct);
         return "ListAllProducts";
     }
-
-    public void changeProductType() {
-        if (productType.equals("Tv")) {
-            copyOfProduct = new Tv();
-        } else if (productType.equals("MobilePhone")) {
+    public void changeProductType(){
+        if(productType.equals("MobilePhone")){
             copyOfProduct = new MobilePhone();
-        } else {
+        } else if (productType.equals("Laptop")){
             copyOfProduct = new Laptop();
+        } else {
+            copyOfProduct = new Tv();
         }
-    }
-
-    public void test(){
-        System.out.println("test");
     }
 }

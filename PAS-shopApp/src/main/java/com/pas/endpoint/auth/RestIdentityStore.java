@@ -1,3 +1,4 @@
+/*
 package com.pas.endpoint.auth;
 
 import com.pas.manager.UserManager;
@@ -32,3 +33,4 @@ public class RestIdentityStore implements IdentityStore {
         return CredentialValidationResult.NOT_VALIDATED_RESULT;
     }
 }
+*/

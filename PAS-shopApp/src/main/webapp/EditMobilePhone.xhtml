@@ -5,12 +5,34 @@
      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <div class="row">
         <div class="col-md-3">
+            #{msg.product_field_cpu}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass="" value="#{productsController.copyOfProduct.cpu}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_name}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_ramAmount}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass=""
+                         value="#{productsController.copyOfProduct.ramAmount}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_price}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
             #{msg.product_field_screenSize}
         </div>
         <div class="col-md-3">
-            <h:inputText styleClass="" value="#{productsController.copyOfProduct.screenSize}"
+            <h:inputText styleClass=""
+                         value="#{productsController.copyOfProduct.screenSize}"
                          required="true"
-                         requiredMessage="#{msg.product_field_name}"/>
+                         requiredMessage="#{msg.product_field_producer}"/>
         </div>
     </div>
     <div class="row">
@@ -21,18 +43,29 @@
             <h:inputText styleClass=""
                          value="#{productsController.copyOfProduct.resolution}"
                          required="true"
-                         requiredMessage="#{msg.product_field_price}"/>
+                         requiredMessage="#{msg.product_field_description}"/>
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
-            #{msg.product_field_refreshRate}
+            #{msg.product_field_batterySize}
         </div>
         <div class="col-md-3">
             <h:inputText styleClass=""
-                         value="#{productsController.copyOfProduct.refreshRate}"
+                         value="#{productsController.copyOfProduct.batterySize}"
                          required="true"
-                         requiredMessage="#{msg.product_field_producer}"/>
+                         requiredMessage="#{msg.product_field_description}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_memorySize}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass=""
+                         value="#{productsController.copyOfProduct.memorySize}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_description}"/>
         </div>
     </div>
     <div class="row">
@@ -42,6 +75,39 @@
         <div class="col-md-3">
             <h:inputText styleClass=""
                          value="#{productsController.copyOfProduct.panelType}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_description}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_operatingSystem}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass=""
+                         value="#{productsController.copyOfProduct.operatingSystem}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_description}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_nfcPresent}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass=""
+                         value="#{productsController.copyOfProduct.nfcPresent}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_description}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_audioJackPresent}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass=""
+                         value="#{productsController.copyOfProduct.audioJackPresent}"
                          required="true"
                          requiredMessage="#{msg.product_field_description}"/>
         </div>

@@ -62,26 +62,34 @@
         <h:form rendered="#{usersController.currentUserOrders.size() != 0}">
             <div class="h3">Zamowienia uzytkownika</div>
             <h:dataTable styleClass="table table-hover table-striped table-bordered"
-                         value="#{usersController.currentUserOrders}" var="userOrder">
+                         value="#{usersController.currentUserOrders}" var="order">
                 <h:column>
                     <f:facet name="header">#{msg.order_field_id}</f:facet>
-                    ${userOrder.id}
+                    ${order.id}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">#{msg.order_field_items}</f:facet>
-                    <ui:repeat value="${userOrder.items}" var="product">
-                        <p>Produkt</p>
-                        <h:outputLabel>${msg.order_field_name}: </h:outputLabel>
-                        <h:outputText value="${product.key.name}"/><br/>
-                        <h:outputLabel>${msg.order_field_producer}: </h:outputLabel>
-                        <h:outputText value="${product.key.producer}"/><br/>
-                        <h:outputLabel>${msg.order_field_quantity}: </h:outputLabel>
-                        <h:outputText value="${product.value}"/><br/>
-                    </ui:repeat>
+                    <f:facet name="header">#{msg.order_field_customer}</f:facet>
+                    ${order.customer.login}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_address}</f:facet>
+                    #{viewUtils.addressToUiView(order.address)}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_creationDate}</f:facet>
+                    ${order.creationDate}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_deliveryDate}</f:facet>
+                    ${order.deliveryDate}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_paid}</f:facet>
+                    ${order.paid}
                 </h:column>
                 <h:column>
                     <f:facet name="header">#{msg.order_field_price}</f:facet>
-                    ${userOrder.price}
+                    ${order.price}
                 </h:column>
             </h:dataTable>
         </h:form>
