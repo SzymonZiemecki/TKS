@@ -1,4 +1,3 @@
-/*
 package com.pas.endpoint.auth;
 
 import com.nimbusds.jwt.SignedJWT;
@@ -34,7 +33,7 @@ public class JWTAuthMechanism implements HttpAuthenticationMechanism {
 
         String authorizationHeader = httpServletRequest.getHeader(AUTHORIZATION_HEADER);
         if (authorizationHeader == null || !authorizationHeader.startsWith(BEARER)) {
-            return httpMessageContext.responseUnauthorized();
+           return httpMessageContext.notifyContainerAboutLogin("Unauthorized", new HashSet<>(Arrays.asList("Unauthorized")));
         }
 
         String jwtSerializedToken = authorizationHeader.substring(BEARER.length()).trim();
@@ -53,10 +52,9 @@ public class JWTAuthMechanism implements HttpAuthenticationMechanism {
                 return httpMessageContext.notifyContainerAboutLogin(login, new HashSet<>(Arrays.asList(groups.split(","))));
             } catch (ParseException e) {
                 System.err.println(e.getMessage());
-                return httpMessageContext.responseUnauthorized();
+                return httpMessageContext.notifyContainerAboutLogin("Unauthorized", new HashSet<>(Arrays.asList("Unauthorized")));
             }
         }
-        return null;
+        return httpMessageContext.notifyContainerAboutLogin("Unauthorized", new HashSet<>(Arrays.asList("Unauthorized")));
     }
 }
-*/

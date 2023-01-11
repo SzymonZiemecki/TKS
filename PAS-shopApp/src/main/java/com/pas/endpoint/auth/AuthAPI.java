@@ -1,7 +1,8 @@
-/*
 package com.pas.endpoint.auth;
 
+import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.credential.Password;
@@ -21,13 +22,13 @@ import lombok.RequiredArgsConstructor;
 @Path("/auth/login")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
+@DeclareRoles({"Admin", "Manager", "BaseUser", "Unauthorized"})
 public class AuthAPI {
 
     @Inject
     private IdentityStoreHandler identityStoreHandler;
 
     @POST
-    @PermitAll
     public Response authenticate(@NotNull Credentials credentials) {
         Credential credential = new UsernamePasswordCredential(credentials.getLogin(), new Password(credentials.getPassword()));
         CredentialValidationResult cValResult = identityStoreHandler.validate(credential);
@@ -64,4 +65,3 @@ public class AuthAPI {
         }
     }
 }
-*/

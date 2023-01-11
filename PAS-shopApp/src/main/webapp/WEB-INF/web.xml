@@ -21,15 +21,15 @@
         <param-name>application.description</param-name>
         <param-value>Przykładowa aplikacja JSF</param-value>
     </context-param>
-        <servlet>
-            <servlet-name>Faces Servlet</servlet-name>
-            <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
-            <load-on-startup>1</load-on-startup>
-        </servlet>
-        <servlet-mapping>
-            <servlet-name>Faces Servlet</servlet-name>
-            <url-pattern>/faces/*</url-pattern>
-        </servlet-mapping>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
@@ -39,9 +39,32 @@
         <welcome-file>start.xhtml</welcome-file>
     </welcome-file-list>
 
-    <security-role>
-        <role-name>Admin</role-name>
-        <role-name>Manager</role-name>
-        <role-name>BaseUser</role-name>
-    </security-role>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Viewpoint Secure URLs</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>file</realm-name>
+        <form-login-config>
+            <form-login-page>/Login.xhtml</form-login-page>
+            <form-error-page>/Login.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+
+    <env-entry>
+        <env-entry-name>SECRET</env-entry-name>
+        <env-entry-type>java.lang.String</env-entry-type>
+        <env-entry-value>
+            258AbqJCvhoWtVSI64m7Xpb6tpSJKpt6d7GRep82csg7jJzo9yu2whTOSQmkMjfpc2srXurE0G9LNn3NWbbT0yFgmWeW1y3VjB0sS-f0aUYOj4oYeGA-fK2G8Ju-sqDH16TRy1Es0pf1BhcbhFHARSnL9Y7QdA9us-KN_KTHqDc
+        </env-entry-value>
+    </env-entry>
+
 </web-app>

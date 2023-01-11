@@ -1,4 +1,3 @@
-/*
 package com.pas.endpoint.auth;
 
 import com.nimbusds.jose.JOSEException;
@@ -41,7 +40,6 @@ public class JWTAuthTokenUtils {
                     .build();
             SignedJWT signedJWT = new SignedJWT(new JWSHeader(JWSAlgorithm.HS256), claimsSet);
             signedJWT.sign(new MACSigner(SECRET));
-            String tokenString = signedJWT.serialize();
             return signedJWT.serialize();
         } catch (JOSEException e) {
             System.err.println(e.getMessage());
@@ -60,4 +58,3 @@ public class JWTAuthTokenUtils {
         }
     }
 }
-*/
