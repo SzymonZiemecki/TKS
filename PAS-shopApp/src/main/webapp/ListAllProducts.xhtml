@@ -3,14 +3,14 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
-                template="./templates/MainTemplate.xhtml"
+                template="templates/MainTemplate.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html">
 
     <ui:define name="title">#{msg.products_list_title}</ui:define>
 
     <ui:define name="content">
         <h:form>
-            <h:dataTable styleClass="table table-hover table-striped table-bordered" value="#{productsController.currentProducts}" var="product">
+            <h:dataTable styleClass="table table-hover table-striped table-bordered" value="#{listAllProductsController.currentProducts}" var="product">
                 <h:column>
                     <f:facet name="header">#{msg.product_field_Id}</f:facet>
                     ${product.id}
@@ -40,11 +40,11 @@
                     ${viewUtils.getClassName(product)}
                 </h:column>
                 <h:column>
-                    <h:commandButton id="productDetailsBtn" action="#{productsController.getDetails(product)}" class="negative_btn" value="#{msg.details}">
+                    <h:commandButton id="productDetailsBtn" action="#{listAllProductsController.getDetails(product)}" class="negative_btn" value="#{msg.details}">
                     </h:commandButton>
-                    <h:commandButton id="productEditBtn" action="#{productsController.editProduct(product)}" class="negative_btn" value="#{msg.edit}">
+                    <h:commandButton id="productEditBtn" action="#{listAllProductsController.editProduct(product)}" class="negative_btn" value="#{msg.edit}">
                     </h:commandButton>
-                    <h:commandButton id="productDeleteBtn" action="#{productsController.delete(product)}" class="negative_btn" value="#{msg.delete}">
+                    <h:commandButton id="productDeleteBtn" action="#{listAllProductsController.delete(product)}" class="negative_btn" value="#{msg.delete}">
                     </h:commandButton>
                 </h:column>
             </h:dataTable>

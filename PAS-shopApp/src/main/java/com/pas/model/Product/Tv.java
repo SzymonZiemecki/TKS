@@ -13,7 +13,6 @@ import lombok.experimental.SuperBuilder;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class Tv extends Product {
-    @Size(min = 2, max = 4)
     @JsonProperty
     private String screenSize;
     @JsonProperty

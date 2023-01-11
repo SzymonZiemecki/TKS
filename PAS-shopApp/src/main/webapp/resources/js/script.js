@@ -1,4 +1,4 @@
-$("body").on("click", ".show-ok-alert", (event) => {
+("body").on("click", ".show-ok-alert", (event) => {
     let response = confirm(jsMap.JS_confirm);
     if (!response) {
         event.preventDefault();

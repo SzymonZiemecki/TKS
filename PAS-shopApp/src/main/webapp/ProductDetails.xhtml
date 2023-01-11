@@ -4,7 +4,7 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
-                template="./templates/MainTemplate.xhtml"
+                template="templates/MainTemplate.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html">
     <ui:define name="title">#{msg.user_details_title}</ui:define>
 
@@ -15,7 +15,7 @@
                     #{msg.product_field_id}
                 </div>
                 <div class="col-md-3">
-                    <h:inputText styleClass="" value="#{productsController.copyOfProduct.id}"
+                    <h:inputText styleClass="" value="#{editProductController.currentProduct.id}"
                                  required="true"
                                  requiredMessage="#{msg.product_field_name}"/>
                 </div>
@@ -25,7 +25,7 @@
                     #{msg.product_field_name}
                 </div>
                 <div class="col-md-3">
-                    <h:inputText styleClass="" value="#{productsController.copyOfProduct.name}"
+                    <h:inputText styleClass="" value="#{editProductController.currentProduct.name}"
                                  required="true"
                                  requiredMessage="#{msg.product_field_name}"/>
                 </div>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-md-3">
                     <h:inputText styleClass=""
-                                 value="#{productsController.copyOfProduct.price}"
+                                 value="#{editProductController.currentProduct.price}"
                                  required="true"
                                  requiredMessage="#{msg.product_field_price}"/>
                 </div>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-md-3">
                     <h:inputText styleClass=""
-                                 value="#{productsController.copyOfProduct.producer}"
+                                 value="#{editProductController.currentProduct.producer}"
                                  required="true"
                                  requiredMessage="#{msg.product_field_producer}"/>
                 </div>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="col-md-3">
                     <h:inputText styleClass=""
-                                 value="#{productsController.copyOfProduct.productDescription}"
+                                 value="#{editProductController.currentProduct.productDescription}"
                                  required="true"
                                  requiredMessage="#{msg.product_field_description}"/>
                 </div>
@@ -69,25 +69,25 @@
                 </div>
                 <div class="col-md-3">
                     <h:inputText styleClass=""
-                                 value="#{productsController.copyOfProduct.availableAmount}"
+                                 value="#{editProductController.currentProduct.availableAmount}"
                                  required="true"
                                  requiredMessage="#{msg.user_field_address}"/>
                 </div>
             </div>
-            <h:panelGroup rendered="#{productsController.productType eq 'Tv'}">
+            <h:panelGroup rendered="#{editProductController.productType eq 'Tv'}">
                 <ui:include src="EditTv.xhtml"></ui:include>
             </h:panelGroup>
-            <h:panelGroup rendered="#{productsController.productType eq 'MobilePhone'}">
+            <h:panelGroup rendered="#{editProductController.productType eq 'MobilePhone'}">
                 <ui:include src="EditMobilePhone.xhtml"></ui:include>
             </h:panelGroup>
-            <h:panelGroup rendered="#{productsController.productType eq 'Laptop'}">
+            <h:panelGroup rendered="#{editProductController.productType eq 'Laptop'}">
                 <ui:include src="EditLaptop.xhtml"></ui:include>
             </h:panelGroup>
         </h:form>
-        <h:form rendered="#{productsController.currentProductOrders.size() != 0}">
+        <h:form rendered="#{productDetailsController.currentProductOrders.size() != 0}">
             <div class="h3">Zamowienia zawierajace produkt</div>
             <h:dataTable styleClass="table table-hover table-striped table-bordered"
-                         value="#{productsController.currentProductOrders}" var="order">
+                         value="#{editProductController.currentProductOrders}" var="order">
                 <h:column>
                     <f:facet name="header">#{msg.order_field_id}</f:facet>
                     ${order.id}
@@ -120,11 +120,11 @@
         </h:form>
         <h:form>
             <p>Dodaj do koszyka</p>
-            <h:selectOneMenu value="#{productsController.currentUserId}">
-                <f:selectItems value="#{productsController.currentUsers.entrySet()}" var="entry"
+            <h:selectOneMenu value="#{editProductController.currentUserId}">
+                <f:selectItems value="#{editProductController.currentUsers.entrySet()}" var="entry"
                                itemValue="#{entry.key}" itemLabel="#{entry.value}" />
             </h:selectOneMenu>
-            <h:commandButton value="#{msg.add}" action="#{productsController.addToCart()}"/>
+            <h:commandButton value="#{msg.add}" action="#{editProductController.addToCart()}"/>
         </h:form>
         <h:form>
             <h:commandButton value="#{msg.return}" action="ListAllProducts" immediate="true"/>

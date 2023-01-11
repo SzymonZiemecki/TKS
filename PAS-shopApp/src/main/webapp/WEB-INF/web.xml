@@ -14,6 +14,10 @@
         <param-value>Development</param-value>
     </context-param>
     <context-param>
+        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+        <param-value>.xhtml</param-value>
+    </context-param>
+    <context-param>
         <param-name>application.description</param-name>
         <param-value>Przykładowa aplikacja JSF</param-value>
     </context-param>
@@ -34,4 +38,10 @@
     <welcome-file-list>
         <welcome-file>start.xhtml</welcome-file>
     </welcome-file-list>
+
+    <security-role>
+        <role-name>Admin</role-name>
+        <role-name>Manager</role-name>
+        <role-name>BaseUser</role-name>
+    </security-role>
 </web-app>

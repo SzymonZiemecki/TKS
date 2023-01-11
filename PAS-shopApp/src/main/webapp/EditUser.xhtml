@@ -3,7 +3,7 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:f="http://java.sun.com/jsf/core" xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-                template="./templates/MainTemplate.xhtml"
+                template="templates/MainTemplate.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html">
 
     <ui:define name="title">#{msg.user_edit_title}</ui:define>
@@ -16,7 +16,7 @@
                         #{msg.user_field_type}
                     </div>
                     <div class="col-md-3">
-                        <h:selectOneListbox size="0" id="selectedMenu" value="#{usersController.userType}">
+                        <h:selectOneListbox size="0" id="selectedMenu" value="#{editUserController.userType}">
                             <f:selectItem itemLabel="BaseUser" itemValue="BaseUser" />
                             <f:selectItem itemLabel="Manager" itemValue="Manager" />
                             <f:selectItem itemLabel="Admin" itemValue="Admin" />
@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-md-3">
                         <h:inputText styleClass=""
-                                     value="#{usersController.userType}"
+                                     value="#{editUserController.userType}"
                                      required="true"
                                      requiredMessage="#{msg.address_field_zipCode}"
                                      readonly="true"/>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-md-3">
                         <h:inputText styleClass=""
-                                     value="#{usersController.copyOfUser.firstName}"
+                                     value="#{editUserController.currentUser.firstName}"
                                      required="true"
                                      requiredMessage="#{msg.requiredName}"
                                      validatorMessage="#{msg.validatorMessageName}">
@@ -55,7 +55,7 @@
                     </div>
                     <div class="col-md-3">
                         <h:inputText styleClass=""
-                                     value="#{usersController.copyOfUser.lastName}"
+                                     value="#{editUserController.currentUser.lastName}"
                                      required="true"
                                      requiredMessage="#{msg.requiredLastName}"
                                      validatorMessage="#{msg.validatorMessageLastName}" >
@@ -69,7 +69,7 @@
                     </div>
                     <div class="col-md-3">
                         <h:inputText styleClass=""
-                                     value="#{usersController.copyOfUser.accountBalance}"
+                                     value="#{editUserController.currentUser.accountBalance}"
                                      required="true"
                                      requiredMessage="#{msg.requiredAccountBalance}"
                                      validatorMessage="#{msg.validatorMessageAccountBalance}" >
@@ -84,7 +84,7 @@
                     </div>
                     <div class="col-md-3">
                         <h:inputText styleClass=""
-                                     value="#{usersController.copyOfUser.address.country}"
+                                     value="#{editUserController.currentUser.address.country}"
                                      required="true"
                                      requiredMessage="#{msg.requiredCountry}"
                                      validatorMessage="#{msg.validatorMessageCountry}">
@@ -98,7 +98,7 @@
                     </div>
                     <div class="col-md-3">
                         <h:inputText styleClass=""
-                                     value="#{usersController.copyOfUser.address.city}"
+                                     value="#{editUserController.currentUser.address.city}"
                                      required="true"
                                      requiredMessage="#{msg.requiredCity}"
                                      validatorMessage="#{msg.validatorMessageCity}">
@@ -112,7 +112,7 @@
                     </div>
                     <div class="col-md-3">
                         <h:inputText styleClass=""
-                                     value="#{usersController.copyOfUser.address.street}"
+                                     value="#{editUserController.currentUser.address.street}"
                                      required="true"
                                      requiredMessage="#{msg.requiredStreet}"
                                      validatorMessage="#{msg.validatorMessageStreet}" >
@@ -126,7 +126,7 @@
                     </div>
                     <div class="col-md-3">
                         <h:inputText styleClass=""
-                                     value="#{usersController.copyOfUser.address.houseNumber}"
+                                     value="#{editUserController.currentUser.address.houseNumber}"
                                      required="true"
                                      requiredMessage="#{msg.requiredHouseNumber}"
                                      validatorMessage="#{msg.validatorMessageHouseNumber}">
@@ -140,7 +140,7 @@
                     </div>
                     <div class="col-md-3">
                         <h:inputText styleClass=""
-                                     value="#{usersController.copyOfUser.address.zipCode}"
+                                     value="#{editUserController.currentUser.address.zipCode}"
                                      required="true"
                                      requiredMessage="#{msg.requiredZipCode}"
                                      validatorMessage="#{msg.validatorMessageZipCode}" >
@@ -149,7 +149,7 @@
                     </div>
                 </div>
 
-                <h:commandButton value="#{msg.change}" action="#{usersController.saveUpdate(usersController.copyOfUser)}"
+                <h:commandButton value="#{msg.change}" action="#{editUserController.update()}"
                                  class="positive_btn"/>
                 <h:commandButton value="#{msg.return}" action="ListAllUsers" immediate="true"/>
             </h:form>

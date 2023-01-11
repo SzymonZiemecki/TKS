@@ -57,6 +57,9 @@ public class UserManager {
     }
 
     public User updateUser(UUID id, User updatedUser) {
+        if(!updatedUser.getId().equals(updatedUser.getId())){
+            throw new IllegalArgumentException("Cant change id");
+        }
         User user = findById(updatedUser.getId());
         user.setPassword(updatedUser.getPassword());
         user.setAccountBalance(updatedUser.getAccountBalance());

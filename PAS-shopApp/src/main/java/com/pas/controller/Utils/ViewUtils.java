@@ -1,4 +1,4 @@
-package com.pas.controller;
+package com.pas.controller.Utils;
 
 import com.pas.model.Address;
 import com.pas.model.User.User;

@@ -1,10 +1,12 @@
-package com.pas.controller;
+package com.pas.controller.Order;
 
+import com.pas.controller.Conversational;
 import com.pas.manager.OrderManager;
 import com.pas.manager.UserManager;
 import com.pas.model.Order;
 import com.pas.model.User.User;
 import jakarta.enterprise.context.ConversationScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
@@ -15,7 +17,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Named
-@ConversationScoped
+@ViewScoped
 @Getter
 @Setter
 public class OrdersController extends Conversational implements Serializable {
