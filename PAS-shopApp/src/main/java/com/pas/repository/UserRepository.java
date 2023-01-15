@@ -8,11 +8,11 @@ import com.pas.model.User.Admin;
 import com.pas.model.User.BaseUser;
 import com.pas.model.User.Manager;
 import com.pas.model.User.User;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityExistsException;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

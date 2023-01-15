@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="templates/MainTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="title">#{msg.orders_list_title}</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p>Produkty w koszyku</p>
+            <h:dataTable styleClass="table table-hover table-striped table-bordered" value="#{userCartController.currentUser.cart.items}" var="product">
+                        <h:column>
+                            <f:facet name="header">#{msg.order_field_name}</f:facet>
+                            ${product.key.name}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{msg.order_field_producer}</f:facet>
+                            ${product.key.producer}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{msg.order_field_quantity}</f:facet>
+                            ${product.value}
+                        </h:column>
+                        <h:column>
+                            <h:commandButton value="#{msg.removeFromCart}" action="#{userCartController.removeFromCart(product.key)}" immediate="true"/>
+                        </h:column>
+            </h:dataTable>
+            <h:commandButton value="#{msg.createOrder}" action="#{userCartController.createOrder()}" immediate="true"/>
+            <h:commandButton value="#{msg.return}" action="ListAllUsers" immediate="true"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div class="navbar-nav mr-auto" xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://xmlns.jcp.org/jsf/html"
+     xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+     xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_cpu}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass="" value="#{addProductController.currentProduct.cpu}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_cpu}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_ramAmount}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass=""
+                         value="#{addProductController.currentProduct.ramAmount}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_ramAmount}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_screenSize}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass=""
+                         value="#{addProductController.currentProduct.screenSize}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_screenSize}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_resolution}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass=""
+                         value="#{addProductController.currentProduct.resolution}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_resolution}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_batterySize}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass=""
+                         value="#{addProductController.currentProduct.batterySize}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_batterySize}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_diskSize}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass=""
+                         value="#{addProductController.currentProduct.diskSize}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_diskSize}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            #{msg.product_field_panelType}
+        </div>
+        <div class="col-md-3">
+            <h:inputText styleClass=""
+                         value="#{addProductController.currentProduct.panelType}"
+                         required="true"
+                         requiredMessage="#{msg.product_field_panelType}"/>
+        </div>
+    </div>
+</div>
+

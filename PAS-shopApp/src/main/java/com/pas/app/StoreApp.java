@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@ApplicationPath("/")
 @FacesConfig
 public class StoreApp extends Application {
     @Override

@@ -1,11 +1,9 @@
 package com.pas.controller.User;
 
-import com.pas.manager.UserManager;
+import com.pas.controller.Utils.ClientFactory;
+import com.pas.endpoint.UserAPI;
 import com.pas.model.User.BaseUser;
 import com.pas.model.User.User;
-import jakarta.enterprise.context.ConversationScoped;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -19,15 +17,14 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class AddUserController implements Serializable {
-    @Inject
-    UserManager userManager;
+    UserAPI userAPI = ClientFactory.userAPIClient();
     @Inject CommonUserController commonUserController;
     User currentUser = new BaseUser();
     String userType = "BaseUser";
 
     public String add(){
         currentUser = commonUserController.createUserOfType(currentUser, userType);
-        userManager.register(currentUser);
+        userAPI.register(currentUser);
         return "ListAllUsers";
     }
 }

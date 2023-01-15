@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                template="templates/MainTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <ui:define name="title">#{msg.user_details_title}</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="row">
+                <div class="col-md-3">
+                    #{msg.user_field_login}
+                </div>
+                <div class="col-md-3">
+                    <h:inputText styleClass="" value="#{editUserController.currentUser.login}" required="true" requiredMessage="#{msg.user_field_login} #{msg.form_isRequired}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    #{msg.user_field_first_name}
+                </div>
+                <div class="col-md-3">
+                    <h:inputText styleClass="" value="#{editUserController.currentUser.firstName}" required="true" requiredMessage="#{msg.user_field_first_name} #{msg.form_isRequired}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    #{msg.user_field_last_name}
+                </div>
+                <div class="col-md-3">
+                    <h:inputText styleClass="" value="#{editUserController.currentUser.lastName}" required="true" requiredMessage="#{msg.user_field_last_name} #{msg.form_isRequired}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    #{msg.user_field_account_balance}
+                </div>
+                <div class="col-md-3">
+                    <h:inputText styleClass="" value="#{editUserController.currentUser.accountBalance}" required="true" requiredMessage="#{msg.user_field_account_balance} #{msg.form_isRequired}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    #{msg.user_field_address}
+                </div>
+                <div class="col-md-3">
+                    <h:inputText styleClass="" value="#{viewUtils.addressToUiView(editUserController.currentUser.address)}" required="true" requiredMessage="#{msg.user_field_address} #{msg.form_isRequired}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    #{msg.user_field_type}
+                </div>
+                <div class="col-md-3">
+                    <h:inputText styleClass="" value="#{editUserController.userType}" required="true" requiredMessage="#{msg.user_field_type} #{msg.form_isRequired}"/>
+                </div>
+            </div>
+        </h:form>
+        <h:form rendered="#{editUserController.currentUserOrders.size() != 0}">
+            <div class="h3">Zamowienia uzytkownika</div>
+            <h:dataTable styleClass="table table-hover table-striped table-bordered"
+                         value="#{editUserController.currentUserOrders}" var="order">
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_id}</f:facet>
+                    ${order.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_customer}</f:facet>
+                    ${order.customer.login}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_address}</f:facet>
+                    #{viewUtils.addressToUiView(order.address)}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_creationDate}</f:facet>
+                    ${order.creationDate}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_deliveryDate}</f:facet>
+                    ${order.deliveryDate}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_paid}</f:facet>
+                    ${order.paid}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_price}</f:facet>
+                    ${order.price}
+                </h:column>
+            </h:dataTable>
+        </h:form>
+        <h:form>
+            <h:commandButton value="#{msg.return}" action="ListAllUsers" immediate="true"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

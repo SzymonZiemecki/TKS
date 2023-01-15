@@ -5,10 +5,10 @@ import com.pas.model.Product.Laptop;
 import com.pas.model.Product.MobilePhone;
 import com.pas.model.Product.Product;
 import com.pas.model.Product.Tv;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;

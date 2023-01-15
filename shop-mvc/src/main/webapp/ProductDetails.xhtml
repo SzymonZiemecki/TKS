@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                template="templates/MainTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <ui:define name="title">#{msg.user_details_title}</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="row">
+                <div class="col-md-3">
+                    #{msg.product_field_id}
+                </div>
+                <div class="col-md-3">
+                    <h:inputText styleClass="" value="#{editProductController.currentProduct.id}"
+                                 required="true"
+                                 requiredMessage="#{msg.product_field_name}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    #{msg.product_field_name}
+                </div>
+                <div class="col-md-3">
+                    <h:inputText styleClass="" value="#{editProductController.currentProduct.name}"
+                                 required="true"
+                                 requiredMessage="#{msg.product_field_name}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    #{msg.product_field_price}
+                </div>
+                <div class="col-md-3">
+                    <h:inputText styleClass=""
+                                 value="#{editProductController.currentProduct.price}"
+                                 required="true"
+                                 requiredMessage="#{msg.product_field_price}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    #{msg.product_field_producer}
+                </div>
+                <div class="col-md-3">
+                    <h:inputText styleClass=""
+                                 value="#{editProductController.currentProduct.producer}"
+                                 required="true"
+                                 requiredMessage="#{msg.product_field_producer}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    #{msg.product_field_description}
+                </div>
+                <div class="col-md-3">
+                    <h:inputText styleClass=""
+                                 value="#{editProductController.currentProduct.productDescription}"
+                                 required="true"
+                                 requiredMessage="#{msg.product_field_description}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    #{msg.product_field_availableAmount}
+                </div>
+                <div class="col-md-3">
+                    <h:inputText styleClass=""
+                                 value="#{editProductController.currentProduct.availableAmount}"
+                                 required="true"
+                                 requiredMessage="#{msg.user_field_address}"/>
+                </div>
+            </div>
+            <h:panelGroup rendered="#{editProductController.productType eq 'Tv'}">
+                <ui:include src="EditTv.xhtml"></ui:include>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{editProductController.productType eq 'MobilePhone'}">
+                <ui:include src="EditMobilePhone.xhtml"></ui:include>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{editProductController.productType eq 'Laptop'}">
+                <ui:include src="EditLaptop.xhtml"></ui:include>
+            </h:panelGroup>
+        </h:form>
+        <h:form rendered="#{productDetailsController.currentProductOrders.size() != 0}">
+            <div class="h3">Zamowienia zawierajace produkt</div>
+            <h:dataTable styleClass="table table-hover table-striped table-bordered"
+                         value="#{editProductController.currentProductOrders}" var="order">
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_id}</f:facet>
+                    ${order.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_customer}</f:facet>
+                    ${order.customer.login}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_address}</f:facet>
+                    #{viewUtils.addressToUiView(order.address)}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_creationDate}</f:facet>
+                    ${order.creationDate}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_deliveryDate}</f:facet>
+                    ${order.deliveryDate}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_paid}</f:facet>
+                    ${order.paid}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_price}</f:facet>
+                    ${order.price}
+                </h:column>
+            </h:dataTable>
+        </h:form>
+        <h:form>
+            <p>Dodaj do koszyka</p>
+            <h:selectOneMenu value="#{editProductController.currentUserId}">
+                <f:selectItems value="#{editProductController.currentUsers.entrySet()}" var="entry"
+                               itemValue="#{entry.key}" itemLabel="#{entry.value}" />
+            </h:selectOneMenu>
+            <h:commandButton value="#{msg.add}" action="#{editProductController.addToCart()}"/>
+        </h:form>
+        <h:form>
+            <h:commandButton value="#{msg.return}" action="ListAllProducts" immediate="true"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

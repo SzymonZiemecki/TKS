@@ -1,15 +1,11 @@
 package com.pas.controller.User;
 
 import com.pas.controller.Conversational;
-import com.pas.manager.OrderManager;
-import com.pas.manager.UserManager;
-import com.pas.model.Cart;
-import com.pas.model.Order;
-import com.pas.model.Product.Product;
-import com.pas.model.User.Admin;
-import com.pas.model.User.BaseUser;
-import com.pas.model.User.Manager;
+import com.pas.controller.Utils.ClientFactory;
+import com.pas.endpoint.OrderAPI;
+import com.pas.endpoint.UserAPI;
 import com.pas.model.User.User;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
@@ -20,23 +16,18 @@ import jakarta.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import static com.pas.controller.Utils.ViewUtils.getClassName;
 
 @Named
 @ViewScoped
 @Getter
 @Setter
 public class ListAllUsersController extends Conversational implements Serializable {
-    @Inject
-    UserManager userManager;
-    @Inject
-    OrderManager orderManager;
+    UserAPI userAPI = ClientFactory.userAPIClient();
+    OrderAPI orderAPI = ClientFactory.orderAPIClient();
     @Inject
     EditUserController editUserController;
     @Inject
@@ -51,16 +42,16 @@ public class ListAllUsersController extends Conversational implements Serializab
 
     @PostConstruct
     public void initCurrentProducts(){
-        currentUsers = userManager.findAllUsers();
+        currentUsers = userAPI.getUsers(null, null);
     }
 
     public String suspendOrResumeUser(User user){
-        userManager.suspendOrResumeUser(user.getId(), !user.isSuspended());
+        userAPI.suspendOrResumeUser(user.getId(), !user.isSuspended());
         return "ListAllUsers";
     }
 
     public void getSearchedUsers(){
-        currentUsers = userManager.findUsers(Optional.of(searchInput), null);
+        currentUsers = userAPI.getUsers(Optional.of(searchInput), null);
     }
 
     public String editUser(User user){
@@ -74,7 +65,7 @@ public class ListAllUsersController extends Conversational implements Serializab
         beginNewConversation();
         editUserController.setCurrentUser(user);
         editUserController.setUserType(user.getClass().getSimpleName());
-        editUserController.setCurrentUserOrders(userManager.findUserOrders(user.getId()));
+        editUserController.setCurrentUserOrders(userAPI.getOngoingUserOrders(user.getId()));
         return "UserDetails";
     }
 
@@ -85,7 +76,7 @@ public class ListAllUsersController extends Conversational implements Serializab
     }
     public void loginValidator(FacesContext context, UIComponent component, Object value){
         String login = (String) value;
-        if (!userManager.findOneByLogin(login).isEmpty()) {
+        if (!userAPI.getUsers(null, Optional.of(login)).isEmpty()) {
             throw new ValidatorException(new FacesMessage(resourceBundle.getString("validatorMessageLoginUsed")));
         }
     }

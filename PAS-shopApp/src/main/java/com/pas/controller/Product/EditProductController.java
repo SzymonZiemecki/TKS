@@ -1,34 +1,28 @@
 package com.pas.controller.Product;
 
-import com.pas.manager.ProductManager;
-import com.pas.manager.UserManager;
+import com.pas.controller.Utils.ClientFactory;
+import com.pas.endpoint.ProductAPI;
+import com.pas.endpoint.UserAPI;
 import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import jakarta.enterprise.context.ConversationScoped;
-import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Named
 @ConversationScoped
 @Getter
 @Setter
 public class EditProductController implements Serializable {
-    @Inject
-    ProductManager productManager;
-    @Inject
-    UserManager userManager;
+    ProductAPI productAPI = ClientFactory.productAPIClient();
+    UserAPI userAPI = ClientFactory.userAPIClient();
     @Inject
     CommonProductController commonProductController;
 
@@ -40,12 +34,12 @@ public class EditProductController implements Serializable {
     String currentUserId;
 
     public String update() throws CloneNotSupportedException {
-        productManager.updateProduct(currentProduct.getId(), currentProduct);
+        productAPI.updateProduct(currentProduct.getId(), currentProduct);
         return "ListAllProducts";
     }
 
     public String addToCart() {
-        userManager.addToCart(UUID.fromString(currentUserId), currentProduct.getId(), 1l);
+        userAPI.addToCart(UUID.fromString(currentUserId), currentProduct.getId(), 1l);
         return "ListAllProducts";
     }
 }
