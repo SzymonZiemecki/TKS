@@ -20,8 +20,4 @@ public class StoreApp extends Application {
         props.put("jersey.config.jsonFeature", "JacksonFeature");
         return props;
     }
-    @Override
-    public Set<Class<?>> getClasses() {
-        return Set.of(OrderApiImpl.class, UserApiImpl.class, ProductApiImpl.class);
-    }
 }

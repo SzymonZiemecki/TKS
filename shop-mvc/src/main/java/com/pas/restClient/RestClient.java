@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.UriBuilder;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
@@ -27,6 +28,10 @@ public abstract class RestClient<T> {
 
     HttpClient client;
 
+    public RestClient() {
+        this.client = HttpClient.newBuilder().build();
+    }
+
     public RestClient(Class<T> clazz , GenericType<T> genericType, String endpoint, TypeReference<List<T>> allTypeReference, TypeReference<T> singleTypeReference) {
         this.endpoint = endpoint;
         this.allTypeReference = allTypeReference;
@@ -36,20 +41,24 @@ public abstract class RestClient<T> {
         this.client = HttpClient.newBuilder().build();
     }
 
+    public void setDefaultHeaders(HttpHeaders headers){
+
+    };
+
     public List<T> getAllRequest(){
         return readList((String) get().body());
     }
 
-    public T addRequest(T entity){
-        return readOne((String) add(entity).body());
+    public void addRequest(T entity){
+        add(entity);
     }
 
     public T getByIdRequest(UUID id){
         return readOne((String) get("/" + id.toString()).body());
     }
 
-    public T updateRequest(UUID id, T entity){
-        return readOne((String) update(id, entity).body());
+    public void updateRequest(UUID id, T entity){
+        update(id, entity).body();
     }
 
     public HttpResponse deleteRequest(UUID id){
@@ -70,6 +79,7 @@ public abstract class RestClient<T> {
         String callUrl = API_URL + endpoint + custom;
         HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create(callUrl))
+                        .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJQQVMgUmVzdCBBcGkiLCJzdWIiOiJhZG1pbiIsImV4cCI6MTY3NDAwMjQ4MiwiYXV0aCI6IkFkbWluIn0.3SWkMKz6ORfTK2ngQILOOd_EoS-MXLWZesD-C7iFp5I")
                         .GET().build();
         try {
             return client.send(request, HttpResponse.BodyHandlers.ofString());

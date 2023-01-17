@@ -34,6 +34,16 @@
         <welcome-file>start.xhtml</welcome-file>
     </welcome-file-list>
 
+    <error-page>
+        <error-code>401</error-code>
+        <location>/forbidden.xhtml</location>
+    </error-page>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/forbidden.xhtml</location>
+    </error-page>
+
 
     <security-constraint>
         <web-resource-collection>

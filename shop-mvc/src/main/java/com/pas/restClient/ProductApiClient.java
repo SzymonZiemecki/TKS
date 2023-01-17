@@ -2,6 +2,7 @@ package com.pas.restClient;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.pas.controller.Auth.JwtTokenHolderBean;
 import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import com.pas.model.User.User;
@@ -16,6 +17,9 @@ import java.util.UUID;
 @ApplicationScoped
 public class ProductApiClient extends RestClient<Product>{
 
+    @Inject
+    JwtTokenHolderBean jwtTokenHolderBean;
+
     public ProductApiClient() {
         super(Product.class, new GenericType<Product>(){}, "products", new TypeReference<List<Product>>(){}, new TypeReference<Product>(){});
     }
@@ -28,12 +32,12 @@ public class ProductApiClient extends RestClient<Product>{
         return this.getByIdRequest(id);
     }
 
-    public Product addProduct(Product product){
-        return this.addRequest(product);
+    public void addProduct(Product product){
+        this.addRequest(product);
     }
 
-    public Product updateProduct(UUID id, Product product){
-        return this.updateRequest(id, product);
+    public void updateProduct(UUID id, Product product){
+        this.updateRequest(id, product);
     }
 
     public void deleteProductById(UUID id){

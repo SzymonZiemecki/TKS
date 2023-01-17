@@ -67,5 +67,10 @@
             <to-view-id>/Login.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>Start</from-outcome>
+            <to-view-id>/start.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
     </navigation-rule>
 </faces-config>

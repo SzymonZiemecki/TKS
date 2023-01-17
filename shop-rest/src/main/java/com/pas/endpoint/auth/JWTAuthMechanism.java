@@ -1,4 +1,3 @@
-/*
 package com.pas.endpoint.auth;
 
 import com.nimbusds.jwt.SignedJWT;
@@ -61,4 +60,3 @@ public class JWTAuthMechanism implements HttpAuthenticationMechanism {
         return httpMessageContext.notifyContainerAboutLogin("Unauthorized", new HashSet<>(Arrays.asList("Unauthorized")));
     }
 }
-*/

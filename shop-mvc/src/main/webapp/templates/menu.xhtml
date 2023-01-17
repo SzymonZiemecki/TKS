@@ -6,27 +6,28 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">#{msg.menu_tab_user}</a>
         <div class="dropdown-menu">
-            <h:link styleClass="nav-link" outcome="ListAllUsers">#{msg.menu_ListAllUsers}</h:link>
-            <h:link styleClass="nav-link" outcome="NewUser">#{msg.menu_createUser}</h:link>
+            <h:link styleClass="nav-link" rendered="${request.isUserInRole('Admin')}" outcome="ListAllUsers">#{msg.menu_ListAllUsers}</h:link>
+            <h:link styleClass="nav-link" rendered="${request.isUserInRole('Admin')}" outcome="NewUser">#{msg.menu_createUser}</h:link>
+            <h:link styleClass="nav-link" rendered="${request.isUserInRole('Unauthorized')}" outcome="Register">#{msg.menu_register}</h:link>
         </div>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">#{msg.menu_tab_product}</a>
         <div class="dropdown-menu">
             <h:link styleClass="nav-link" outcome="ListAllProducts">#{msg.menu_ListAllProducts}</h:link>
-            <h:link styleClass="nav-link" outcome="AddNewProduct">#{msg.menu_newProduct}</h:link>
+            <h:link styleClass="nav-link" rendered="${request.isUserInRole('Manager')}" outcome="AddNewProduct">#{msg.menu_newProduct}</h:link>
         </div>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">#{msg.menu_tab_order}</a>
         <div class="dropdown-menu">
-            <h:link styleClass="nav-link" outcome="ListAllOrders">#{msg.menu_ListAllOrders}</h:link>
+            <h:link styleClass="nav-link" rendered="${request.isUserInRole('Admin')}" outcome="ListAllOrders">#{msg.menu_ListAllOrders}</h:link>
         </div>
     </li>
-<!--    <li class="nav-item dropdown">
+    <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
         <div class="dropdown-menu">
             <h:link styleClass="nav-link" outcome="Login">Login</h:link>
         </div>
-    </li>-->
+    </li>
 </ul>

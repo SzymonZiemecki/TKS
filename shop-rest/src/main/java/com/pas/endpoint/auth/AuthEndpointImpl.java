@@ -1,4 +1,3 @@
-/*
 package com.pas.endpoint.auth;
 
 import jakarta.annotation.security.DeclareRoles;
@@ -17,16 +16,21 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@ApplicationScoped
-public class AuthEndpointImpl implements AuthAPI {
+@Path("/auth/login")
+@Produces({MediaType.APPLICATION_JSON})
+@Consumes({MediaType.APPLICATION_JSON})
+@DeclareRoles({"Admin", "Manager", "BaseUser", "Unauthorized"})
+public class AuthEndpointImpl {
 
     @Inject
     private IdentityStoreHandler identityStoreHandler;
 
-    @Override
-    public Response authenticate(Credentials credentials) {
+    @POST
+    public Response authenticate(@NotNull Credentials credentials) {
         Credential credential = new UsernamePasswordCredential(credentials.getLogin(), new Password(credentials.getPassword()));
         CredentialValidationResult cValResult = identityStoreHandler.validate(credential);
         if (cValResult.getStatus() == CredentialValidationResult.Status.VALID) {
@@ -36,5 +40,13 @@ public class AuthEndpointImpl implements AuthAPI {
             return Response.status(Response.Status.UNAUTHORIZED).entity(Response.Status.UNAUTHORIZED).build();
         }
     }
+
+    @Data
+    @RequiredArgsConstructor
+    @Getter
+    @Setter
+    public static class Credentials {
+        private String login;
+        private String password;
+    }
 }
-*/

@@ -1,16 +1,22 @@
 package com.pas.restClient;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.pas.controller.Auth.JwtTokenHolderBean;
 import com.pas.model.Product.Product;
 import com.pas.model.User.CartItem;
 import com.pas.model.User.User;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.core.GenericType;
 
 import java.util.*;
 
 @ApplicationScoped
 public class UserApiClient extends RestClient<User>{
+
+    @Inject
+    JwtTokenHolderBean jwtTokenHolderBean;
+
     public UserApiClient() {
         super(User.class, new GenericType<User>(){}, "users", new TypeReference<List<User>>(){}, new TypeReference<User>(){});
     }
@@ -19,8 +25,8 @@ public class UserApiClient extends RestClient<User>{
         return this.getAllRequest();
     }
 
-    public User updateUser(UUID id, User user){
-        return this.updateRequest(id, user);
+    public void updateUser(UUID id, User user){
+        this.updateRequest(id, user);
     }
 
     public void addToCart(UUID userId, UUID productId, long quantity){

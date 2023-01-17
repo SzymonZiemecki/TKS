@@ -9,7 +9,7 @@
             <f:param value="Szymon Ziemecki"/>
             <f:param value="Jakub Wardyn"/>
             <f:param value="Jakub Kucharski"/>
-            #{request.userPrincipal.name}
+            #{jwtTokenHolderBean.jwtToken}
         </h:outputFormat>
     </f:view>
 </div>

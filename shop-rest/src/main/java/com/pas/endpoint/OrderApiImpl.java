@@ -13,37 +13,53 @@ import com.pas.manager.OrderManager;
 import java.util.List;
 import java.util.UUID;
 
-@ApplicationScoped
-public class OrderApiImpl implements OrderAPI {
+@Path("/orders")
+@Consumes("application/json")
+@Produces("application/json")
+public class OrderApiImpl{
 
     @Inject
     OrderManager orderManager;
-
+    @GET
+    @RolesAllowed({"Manager"})
     public List<Order> getAllOrders() {
         return orderManager.findAllOrders();
     }
-
-    public Order getOrderById(UUID id) {
+    @GET
+    @Path("/{id}")
+    @RolesAllowed({"Manager"})
+    public Order getOrderById(@PathParam("id") UUID id) {
         return orderManager.findById(id);
     }
-
+    @GET
+    @Path("/ongoing")
+    @RolesAllowed({"Manager"})
     public List<Order> getOngoingOrders() {
         return orderManager.findOngoingOrders();
     }
-
+    @GET
+    @Path("/finished")
+    @RolesAllowed({"Manager"})
     public List<Order> getFinishedOrders() {
         return orderManager.findFinishedOrders();
     }
-
-    public Order createOrder(UUID userId, Address shippingAddress) {
+    @POST
+    @Path("/create")
+    @RolesAllowed({"BaseUser"})
+    public Order createOrder(@QueryParam("userId") UUID userId, @Valid Address shippingAddress) {
         return orderManager.createOrder(userId, shippingAddress);
     }
-    public Response deliverOrder(UUID orderId) {
+    @PATCH
+    @Path("/{id}/deliver")
+    @RolesAllowed("Manager")
+    public Response deliverOrder(@PathParam("id") UUID orderId) {
         orderManager.deliverOrder(orderId);
         return Response.ok().build();
     }
-
-    public Response deleteOrder(UUID orderId) {
+    @DELETE
+    @Path("/{id}")
+    @RolesAllowed({"Manager"})
+    public Response deleteOrder(@PathParam("id") UUID orderId) {
         orderManager.deleteOrder(orderId);
         return Response.ok().build();
     }
