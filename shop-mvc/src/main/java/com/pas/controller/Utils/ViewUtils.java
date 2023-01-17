@@ -1,6 +1,7 @@
 package com.pas.controller.Utils;
 
 import com.pas.model.Address;
+import com.pas.model.User.User;
 import jakarta.inject.Named;
 
 @Named

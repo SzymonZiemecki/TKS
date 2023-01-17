@@ -1,8 +1,11 @@
 package com.pas.controller.Product;
 
-import com.pas.controller.Utils.ClientFactory;
-import com.pas.endpoint.ProductAPI;
 import com.pas.model.Product.Product;
+import com.pas.model.Product.Tv;
+import com.pas.restClient.ProductApiClient;
+import jakarta.enterprise.context.ConversationScoped;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -16,8 +19,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class AddProductController implements Serializable {
-
-    ProductAPI productAPI = ClientFactory.productAPIClient();
+    @Inject
+    ProductApiClient productApiClient;
     @Inject
     CommonProductController commonProductController;
 
@@ -25,7 +28,7 @@ public class AddProductController implements Serializable {
     String productType;
 
     public String add() throws CloneNotSupportedException {
-        productAPI.addProduct(currentProduct);
+        productApiClient.addProduct(currentProduct);
         return "ListAllProducts";
     }
 

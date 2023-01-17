@@ -1,14 +1,16 @@
 package com.pas.endpoint;
 
+import com.pas.model.Product.Product;
+import com.pas.model.User.Cart;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
-import com.pas.model.Cart;
 import com.pas.model.Order;
 import com.pas.model.User.User;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,6 +37,11 @@ public interface UserAPI {
     @Path("/{id}/finishedOrders")
     @RolesAllowed({"BaseUser"})
     List<Order> getFinishedUserOrders(@PathParam("id") UUID userId);
+
+    @GET
+    @Path("/{id}/allOrders")
+    @RolesAllowed({"BaseUser"})
+    List<Order> getAllUserOrders(@PathParam("id") UUID userId);
 
     @PUT
     @Path("/{id}")
@@ -70,8 +77,8 @@ public interface UserAPI {
     @RolesAllowed({"Admin"})
     User addUser(@Valid User user);
 
-    @PATCH
+    @PUT
     @Path("/{id}/suspendOrResume")
     @RolesAllowed({"Admin"})
-    Response suspendOrResumeUser(@PathParam("id") UUID userId, @QueryParam("suspendOrResume") boolean suspendOrResume);
+    Response suspendOrResumeUser(@PathParam("id") UUID userId);
 }

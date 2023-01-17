@@ -1,37 +1,27 @@
 package com.pas.controller.Utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-import com.pas.endpoint.OrderAPI;
-import com.pas.endpoint.ProductAPI;
-import com.pas.endpoint.UserAPI;
-import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 
-import java.util.ArrayList;
+import com.pas.model.Product.Product;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.core.GenericType;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 import java.util.List;
 
 public class ClientFactory {
-    public static UserAPI userAPIClient(){
-        UserAPI api = JAXRSClientFactory.create("http://localhost:8080/shopApp-1.0-SNAPSHOT", UserAPI.class, jsonProvider());
-        return api;
+    private static String API_URL = "https://localhost:8181/shop-rest-1.0-SNAPSHOT/";
+
+    public static Client client() {
+        return ClientBuilder.newClient();
     }
 
-    public static ProductAPI productAPIClient(){
-        ProductAPI api = JAXRSClientFactory.create("http://localhost:8080/shopApp-1.0-SNAPSHOT", ProductAPI.class,jsonProvider());
-        return api;
+    public static List<Product> getRequest(){
+        return client().target(API_URL+"products")
+                .request()
+                .get(new GenericType<List<Product>>() {
+                });
     }
-
-    public static OrderAPI orderAPIClient(){
-        OrderAPI api = JAXRSClientFactory.create("http://localhost:8080/shopApp-1.0-SNAPSHOT", OrderAPI.class, jsonProvider());
-        return api;
-    }
-
-    public static List<JacksonJaxbJsonProvider> jsonProvider(){
-        List<JacksonJaxbJsonProvider> providers = new ArrayList<>();
-        JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
-        provider.setMapper(new ObjectMapper());
-        providers.add(provider);
-        return providers;
-    }
-
 }

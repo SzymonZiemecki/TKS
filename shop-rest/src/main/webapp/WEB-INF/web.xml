@@ -14,12 +14,8 @@
         <param-value>Development</param-value>
     </context-param>
     <context-param>
-        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
-        <param-value>.xhtml</param-value>
-    </context-param>
-    <context-param>
         <param-name>application.description</param-name>
-        <param-value>Przykładowa aplikacja JSF</param-value>
+        <param-value>Shop App Rest Api</param-value>
     </context-param>
     <session-config>
         <session-timeout>

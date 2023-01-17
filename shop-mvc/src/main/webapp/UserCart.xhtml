@@ -11,21 +11,21 @@
     <ui:define name="content">
         <h:form>
             <p>Produkty w koszyku</p>
-            <h:dataTable styleClass="table table-hover table-striped table-bordered" value="#{userCartController.currentUser.cart.items}" var="product">
+            <h:dataTable styleClass="table table-hover table-striped table-bordered" value="#{userCartController.currentUser.cart.cartItems}" var="cartItem">
                         <h:column>
                             <f:facet name="header">#{msg.order_field_name}</f:facet>
-                            ${product.key.name}
+                            ${cartItem.product.name}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{msg.order_field_producer}</f:facet>
-                            ${product.key.producer}
+                            ${cartItem.product.producer}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{msg.order_field_quantity}</f:facet>
-                            ${product.value}
+                            ${cartItem.quantity}
                         </h:column>
                         <h:column>
-                            <h:commandButton value="#{msg.removeFromCart}" action="#{userCartController.removeFromCart(product.key)}" immediate="true"/>
+                            <h:commandButton value="#{msg.removeFromCart}" action="#{userCartController.removeFromCart(cartItem.product)}" immediate="true"/>
                         </h:column>
             </h:dataTable>
             <h:commandButton value="#{msg.createOrder}" action="#{userCartController.createOrder()}" immediate="true"/>

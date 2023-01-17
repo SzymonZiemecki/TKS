@@ -1,8 +1,9 @@
 package com.pas.manager;
 
-import com.pas.model.Cart;
 import com.pas.model.Order;
 import com.pas.model.Product.Product;
+import com.pas.model.User.Cart;
+import com.pas.model.User.CartItem;
 import com.pas.model.User.User;
 import com.pas.repository.OrderRepository;
 import com.pas.repository.ProductRepository;
@@ -66,10 +67,10 @@ public class UserManager {
         return userRepository.update(id, updatedUser);
     }
 
-    public void suspendOrResumeUser(UUID userId, boolean suspendOrResume) {
+    public void suspendOrResumeUser(UUID userId) {
         Optional<User> found = userRepository.findById(userId);
         if (found.isPresent()) {
-            found.get().setSuspended(suspendOrResume);
+            found.get().setSuspended(!found.get().isSuspended());
             userRepository.update(found.get().getId(), found.get());
         } else {
             throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue());
@@ -80,7 +81,7 @@ public class UserManager {
         Optional<User> found = userRepository.findById(userId);
         Optional<Product> product = productRepository.findById(productId);
         if (found.isPresent() && product.isPresent()) {
-            found.get().getCart().getItems().put(product.get(), quantity);
+            found.get().getCart().getCartItems().add(new CartItem(product.get(), quantity));
             return found.get().getCart();
         } else {
             throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue());
@@ -91,13 +92,23 @@ public class UserManager {
         Optional<User> found = userRepository.findById(userId);
         Optional<Product> product = productRepository.findById(productId);
         if (found.isPresent() && product.isPresent()) {
-            Map<Product, Long> itemsInCart = found.get().getCart().getItems();
-            itemsInCart.remove(product.get());
-            found.get().getCart().setItems(itemsInCart);
+            List<CartItem> itemsInCart = found.get().getCart().getCartItems();
+            deleteItemFromCartItems(itemsInCart, product.get());
+            found.get().setCart(new Cart(itemsInCart));
             return found.get().getCart();
         } else {
             throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue());
         }
+    }
+
+    private List<CartItem> deleteItemFromCartItems(List<CartItem> cartItems, Product product){
+        List<CartItem> itemsToDelete = cartItems.stream()
+                .filter(cartItem -> cartItem.getProduct()
+                .equals(product))
+                .collect(Collectors.toList());
+        List<CartItem> itemsLeft = cartItems;
+        itemsToDelete.forEach( item -> itemsLeft.remove(item));
+        return itemsLeft;
     }
 
     public List<Order> findUserOrders(UUID userId) {
@@ -115,7 +126,15 @@ public class UserManager {
     }
     public void clearUserCart(UUID userID){
         User user = findById(userID);
-        user.getCart().setItems(new HashMap<>());
+        user.setCart(new Cart(new ArrayList<>()));
         userRepository.update(user.getId(), user);
+    }
+
+    public List<Order> findAllUserOrders(UUID userId) {
+        return orderRepository.filter(order -> order.getCustomer().getId().equals(userId));
+    }
+
+    public Cart getUserCart(UUID userId) {
+        return findById(userId).getCart();
     }
 }

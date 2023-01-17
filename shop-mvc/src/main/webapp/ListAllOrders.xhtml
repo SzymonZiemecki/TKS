@@ -48,11 +48,11 @@
                     <ui:repeat value="${order.items}" var="product">
                         <h:outputText value="Produkt"/><br/>
                         <h:outputLabel>${msg.order_field_name}: </h:outputLabel>
-                        <h:outputText value="${product.key.name}"/><br/>
+                        <h:outputText value="${product.product.name}"/><br/>
                         <h:outputLabel>${msg.order_field_producer}: </h:outputLabel>
-                        <h:outputText value="${product.key.producer}"/><br/>
+                        <h:outputText value="${product.product.producer}"/><br/>
                         <h:outputLabel>${msg.order_field_quantity}: </h:outputLabel>
-                        <h:outputText value="${product.value}"/><br/>
+                        <h:outputText value="${product.quantity}"/><br/>
                     </ui:repeat>
                 </h:column>
                 <h:column>

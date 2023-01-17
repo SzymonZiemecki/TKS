@@ -1,5 +1,6 @@
 package com.pas.endpoint;
 
+import com.pas.model.Order;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -37,6 +38,11 @@ public class ProductApiImpl implements ProductAPI {
     public Response deleteProduct(UUID id) {
         productManager.removeItem(id);
         return Response.ok().build();
+    }
+
+    @Override
+    public List<Order> ordersContainingProduct(UUID productId) {
+        return productManager.ordersContainingProduct(productManager.findById(productId));
     }
 
 }

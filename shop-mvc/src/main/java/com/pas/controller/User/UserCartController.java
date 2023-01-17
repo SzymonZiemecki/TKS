@@ -1,12 +1,14 @@
 package com.pas.controller.User;
 
-import com.pas.controller.Utils.ClientFactory;
-import com.pas.endpoint.OrderAPI;
-import com.pas.endpoint.UserAPI;
 import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import com.pas.model.User.User;
+import com.pas.restClient.OrderApiClient;
+import com.pas.restClient.UserApiClient;
 import jakarta.enterprise.context.ConversationScoped;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
@@ -14,27 +16,30 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @Named
 @ConversationScoped
 @Getter
 @Setter
 public class UserCartController implements Serializable {
-    UserAPI userAPI = ClientFactory.userAPIClient();
-    OrderAPI orderAPI = ClientFactory.orderAPIClient();
+    @Inject
+    UserApiClient userApiClient;
+    @Inject
+    OrderApiClient orderApiClient;
     @Inject
     CommonUserController commonUserController;
     User currentUser;
     List<Order> currentUserOrders;
 
     public String removeFromCart(Product product) {
-        userAPI.removeFromCart(currentUser.getId(), product.getId());
-        currentUser = userAPI.getUserById(currentUser.getId());
+        userApiClient.removeFromCart(currentUser.getId(), product.getId());
+        currentUser = userApiClient.getByIdRequest(currentUser.getId());
         return "UserCart";
     }
 
     public String createOrder(){
-        orderAPI.createOrder(currentUser.getId(), currentUser.getAddress());
+        orderApiClient.createOrder(currentUser.getId(), currentUser.getAddress());
         return "ListAllUsers";
     }
 }

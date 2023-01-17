@@ -1,5 +1,6 @@
 package com.pas.endpoint;
 
+import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
@@ -28,7 +29,7 @@ public interface ProductAPI {
     @RolesAllowed({"Manager"})
     Product addProduct(@Valid Product product);
 
-    @PATCH
+    @PUT
     @Path("/{id}")
     @RolesAllowed({"Manager"})
     Product updateProduct(@PathParam("id") UUID id, @Valid Product product);
@@ -37,5 +38,9 @@ public interface ProductAPI {
     @Path("/{id}")
     @RolesAllowed({"Manager"})
     Response deleteProduct(@PathParam("id") UUID id);
+
+    @GET
+    @Path("/{id}/ordersContainingProduct")
+    List<Order> ordersContainingProduct(@PathParam("id") UUID id);
 
 }

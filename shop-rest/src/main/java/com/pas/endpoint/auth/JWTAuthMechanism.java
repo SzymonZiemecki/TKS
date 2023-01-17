@@ -1,6 +1,8 @@
+/*
 package com.pas.endpoint.auth;
 
 import com.nimbusds.jwt.SignedJWT;
+import jakarta.annotation.security.DeclareRoles;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.security.enterprise.AuthenticationStatus;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
@@ -14,6 +16,7 @@ import java.util.Date;
 import java.util.HashSet;
 
 @ApplicationScoped
+@DeclareRoles({"Admin", "Manager", "BaseUser", "Unauthorized"})
 public class JWTAuthMechanism implements HttpAuthenticationMechanism {
 
     public final static String AUTHORIZATION_HEADER = "Authorization";
@@ -58,3 +61,4 @@ public class JWTAuthMechanism implements HttpAuthenticationMechanism {
         return httpMessageContext.notifyContainerAboutLogin("Unauthorized", new HashSet<>(Arrays.asList("Unauthorized")));
     }
 }
+*/

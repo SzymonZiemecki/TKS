@@ -1,3 +1,4 @@
+/*
 package com.pas.endpoint.auth;
 
 import jakarta.annotation.security.DeclareRoles;
@@ -36,3 +37,4 @@ public class AuthEndpointImpl implements AuthAPI {
         }
     }
 }
+*/

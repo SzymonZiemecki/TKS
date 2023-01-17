@@ -3,7 +3,6 @@ package com.pas.app;
 import com.pas.endpoint.OrderApiImpl;
 import com.pas.endpoint.ProductApiImpl;
 import com.pas.endpoint.UserApiImpl;
-import com.pas.endpoint.auth.AuthEndpointImpl;
 import jakarta.faces.annotation.FacesConfig;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
@@ -13,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-@ApplicationPath("")
+@ApplicationPath("/")
 public class StoreApp extends Application {
     @Override
     public Map<String, Object> getProperties() {
@@ -23,6 +22,6 @@ public class StoreApp extends Application {
     }
     @Override
     public Set<Class<?>> getClasses() {
-        return Set.of(AuthEndpointImpl.class, OrderApiImpl.class, UserApiImpl.class, ProductApiImpl.class);
+        return Set.of(OrderApiImpl.class, UserApiImpl.class, ProductApiImpl.class);
     }
 }

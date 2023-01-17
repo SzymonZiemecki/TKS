@@ -3,6 +3,7 @@ package com.pas.manager;
 import com.pas.exception.BusinessLogicException;
 import com.pas.model.Order;
 import com.pas.model.Product.Product;
+import com.pas.model.User.CartItem;
 import com.pas.repository.OrderRepository;
 import com.pas.repository.ProductRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -61,9 +62,10 @@ public class ProductManager {
 
     private boolean isInOngoingOrder(UUID productId) {
         return orderRepository.filter(order -> !order.isDelivered()).stream()
-                .map(order -> order.getItems().keySet())
-                .flatMap(Collection::stream)
-                .map(product -> product.getId().equals(productId))
+                .map(order -> order.getItems())
+                .flatMap(list -> list.stream())
+                .map(CartItem::getProduct)
+                .map(product -> product.equals(productId))
                 .filter($ -> $.equals(true))
                 .findAny()
                 .orElse(false);
@@ -81,7 +83,8 @@ public class ProductManager {
 
     public List<Order> ordersContainingProduct(Product product){
         return orderRepository.findAll().stream()
-                .filter(order -> order.getItems().keySet().stream().collect(Collectors.toList()).contains(product))
+                .filter(order -> order.getItems().stream()
+                .map(CartItem::getProduct).collect(Collectors.toList()).contains(product))
                 .collect(Collectors.toList());
     }
 }

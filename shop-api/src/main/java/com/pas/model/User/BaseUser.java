@@ -1,12 +1,15 @@
 package com.pas.model.User;
 
 import com.pas.model.Address;
-import com.pas.model.Cart;
+import com.pas.model.Product.Product;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+
+import java.util.Map;
+import java.util.UUID;
 
 @Data
 @SuperBuilder

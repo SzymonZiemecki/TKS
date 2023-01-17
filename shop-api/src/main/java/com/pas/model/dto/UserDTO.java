@@ -2,17 +2,14 @@ package com.pas.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pas.model.Address;
-import com.pas.model.Cart;
-import com.pas.model.User.Admin;
-import com.pas.model.User.BaseUser;
-import com.pas.model.User.Manager;
-import com.pas.model.User.User;
+import com.pas.model.User.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -50,7 +47,7 @@ public class UserDTO {
         this.role = "BaseUser";
     }
 
-    public UserDTO(String firstName, String lastName, String login,String password, Address address, Double accountBalance) {
+    public UserDTO(String firstName, String lastName, String login, String password, Address address, Double accountBalance) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
@@ -80,9 +77,9 @@ public class UserDTO {
         if (userDTO.getRole().equals("BaseUser")) {
             return new BaseUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword(), userDTO.getAddress(), new Cart(), false, userDTO.getAccountBalance());
         } else if (userDTO.getRole().equals("Manager")) {
-            return new Manager(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword(), userDTO.getAddress(), new Cart(), false, userDTO.getAccountBalance());
+            return new Manager(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword(), userDTO.getAddress(),  new Cart(), false, userDTO.getAccountBalance());
         } else if (userDTO.getRole().equals("Admin")) {
-            return new Admin(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword(), userDTO.getAddress(), new Cart(), false, userDTO.getAccountBalance());
+            return new Admin(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword(), userDTO.getAddress(),  new Cart(), false, userDTO.getAccountBalance());
         } else {
             throw new IllegalStateException("User is not instance of proper class");
         }

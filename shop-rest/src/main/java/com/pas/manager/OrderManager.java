@@ -2,6 +2,7 @@ package com.pas.manager;
 
 import com.pas.model.Address;
 import com.pas.model.Order;
+import com.pas.model.User.CartItem;
 import com.pas.model.User.User;
 import com.pas.repository.OrderRepository;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -12,6 +13,7 @@ import com.pas.model.Product.Product;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 import static com.pas.utils.ErrorInfo.*;
 
@@ -25,6 +27,9 @@ public class OrderManager {
     @Inject
     private UserManager userManager;
 
+    @Inject
+    private ProductManager productManager;
+
     public Order findById(UUID id) {
         return orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue()));
     }
@@ -35,7 +40,7 @@ public class OrderManager {
 
     public Order createOrder(UUID userId, Address shippingAddress) {
         User customer = userManager.findById(userId);
-        Map<Product, Long> orderItems = customer.getCart().getItems();
+        List<CartItem> orderItems = customer.getCart().getCartItems();
         Double orderValue = calculateOrderValue(orderItems);
 
         if (shouldCreateOrder(userId, orderItems, shippingAddress, orderValue)) {
@@ -46,6 +51,18 @@ public class OrderManager {
         } else {
             throw new BusinessLogicException(ORDER_VIOLATED_BUSINESS_LOGIC.getValue());
         }
+    }
+
+    private Map<Product, Long> toProductMap(Map<UUID, Long> orderItemsIds) {
+        return orderItemsIds.entrySet()
+                .stream()
+                .collect(Collectors.toMap( e -> productManager.findById(e.getKey()), Map.Entry::getValue));
+    }
+
+    private Map<UUID, Long> toIdMap(Map<Product, Long> orderItems) {
+        return orderItems.entrySet()
+                .stream()
+                .collect(Collectors.toMap( e -> e.getKey().getId(), Map.Entry::getValue));
     }
 
     public void cancelOrder(UUID id) {
@@ -59,12 +76,12 @@ public class OrderManager {
         orderRepository.update(found.getId(), found);
     }
 
-    private synchronized void process(User user, Map<Product, Long> products, Double orderValue, Address address) {
+    private synchronized void process(User user, List<CartItem> products, Double orderValue, Address address) {
         user.setAccountBalance(user.getAccountBalance() - orderValue);
-        products.forEach((product, quantity) -> product.setAvailableAmount(product.getAvailableAmount() - quantity.intValue()));
+        products.forEach((product) -> product.getProduct().setAvailableAmount((int) (product.getProduct().getAvailableAmount() - product.getQuantity())));
     }
 
-    private boolean shouldCreateOrder(UUID userId, Map<Product, Long> orderItems, Address shippingAddress, Double orderValue) {
+    private boolean shouldCreateOrder(UUID userId, List<CartItem> orderItems, Address shippingAddress, Double orderValue) {
         if (isEnoughItems(orderItems) && !isUserSuspended(userId) && checkIfEnoughMoney(userId, orderValue)) {
             return true;
         } else {
@@ -72,9 +89,9 @@ public class OrderManager {
         }
     }
 
-    private boolean isEnoughItems(Map<Product, Long> orderItems) {
-        return orderItems.entrySet().stream()
-                .map((entry -> isEnoughItems(entry.getKey(), entry.getValue())))
+    private boolean isEnoughItems(List<CartItem> orderItems) {
+        return orderItems.stream()
+                .map((orderItem -> isEnoughItems(orderItem.getProduct(), (long) orderItem.getProduct().getAvailableAmount())))
                 .filter(result -> result.equals(true))
                 .findAny()
                 .orElseThrow(() -> new BusinessLogicException(ORDER_ITEM_OUT_OF_STOCK.getValue()));
@@ -104,9 +121,9 @@ public class OrderManager {
         return userMoney - orderValue >= 0;
     }
 
-    private Double calculateOrderValue(Map<Product, Long> orderItems) {
+    private Double calculateOrderValue(List<CartItem> orderItems) {
         AtomicReference<Double> orderValue = new AtomicReference<>((double) 0);
-        orderItems.forEach((product, quantity) -> orderValue.updateAndGet(value -> value + product.getPrice() * quantity));
+        orderItems.forEach((cartItem) -> orderValue.updateAndGet(value -> value + cartItem.getProduct().getPrice() * cartItem.getQuantity()));
         return orderValue.get();
     }
 
@@ -114,7 +131,6 @@ public class OrderManager {
         User user = findUserInOrder(orderId);
         Order order = findById(orderId);
         if(order.isDelivered()) {
-            user.setAccountBalance(user.getAccountBalance() + calculateOrderValue(order.getItems()));
             orderRepository.delete(orderId);
         } else {
             throw new BusinessLogicException(ORDER_DELETE_ONGOING_ERROR.getValue());

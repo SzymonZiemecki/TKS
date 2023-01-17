@@ -1,8 +1,9 @@
 package com.pas.endpoint;
 
 import com.pas.manager.UserManager;
-import com.pas.model.Cart;
 import com.pas.model.Order;
+import com.pas.model.Product.Product;
+import com.pas.model.User.Cart;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -11,9 +12,7 @@ import jakarta.ws.rs.core.Response;
 import com.pas.model.User.BaseUser;
 import com.pas.model.User.User;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @ApplicationScoped
 public class UserApiImpl implements UserAPI {
@@ -38,12 +37,17 @@ public class UserApiImpl implements UserAPI {
         return userManager.findFinishedUserOrders(userId);
     }
 
+    @Override
+    public List<Order> getAllUserOrders(UUID userId) {
+        return userManager.findAllUserOrders(userId);
+    }
+
     public User updateUser(UUID id, User updatedUser) {
         return userManager.updateUser(id, updatedUser);
     }
 
     public Cart getCart(UUID userId) {
-        return userManager.findById(userId).getCart();
+        return userManager.getUserCart(userId);
     }
 
     public List<Order> getUserOrders(UUID userId) {
@@ -59,7 +63,7 @@ public class UserApiImpl implements UserAPI {
     }
 
     public User register(User user) {
-        User toRegister = new BaseUser(user.getFirstName(), user.getLastName(), user.getLogin(), user.getPassword(), user.getAddress(), new Cart(), false, user.getAccountBalance());
+        User toRegister = new BaseUser(user.getFirstName(), user.getLastName(), user.getLogin(), user.getPassword(), user.getAddress(),new Cart(), false, user.getAccountBalance());
         return userManager.register(toRegister);
     }
 
@@ -67,8 +71,8 @@ public class UserApiImpl implements UserAPI {
         return userManager.register(user);
     }
 
-    public Response suspendOrResumeUser(UUID userId, boolean suspendOrResume) {
-        userManager.suspendOrResumeUser(userId, suspendOrResume);
+    public Response suspendOrResumeUser(UUID userId) {
+        userManager.suspendOrResumeUser(userId);
         return Response.ok().build();
     }
 }
