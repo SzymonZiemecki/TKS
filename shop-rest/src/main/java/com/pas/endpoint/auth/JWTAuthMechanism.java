@@ -29,10 +29,6 @@ public class JWTAuthMechanism implements HttpAuthenticationMechanism {
             return httpMessageContext.doNothing();
         }
 
-        if(httpServletRequest.getRequestURL().toString().endsWith("/login")) {
-            return httpMessageContext.doNothing();
-        }
-
         String authorizationHeader = httpServletRequest.getHeader(AUTHORIZATION_HEADER);
         if (authorizationHeader == null || !authorizationHeader.startsWith(BEARER)) {
            return httpMessageContext.notifyContainerAboutLogin("Unauthorized", new HashSet<>(Arrays.asList("Unauthorized")));

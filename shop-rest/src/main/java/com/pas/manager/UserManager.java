@@ -148,13 +148,13 @@ public class UserManager {
         return new UserAuthDTO(user.getClass().getSimpleName(), user.getLogin(), user.getId());
     }
 
-    public User changeUserPassword(UUID id, ChangePasswordDTO changePasswordDTO) {
+    public void changeUserPassword(UUID id, ChangePasswordDTO changePasswordDTO) {
         User user = findById(id);
         if( changePasswordDTO.getCurrentPassword().equals(user.getPassword())){
             user.setPassword(changePasswordDTO.getNewPassword());
         } else {
             throw new PasswordMismatchExcpetion(PASSWORD_MISMATCH.getValue());
         }
-        return userRepository.update(id, user);
+        userRepository.update(id, user);
     }
 }

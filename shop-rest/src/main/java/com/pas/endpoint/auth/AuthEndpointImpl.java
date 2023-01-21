@@ -1,6 +1,7 @@
 package com.pas.endpoint.auth;
 
 import jakarta.annotation.security.DeclareRoles;
+import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.credential.Credential;
@@ -30,6 +31,7 @@ public class AuthEndpointImpl {
     private IdentityStoreHandler identityStoreHandler;
 
     @POST
+    @PermitAll
     public Response authenticate(@NotNull Credentials credentials) {
         Credential credential = new UsernamePasswordCredential(credentials.getLogin(), new Password(credentials.getPassword()));
         CredentialValidationResult cValResult = identityStoreHandler.validate(credential);

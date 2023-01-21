@@ -81,8 +81,9 @@ public class UserApiImpl {
     @PUT
     @Path("/{id}/changePassword")
     @RolesAllowed({"BaseUser", "Manager", "Admin"})
-    public User changePassword(@PathParam("id") UUID id, ChangePasswordDTO changePasswordDTO) {
-        return userManager.changeUserPassword(id, changePasswordDTO);
+    public Response changePassword(@PathParam("id") UUID id, ChangePasswordDTO changePasswordDTO) {
+       userManager.changeUserPassword(id, changePasswordDTO);
+       return Response.ok().build();
     }
 
     @GET

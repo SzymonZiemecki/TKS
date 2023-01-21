@@ -11,7 +11,11 @@ public enum ErrorInfo {
         ORDER_VIOLATED_BUSINESS_LOGIC("Couldn't create order, violated business logic"),
         PRODUCT_IN_UNFINISHED_ORDER("Cant delete item present in unfinished order"),
 
-        PASSWORD_MISMATCH("Provided current password is invalid");
+        PASSWORD_MISMATCH("Provided current password is invalid"),
+
+        TOKEN_NOT_PROVIDED("Authorization token not provied"),
+
+        UNAUTHORIZED("Unauthorized");
 
         public String getValue() {
                 return value;
