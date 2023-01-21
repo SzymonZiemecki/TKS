@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.pas.utils.ErrorInfo.ENTITY_NOT_FOUND_MESSAGE;
 import static com.pas.utils.ErrorInfo.PASSWORD_MISMATCH;
@@ -60,7 +61,7 @@ public class UserManager {
     }
 
     public User updateUser(UUID id, User updatedUser) {
-        if(!updatedUser.getId().equals(updatedUser.getId())){
+        if (!updatedUser.getId().equals(updatedUser.getId())) {
             throw new IllegalArgumentException("Cant change id");
         }
         User user = findById(updatedUser.getId());
@@ -85,7 +86,14 @@ public class UserManager {
         Optional<User> found = userRepository.findById(userId);
         Optional<Product> product = productRepository.findById(productId);
         if (found.isPresent() && product.isPresent()) {
-            found.get().getCart().getCartItems().add(new CartItem(product.get(), quantity));
+            List<CartItem> cartItems = found.get().getCart().getCartItems();
+            int index = IntStream.range(0, cartItems.size()).filter(i -> cartItems.get(i).getProduct().getId().equals(productId)).findFirst().orElse(-1);
+            if (index != -1) {
+                cartItems.get(index).setQuantity(cartItems.get(index).getQuantity() + quantity);
+            } else {
+                found.get().getCart().getCartItems().add(new CartItem(product.get(), quantity));
+
+            }
             return found.get().getCart();
         } else {
             throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue());
@@ -105,13 +113,13 @@ public class UserManager {
         }
     }
 
-    private List<CartItem> deleteItemFromCartItems(List<CartItem> cartItems, Product product){
+    private List<CartItem> deleteItemFromCartItems(List<CartItem> cartItems, Product product) {
         List<CartItem> itemsToDelete = cartItems.stream()
                 .filter(cartItem -> cartItem.getProduct()
-                .equals(product))
+                        .equals(product))
                 .collect(Collectors.toList());
         List<CartItem> itemsLeft = cartItems;
-        itemsToDelete.forEach( item -> itemsLeft.remove(item));
+        itemsToDelete.forEach(item -> itemsLeft.remove(item));
         return itemsLeft;
     }
 
@@ -128,7 +136,8 @@ public class UserManager {
             return findAllUsers();
         }
     }
-    public void clearUserCart(UUID userID){
+
+    public void clearUserCart(UUID userID) {
         User user = findById(userID);
         user.setCart(new Cart(new ArrayList<>()));
         userRepository.update(user.getId(), user);
@@ -149,7 +158,7 @@ public class UserManager {
 
     public void changeUserPassword(UUID id, ChangePasswordDTO changePasswordDTO) {
         User user = findById(id);
-        if( changePasswordDTO.getCurrentPassword().equals(user.getPassword())){
+        if (changePasswordDTO.getCurrentPassword().equals(user.getPassword())) {
             user.setPassword(changePasswordDTO.getNewPassword());
         } else {
             throw new PasswordMismatchExcpetion(PASSWORD_MISMATCH.getValue());

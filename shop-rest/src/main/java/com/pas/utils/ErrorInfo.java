@@ -15,7 +15,9 @@ public enum ErrorInfo {
 
         TOKEN_NOT_PROVIDED("Authorization token not provied"),
 
-        UNAUTHORIZED("Unauthorized");
+        UNAUTHORIZED("Unauthorized"),
+
+        BAD_REQUEST("Bad request");
 
         public String getValue() {
                 return value;

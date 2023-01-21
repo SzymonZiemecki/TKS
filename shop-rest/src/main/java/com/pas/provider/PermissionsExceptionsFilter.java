@@ -9,6 +9,8 @@ import jakarta.ws.rs.ext.Provider;
 import java.io.IOException;
 
 import static com.pas.utils.ErrorInfo.UNAUTHORIZED;
+import static com.pas.utils.ErrorInfo.BAD_REQUEST;
+
 
 @Provider
 public class PermissionsExceptionsFilter implements ContainerResponseFilter {
@@ -17,6 +19,9 @@ public class PermissionsExceptionsFilter implements ContainerResponseFilter {
     public void filter(ContainerRequestContext containerRequestContext, ContainerResponseContext containerResponseContext) throws IOException {
         if(containerResponseContext.getStatus() == 401 || containerResponseContext.getStatus() == 403){
             containerResponseContext.setEntity(UNAUTHORIZED.getValue());
+        }
+        if(containerResponseContext.getStatus() == 400 || containerResponseContext.getStatus() == 403){
+            containerResponseContext.setEntity(BAD_REQUEST.getValue());
         }
     }
 }
