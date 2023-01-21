@@ -1,10 +1,13 @@
 package com.pas.manager;
 
+import com.pas.exception.PasswordMismatchExcpetion;
 import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import com.pas.model.User.Cart;
 import com.pas.model.User.CartItem;
 import com.pas.model.User.User;
+import com.pas.model.dto.ChangePasswordDTO;
+import com.pas.model.dto.UserAuthDTO;
 import com.pas.repository.OrderRepository;
 import com.pas.repository.ProductRepository;
 import com.pas.repository.UserRepository;
@@ -13,10 +16,12 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.pas.utils.ErrorInfo.ENTITY_NOT_FOUND_MESSAGE;
+import static com.pas.utils.ErrorInfo.PASSWORD_MISMATCH;
 
 @ApplicationScoped
 @Slf4j
@@ -35,8 +40,8 @@ public class UserManager {
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue()));
     }
 
-    public List<User> findOneByLogin(String login) {
-        return userRepository.findOneByLogin(login);
+    public User findOneByLogin(String login) {
+        return userRepository.findOneByLogin(login).stream().findAny().orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue()));
     }
 
     public List<Order> findOngoingUserOrders(UUID userId) {
@@ -136,5 +141,20 @@ public class UserManager {
 
     public Cart getUserCart(UUID userId) {
         return findById(userId).getCart();
+    }
+
+    public UserAuthDTO getSelf(Principal principal){
+        User user = findOneByLogin(principal.getName());
+        return new UserAuthDTO(user.getClass().getSimpleName(), user.getLogin(), user.getId());
+    }
+
+    public User changeUserPassword(UUID id, ChangePasswordDTO changePasswordDTO) {
+        User user = findById(id);
+        if( changePasswordDTO.getCurrentPassword().equals(user.getPassword())){
+            user.setPassword(changePasswordDTO.getNewPassword());
+        } else {
+            throw new PasswordMismatchExcpetion(PASSWORD_MISMATCH.getValue());
+        }
+        return userRepository.update(id, user);
     }
 }

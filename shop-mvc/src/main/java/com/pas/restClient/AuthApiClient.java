@@ -1,12 +1,9 @@
 package com.pas.restClient;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.*;
 
-import javax.ws.rs.core.GenericType;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpRequest;

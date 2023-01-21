@@ -9,7 +9,9 @@ public enum ErrorInfo {
         ORDER_INSUFFICIENT_FUNDS("Can't create order, user doesn't have enough money"),
         ORDER_DELETE_ONGOING_ERROR("Cant delete ongoing order"),
         ORDER_VIOLATED_BUSINESS_LOGIC("Couldn't create order, violated business logic"),
-        PRODUCT_IN_UNFINISHED_ORDER("Cant delete item present in unfinished order");
+        PRODUCT_IN_UNFINISHED_ORDER("Cant delete item present in unfinished order"),
+
+        PASSWORD_MISMATCH("Provided current password is invalid");
 
         public String getValue() {
                 return value;
