@@ -7,7 +7,6 @@ import com.pas.model.User.Cart;
 import com.pas.model.User.CartItem;
 import com.pas.model.User.User;
 import com.pas.model.dto.ChangePasswordDTO;
-import com.pas.model.dto.UserAuthDTO;
 import com.pas.repository.OrderRepository;
 import com.pas.repository.ProductRepository;
 import com.pas.repository.UserRepository;
@@ -143,10 +142,10 @@ public class UserManager {
         return findById(userId).getCart();
     }
 
-    public UserAuthDTO getSelf(Principal principal){
+/*    public UserAuthDTO getSelf(Principal principal){
         User user = findOneByLogin(principal.getName());
         return new UserAuthDTO(user.getClass().getSimpleName(), user.getLogin(), user.getId());
-    }
+    }*/
 
     public void changeUserPassword(UUID id, ChangePasswordDTO changePasswordDTO) {
         User user = findById(id);

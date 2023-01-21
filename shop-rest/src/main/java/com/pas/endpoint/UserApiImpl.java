@@ -5,7 +5,6 @@ import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import com.pas.model.User.Cart;
 import com.pas.model.dto.ChangePasswordDTO;
-import com.pas.model.dto.UserAuthDTO;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -30,12 +29,6 @@ public class UserApiImpl {
 
     @Inject
     Principal principal;
-
-    @GET
-    @Path("/self")
-    public UserAuthDTO getSelf() {
-        return userManager.getSelf(principal);
-    }
 
     @GET
     @RolesAllowed({"Admin"})

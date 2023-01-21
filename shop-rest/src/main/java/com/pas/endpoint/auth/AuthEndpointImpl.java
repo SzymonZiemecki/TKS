@@ -1,5 +1,9 @@
 package com.pas.endpoint.auth;
 
+import com.pas.manager.UserManager;
+import com.pas.model.User.User;
+import com.pas.model.dto.JwtResponse;
+import com.pas.model.dto.UserAuthDTO;
 import jakarta.annotation.security.DeclareRoles;
 import jakarta.annotation.security.PermitAll;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -21,25 +25,32 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import static jakarta.security.enterprise.identitystore.CredentialValidationResult.Status.VALID;
+import static jakarta.ws.rs.core.Response.Status.UNAUTHORIZED;
+
 @Path("/auth/login")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
-@DeclareRoles({"Admin", "Manager", "BaseUser", "Unauthorized"})
 public class AuthEndpointImpl {
 
     @Inject
     private IdentityStoreHandler identityStoreHandler;
+
+    @Inject
+    UserManager userManager;
 
     @POST
     @PermitAll
     public Response authenticate(@NotNull Credentials credentials) {
         Credential credential = new UsernamePasswordCredential(credentials.getLogin(), new Password(credentials.getPassword()));
         CredentialValidationResult cValResult = identityStoreHandler.validate(credential);
-        if (cValResult.getStatus() == CredentialValidationResult.Status.VALID) {
+        if (cValResult.getStatus().equals(VALID)) {
             String jwtToken = JWTAuthTokenUtils.generateJwtString(cValResult);
-            return Response.accepted().header("Authentication", "Bearer " + jwtToken).type("application/jwt").entity(jwtToken).build();
+            User user = userManager.findOneByLogin(credentials.getLogin());
+            JwtResponse jwtResponse = new JwtResponse(jwtToken, new UserAuthDTO(user.getClass().getSimpleName(), user.getLogin(), user.getId()));
+            return Response.accepted().header("Authentication", "Bearer " + jwtToken).type(MediaType.APPLICATION_JSON).entity(jwtResponse).build();
         } else {
-            return Response.status(Response.Status.UNAUTHORIZED).entity(Response.Status.UNAUTHORIZED).build();
+            return Response.status(UNAUTHORIZED).entity(UNAUTHORIZED).build();
         }
     }
 

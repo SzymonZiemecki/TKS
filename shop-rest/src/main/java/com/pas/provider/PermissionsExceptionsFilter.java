@@ -1,14 +1,13 @@
 package com.pas.provider;
 
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.container.ContainerResponseContext;
+import jakarta.ws.rs.container.ContainerResponseFilter;
 import jakarta.ws.rs.ext.Provider;
 
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.container.ContainerResponseFilter;
+
 import java.io.IOException;
 
-import static com.pas.utils.ErrorInfo.TOKEN_NOT_PROVIDED;
 import static com.pas.utils.ErrorInfo.UNAUTHORIZED;
 
 @Provider
