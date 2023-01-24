@@ -8,6 +8,7 @@ import com.pas.model.User.Cart;
 import com.pas.model.User.CartItem;
 import com.pas.model.User.User;
 import com.pas.model.dto.ChangePasswordDTO;
+import com.pas.model.dto.RegisterDTO;
 import com.pas.model.dto.UserDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
@@ -43,7 +44,7 @@ public class UserApiClient extends RestClient<User> implements Serializable {
         return response.readEntity(new GenericType<List<UserDTO>>(){});
     }
 
-    public void addUser(UserDTO user){
+    public void addUser(RegisterDTO user){
         WebTarget webTarget = client.path("/users");
         Response response = webTarget.request(MediaType.APPLICATION_JSON)
                 .header("Authorization", jwtTokenHolderBean.getJwtToken())
@@ -95,13 +96,13 @@ public class UserApiClient extends RestClient<User> implements Serializable {
     }
 
     public void removeFromCart(UUID userId, UUID productId) {
-        WebTarget webTarget = client.path("/users").queryParam("productId", productId);
+        WebTarget webTarget = client.path("/users/" + userId.toString() + "/cart").queryParam("productId", productId.toString());
         Response response = webTarget.request(MediaType.APPLICATION_JSON)
                 .header("Authorization", jwtTokenHolderBean.getJwtToken())
-                .method("PATCH",Entity.json(""));
+                .delete();
     }
 
-    public void register(UserDTO currentUser) {
+    public void register(RegisterDTO currentUser) {
         WebTarget webTarget = client.path("/users/register");
         Response response = webTarget.request(MediaType.APPLICATION_JSON)
                 .header("Authorization", jwtTokenHolderBean.getJwtToken())

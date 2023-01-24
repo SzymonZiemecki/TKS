@@ -29,5 +29,6 @@
         <ui:fragment rendered="${viewUtils.isBaseUser()}">
             <ui:include src="menuBaseUser.xhtml"/>
         </ui:fragment>
+        #{request.userPrincipal.name}
     </div>
 </nav>

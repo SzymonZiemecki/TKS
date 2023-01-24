@@ -12,16 +12,19 @@
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">#{msg.menu_tab_order}</a>
         <div class="dropdown-menu">
-            <h:link styleClass="nav-link"  outcome="ListMyOrders">#{msg.menu_ListAllOrders}</h:link>
+            <h:link styleClass="nav-link"  outcome="ListMyOrders">Moje zamowienia</h:link>
         </div>
     </li>
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Profile</a>
         <div class="dropdown-menu">
             <h:link styleClass="nav-link"  outcome="EditProfile">Edytuj profil</h:link>
-            <h:link styleClass="nav-link"  outcome="ChangePassword">Zmiien haslo</h:link>
+            <h:link styleClass="nav-link"  outcome="ChangePassword">Zmien haslo</h:link>
         </div>
     </li>
+    <h:form>
+        <h:link styleClass="nav-link" outcome="UserCart">Koszyk</h:link>
+    </h:form>
     <h:form>
         <h:commandButton action="${jwtTokenHolderBean.logout()}" value="Wyloguj"/>
     </h:form>

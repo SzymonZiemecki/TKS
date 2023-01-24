@@ -7,6 +7,7 @@ import com.pas.model.User.Cart;
 import com.pas.model.User.CartItem;
 import com.pas.model.User.User;
 import com.pas.model.dto.ChangePasswordDTO;
+import com.pas.model.dto.RegisterDTO;
 import com.pas.model.dto.UserDTO;
 import com.pas.repository.OrderRepository;
 import com.pas.repository.ProductRepository;
@@ -52,8 +53,8 @@ public class UserManager {
         return orderRepository.filter(order -> order.getCustomer().getId().equals(userId)).stream().filter(Order::isDelivered).collect(Collectors.toList());
     }
 
-    public User register(UserDTO user) {
-        return userRepository.add(UserDTO.fromDTOToEntity(user));
+    public User register(RegisterDTO user) {
+        return userRepository.add(RegisterDTO.fromDTOToEntity(user));
     }
 
     public List<User> findAllUsers() {
@@ -63,7 +64,7 @@ public class UserManager {
     public User updateUser(UUID id, UserDTO updatedUser) {
         User user = findById(updatedUser.getId());
         User updated = UserDTO.fromDTOToEntity(updatedUser);
-        updatedUser.setPassword(user.getPassword());
+        updated.setPassword(user.getPassword());
         return userRepository.update(id, updated);
     }
 

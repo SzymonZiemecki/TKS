@@ -1,14 +1,12 @@
 package com.pas.model.User;
 
 import com.pas.model.Address;
-import com.pas.model.Product.Product;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import java.util.Map;
 import java.util.UUID;
 
 @Data
@@ -19,6 +17,10 @@ import java.util.UUID;
 public class BaseUser extends User {
     public BaseUser(String firstName, String lastName, String login, String password, Address address, Cart cart, boolean suspended, Double accountBalance) {
         super(firstName, lastName, login, password, address, cart, suspended, accountBalance);
+    }
+
+    public BaseUser(UUID id, String firstName, String lastName, String login, String password, Address address, boolean suspended, Double accountBalance) {
+        super(id, firstName, lastName, login, password, address, suspended, accountBalance);
     }
 
     public BaseUser(User user) {

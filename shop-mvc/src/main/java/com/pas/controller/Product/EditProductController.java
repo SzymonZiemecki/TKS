@@ -1,9 +1,12 @@
 package com.pas.controller.Product;
 
+import com.pas.controller.User.EditProfileController;
 import com.pas.model.Order;
 import com.pas.model.Product.Product;
+import com.pas.model.dto.UserDTO;
 import com.pas.restClient.ProductApiClient;
 import com.pas.restClient.UserApiClient;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.context.SessionScoped;
@@ -18,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.pas.controller.Utils.ViewUtils.context;
 
 @Named
 @ConversationScoped
@@ -35,14 +40,20 @@ public class EditProductController implements Serializable {
     List<Order> currentProductOrders;
     Map<UUID, String> currentUsers;
     String currentUserId;
+    UserDTO currentUser;
+
+    @PostConstruct
+    public void initCurrentOrders(){
+        currentUser = userApiClient.findOneByLogin(EditProfileController.context().getUserPrincipal().getName()).get(0);
+    }
 
     public String update() throws CloneNotSupportedException {
         productApiClient.updateProduct(currentProduct.getId(), currentProduct);
         return "ListAllProducts";
     }
 
-    public String addToCart() {
-        userApiClient.addToCart(UUID.fromString(currentUserId), currentProduct.getId(), 1l);
+    public String addToCart(Product product) {
+        userApiClient.addToCart(currentUser.getId(), product.getId(), 1l);
         return "ListAllProducts";
     }
 }

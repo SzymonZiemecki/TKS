@@ -55,9 +55,6 @@
                         <h:outputText value="${product.quantity}"/><br/>
                     </ui:repeat>
                 </h:column>
-                <h:column>
-                    <h:commandButton value="#{msg.deliverOrder}" action="#{ordersController.deliverOrder(order)}" immediate="true"/>
-                </h:column>
             </h:dataTable>
         </h:form>
     </ui:define>

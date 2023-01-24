@@ -22,7 +22,7 @@ import java.io.Serializable;
 @Named
 @Getter
 @Setter
-public class ChangePasswordController extends Conversational implements Serializable {
+public class ChangePasswordController implements Serializable {
 
     UserDTO currentUser;
 
@@ -30,11 +30,9 @@ public class ChangePasswordController extends Conversational implements Serializ
     UserApiClient userApiClient;
 
     ChangePasswordDTO changePasswordDTO;
-
-    String repeatNewPassword;
-
     @PostConstruct()
     public void init(){
+        changePasswordDTO = new ChangePasswordDTO();
         currentUser = userApiClient.findOneByLogin(context().getUserPrincipal().getName()).get(0);
     }
 

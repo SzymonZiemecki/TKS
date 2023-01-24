@@ -57,6 +57,18 @@ public abstract class User extends IdTrait implements Cloneable {
         this.accountBalance = accountBalance;
     }
 
+    public User(UUID id, String firstName, String lastName, String login, String password, Address address, boolean suspended, Double accountBalance) {
+        this.setId(id);
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.password = password;
+        this.address = address;
+        this.cart = new Cart();
+        this.suspended = suspended;
+        this.accountBalance = accountBalance;
+    }
+
     public User(String firstName, String lastName, String login, String password, Address address) {
         this.firstName = firstName;
         this.lastName = lastName;

@@ -5,6 +5,7 @@ import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import com.pas.model.User.Cart;
 import com.pas.model.dto.ChangePasswordDTO;
+import com.pas.model.dto.RegisterDTO;
 import com.pas.model.dto.UserDTO;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -102,7 +103,7 @@ public class UserApiImpl {
         return userManager.addToCart(userId, productId, quantity);
     }
 
-    @PATCH
+    @DELETE
     @Path("/{id}/cart")
     @RolesAllowed({"BaseUser"})
     public Cart removeFromCart(@PathParam("id") UUID userId, @QueryParam("productId") UUID productId) {
@@ -112,13 +113,13 @@ public class UserApiImpl {
     @POST
     @Path("/register")
     @RolesAllowed({"Unauthorized"})
-    public User register(@Valid UserDTO user) {
+    public User register(@Valid RegisterDTO user) {
         return userManager.register(user);
     }
 
     @POST
     @RolesAllowed({"Admin"})
-    public User addUser(@Valid UserDTO user) {
+    public User addUser(@Valid RegisterDTO user) {
         return userManager.register(user);
     }
 

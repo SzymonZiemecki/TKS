@@ -7,6 +7,7 @@ import com.pas.model.User.Manager;
 import com.pas.model.User.User;
 import com.pas.model.dto.UserDTO;
 import com.pas.restClient.UserApiClient;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.context.SessionScoped;
@@ -19,6 +20,8 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.List;
 
+import static com.pas.controller.User.ChangePasswordController.context;
+
 @Named
 @ConversationScoped
 @Getter
@@ -30,6 +33,11 @@ public class EditUserController implements Serializable {
     List<Order> currentUserOrders;
     UserDTO currentUser;
     String userType;
+
+    @PostConstruct()
+    public void init(){
+        currentUser = userApiClient.findOneByLogin(context().getUserPrincipal().getName()).get(0);
+    }
 
    public String update(){
        currentUser = commonUserController.createUserOfType(currentUser, userType);

@@ -48,11 +48,12 @@ public class UserCartController implements Serializable {
 
     public String createOrder(){
         orderApiClient.createOrder(currentUser.getId(), currentUser.getAddress());
-        return "ListAllUsers";
+        return "UserCart";
     }
 
     @PostConstruct()
     public void init(){
         currentUser = userApiClient.findOneByLogin(context().getUserPrincipal().getName()).get(0);
+        cart = userApiClient.getUserCart(currentUser.getId());
     }
 }

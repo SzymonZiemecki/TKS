@@ -32,17 +32,17 @@ public class OrderApiClient extends RestClient<Order> implements Serializable {
     }
 
     public void createOrder(UUID id, Address address) {
-        WebTarget webTarget = client.path("/orders").queryParam("userId", id.toString());
+        WebTarget webTarget = client.path("/orders/create").queryParam("userId", id.toString());
         Response response = webTarget.request(MediaType.APPLICATION_JSON)
                 .header("Authorization", jwtTokenHolderBean.getJwtToken())
                 .post(Entity.json(address));
     }
 
     public void deliverOrder(UUID id) {
-        WebTarget webTarget = client.path("/orders").queryParam("userId", id.toString());
+        WebTarget webTarget = client.path("/orders/" + id.toString() + "/deliver");
         Response response = webTarget.request()
                 .header("Authorization", jwtTokenHolderBean.getJwtToken())
-                .method("PATCH");
+                .put(Entity.json(""));
     }
     public List<Order> getAllOrders(){
         WebTarget webTarget = client.path("/orders");

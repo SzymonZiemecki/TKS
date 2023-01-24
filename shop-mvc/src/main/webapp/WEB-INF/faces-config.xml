@@ -48,6 +48,11 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
+            <from-outcome>ListMyOrders</from-outcome>
+            <to-view-id>/ListMyOrders.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>EditProduct</from-outcome>
             <to-view-id>/EditProduct.xhtml</to-view-id>
             <redirect/>

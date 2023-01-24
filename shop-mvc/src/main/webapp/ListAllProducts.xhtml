@@ -46,6 +46,8 @@
                     </h:commandButton>
                     <h:commandButton id="productDeleteBtn" rendered="${viewUtils.isManager()}" action="#{listAllProductsController.delete(product)}" class="negative_btn" value="#{msg.delete}">
                     </h:commandButton>
+                    <h:commandButton value="Do koszyka" rendered="${viewUtils.isBaseUser()}" action="#{editProductController.addToCart(product)}">
+                    </h:commandButton>
                 </h:column>
             </h:dataTable>
         </h:form>

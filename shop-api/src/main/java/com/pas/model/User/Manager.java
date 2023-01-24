@@ -21,6 +21,10 @@ public class Manager extends User {
         super(firstName, lastName, login, password, address, cart, suspended, accountBalance);
     }
 
+    public Manager(UUID id, String firstName, String lastName, String login, String password, Address address,boolean suspended, Double accountBalance) {
+        super(id, firstName, lastName, login, password, address,suspended, accountBalance);
+    }
+
     public Manager(User user) {
         super(user);
     }

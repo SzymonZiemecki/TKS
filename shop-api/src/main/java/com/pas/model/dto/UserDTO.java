@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class UserDTO {
     @JsonProperty
     UUID id;
@@ -35,6 +34,10 @@ public class UserDTO {
     private Double accountBalance;
     @JsonProperty
     private boolean suspended;
+
+    public UserDTO(){
+        this.address = new Address();
+    }
     public UserDTO(UUID id, String firstName, String lastName, String login, String password, Address address, Double accountBalance, boolean suspended, String role) {
         this.id = id;
         this.firstName = firstName;
@@ -90,11 +93,11 @@ public class UserDTO {
 
     public static User fromDTOToEntity(UserDTO userDTO) {
         if (userDTO.getRole().equals("BaseUser")) {
-            return new BaseUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword(), userDTO.getAddress(), new Cart(), false, userDTO.getAccountBalance());
+            return new BaseUser(userDTO.getId(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword(), userDTO.getAddress(),false, userDTO.getAccountBalance());
         } else if (userDTO.getRole().equals("Manager")) {
-            return new Manager(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword(), userDTO.getAddress(),  new Cart(), false, userDTO.getAccountBalance());
+            return new Manager(userDTO.getId(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword(), userDTO.getAddress(), false, userDTO.getAccountBalance());
         } else if (userDTO.getRole().equals("Admin")) {
-            return new Admin(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword(), userDTO.getAddress(),  new Cart(), false, userDTO.getAccountBalance());
+            return new Admin(userDTO.getId(), userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword(), userDTO.getAddress(), false, userDTO.getAccountBalance());
         } else {
             throw new IllegalStateException("User is not instance of proper class");
         }

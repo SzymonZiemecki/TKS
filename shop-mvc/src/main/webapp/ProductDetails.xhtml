@@ -87,7 +87,7 @@
         <h:form rendered="#{productDetailsController.currentProductOrders.size() != 0}">
             <div class="h3">Zamowienia zawierajace produkt</div>
             <h:dataTable styleClass="table table-hover table-striped table-bordered"
-                         value="#{editProductController.currentProductOrders}" var="order">
+                         rendered="${viewUtils.isAdmin() || viewUtils.isManager()}" value="#{editProductController.currentProductOrders}" var="order">
                 <h:column>
                     <f:facet name="header">#{msg.order_field_id}</f:facet>
                     ${order.id}
@@ -117,14 +117,6 @@
                     ${order.price}
                 </h:column>
             </h:dataTable>
-        </h:form>
-        <h:form>
-            <p>Dodaj do koszyka</p>
-            <h:selectOneMenu value="#{editProductController.currentUserId}">
-                <f:selectItems value="#{editProductController.currentUsers.entrySet()}" var="entry"
-                               itemValue="#{entry.key}" itemLabel="#{entry.value}" />
-            </h:selectOneMenu>
-            <h:commandButton value="#{msg.add}" action="#{editProductController.addToCart()}"/>
         </h:form>
         <h:form>
             <h:commandButton value="#{msg.return}" action="ListAllProducts" immediate="true"/>

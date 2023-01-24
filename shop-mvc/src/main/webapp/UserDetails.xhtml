@@ -55,7 +55,7 @@
                     #{msg.user_field_type}
                 </div>
                 <div class="col-md-3">
-                    <h:inputText styleClass="" value="#{editUserController.userType}" required="true" requiredMessage="#{msg.user_field_type} #{msg.form_isRequired}"/>
+                    <h:inputText styleClass="" value="#{editUserController.currentUser.role}" required="true" requiredMessage="#{msg.user_field_type} #{msg.form_isRequired}"/>
                 </div>
             </div>
         </h:form>

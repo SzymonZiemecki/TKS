@@ -1,4 +1,4 @@
-package com.pas.controller.Order;
+package com.pas.controller.User;
 
 import com.pas.controller.Conversational;
 import com.pas.model.Order;
@@ -33,8 +33,8 @@ public class OrderUserListController extends Conversational implements Serializa
 
     @PostConstruct
     public void initCurrentOrders(){
-        currentOrders = userApiClient.getUserOrders(currentUser.getId());
         currentUser = userApiClient.findOneByLogin(context().getUserPrincipal().getName()).get(0);
+        currentOrders = userApiClient.getUserOrders(currentUser.getId());
     }
     public String deliverOrder(Order order){
         orderApiClient.deliverOrder(order.getId());

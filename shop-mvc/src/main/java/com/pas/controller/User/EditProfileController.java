@@ -8,6 +8,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
@@ -15,11 +16,11 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
-@ConversationScoped
+@ViewScoped
 @Named
 @Getter
 @Setter
-public class EditProfileController extends Conversational implements Serializable {
+public class EditProfileController implements Serializable {
 
     UserDTO currentUser;
 
