@@ -49,7 +49,7 @@ public class OrderApiImpl{
     public Order createOrder(@QueryParam("userId") UUID userId, @Valid Address shippingAddress) {
         return orderManager.createOrder(userId, shippingAddress);
     }
-    @PATCH
+    @PUT
     @Path("/{id}/deliver")
     @RolesAllowed("Manager")
     public Response deliverOrder(@PathParam("id") UUID orderId) {
