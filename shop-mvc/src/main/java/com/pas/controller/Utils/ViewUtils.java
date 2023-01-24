@@ -2,10 +2,17 @@ package com.pas.controller.Utils;
 
 import com.pas.model.Address;
 import com.pas.model.User.User;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.ws.rs.core.Context;
 
 @Named
 public class ViewUtils {
+
+
+
 
     public static String getClassName(Object obj){
         return obj.getClass().getSimpleName();
@@ -24,6 +31,26 @@ public class ViewUtils {
             }
         }
         return sb.toString();
+    }
+
+    public static ExternalContext context() {
+        return FacesContext.getCurrentInstance().getExternalContext();
+    }
+
+    public static boolean isManager() {
+        return context().isUserInRole("Manager");
+    }
+
+    public static boolean isAdmin() {
+        return context().isUserInRole("Admin");
+    }
+
+    public static boolean isBaseUser() {
+        return context().isUserInRole("BaseUser");
+    }
+
+    public static boolean isUnauthorized() {
+        return context().isUserInRole("Unauthorized");
     }
 
 
