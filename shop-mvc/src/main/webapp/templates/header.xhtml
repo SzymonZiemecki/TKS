@@ -17,6 +17,17 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarColor01">
-        <ui:include src="menu.xhtml"/>
+        <ui:fragment rendered="${request.isUserInRole('Unauthorized')}">
+        <ui:include src="menuUnauthorized.xhtml"/>
+        </ui:fragment>
+        <ui:fragment rendered="${request.isUserInRole('Manager')}">
+            <ui:include src="menuManager.xhtml"/>
+        </ui:fragment>
+        <ui:fragment rendered="${request.isUserInRole('Admin')}">
+            <ui:include src="menuAdmin.xhtml"/>
+        </ui:fragment>
+        <ui:fragment rendered="${request.isUserInRole('BaseUser')}">
+            <ui:include src="menuBaseUser.xhtml"/>
+        </ui:fragment>
     </div>
 </nav>

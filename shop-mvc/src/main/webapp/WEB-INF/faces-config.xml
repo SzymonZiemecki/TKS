@@ -77,5 +77,10 @@
             <to-view-id>/Register.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>EditProfile</from-outcome>
+            <to-view-id>/EditProfile.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
     </navigation-rule>
 </faces-config>

@@ -32,10 +32,6 @@ public class JwtTokenHolderBean implements Serializable {
         }
     }
 
-    public boolean isAuthenticated() {
-        return !FacesContext.getCurrentInstance().getExternalContext().isUserInRole("UNAUTHORIZED");
-    }
-
     public String logout() {
         invalidateSession();
         return "Start";
