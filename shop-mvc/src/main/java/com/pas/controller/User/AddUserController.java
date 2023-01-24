@@ -2,6 +2,7 @@ package com.pas.controller.User;
 
 import com.pas.model.User.BaseUser;
 import com.pas.model.User.User;
+import com.pas.model.dto.UserDTO;
 import com.pas.restClient.UserApiClient;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -19,7 +20,7 @@ public class AddUserController implements Serializable {
     @Inject
     UserApiClient userApiClient;
     @Inject CommonUserController commonUserController;
-    User currentUser = new BaseUser();
+    UserDTO currentUser;
     String userType = "BaseUser";
 
     public String add(){
@@ -31,6 +32,6 @@ public class AddUserController implements Serializable {
     public String register(){
         currentUser = commonUserController.createUserOfType(currentUser, userType);
         userApiClient.register(currentUser);
-        return "ListAllUsers";
+        return "Start";
     }
 }

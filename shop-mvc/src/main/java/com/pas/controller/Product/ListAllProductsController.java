@@ -10,6 +10,7 @@ import com.pas.model.Product.MobilePhone;
 import com.pas.model.Product.Product;
 import com.pas.model.Product.Tv;
 import com.pas.model.User.User;
+import com.pas.model.dto.UserDTO;
 import com.pas.restClient.ProductApiClient;
 import com.pas.restClient.UserApiClient;
 import jakarta.annotation.PostConstruct;
@@ -73,7 +74,7 @@ public class ListAllProductsController extends Conversational implements Seriali
         beginNewConversation();
         editProductController.setCurrentProduct(product);
         editProductController.setProductType(ViewUtils.getClassName(product));
-        editProductController.setCurrentUsers(userApiClient.getAllUsers().stream().collect(Collectors.toMap(IdTrait::getId, User::getLogin)));
+        editProductController.setCurrentUsers(userApiClient.getAllUsers().stream().collect(Collectors.toMap(UserDTO::getId, UserDTO::getLogin)));
         editProductController.setCurrentProductOrders(productApiClient.ordersContainingProduct(product.getId()));
         return "ProductDetails";
     }

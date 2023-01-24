@@ -28,7 +28,7 @@ public class OrderApiClient extends RestClient<Order> implements Serializable {
     JwtTokenHolderBean jwtTokenHolderBean;
 
     public OrderApiClient() {
-        super(Order.class, new GenericType<Order>(){}, "orders",new TypeReference<List<Order>>(){}, new TypeReference<Order>(){});
+        super();
     }
 
     public void createOrder(UUID id, Address address) {

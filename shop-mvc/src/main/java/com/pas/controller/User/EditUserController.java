@@ -5,6 +5,7 @@ import com.pas.model.User.Admin;
 import com.pas.model.User.BaseUser;
 import com.pas.model.User.Manager;
 import com.pas.model.User.User;
+import com.pas.model.dto.UserDTO;
 import com.pas.restClient.UserApiClient;
 import jakarta.enterprise.context.ConversationScoped;
 import jakarta.enterprise.context.RequestScoped;
@@ -27,7 +28,7 @@ public class EditUserController implements Serializable {
     UserApiClient userApiClient;
     @Inject CommonUserController commonUserController;
     List<Order> currentUserOrders;
-    User currentUser;
+    UserDTO currentUser;
     String userType;
 
    public String update(){

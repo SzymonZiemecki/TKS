@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="templates/MainTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="title">#{msg.orders_list_title}</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <h:dataTable styleClass="table table-hover table-striped table-bordered" value="#{orderUserListController.currentOrders}" var="order">
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_id}</f:facet>
+                    ${order.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_customer}</f:facet>
+                    ${order.customer.login}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_address}</f:facet>
+                    #{viewUtils.addressToUiView(order.address)}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_creationDate}</f:facet>
+                    ${order.creationDate}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_deliveryDate}</f:facet>
+                    ${order.deliveryDate}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_discount}</f:facet>
+                    ${order.discountPercent}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_paid}</f:facet>
+                    ${order.paid}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_price}</f:facet>
+                    ${order.price}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">#{msg.order_field_items}</f:facet>
+                    <ui:repeat value="${order.items}" var="product">
+                        <h:outputText value="Produkt"/><br/>
+                        <h:outputLabel>${msg.order_field_name}: </h:outputLabel>
+                        <h:outputText value="${product.product.name}"/><br/>
+                        <h:outputLabel>${msg.order_field_producer}: </h:outputLabel>
+                        <h:outputText value="${product.product.producer}"/><br/>
+                        <h:outputLabel>${msg.order_field_quantity}: </h:outputLabel>
+                        <h:outputText value="${product.quantity}"/><br/>
+                    </ui:repeat>
+                </h:column>
+                <h:column>
+                    <h:commandButton value="#{msg.deliverOrder}" action="#{ordersController.deliverOrder(order)}" immediate="true"/>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

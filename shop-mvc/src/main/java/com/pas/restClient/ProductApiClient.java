@@ -30,7 +30,7 @@ public class ProductApiClient extends RestClient<Product> implements Serializabl
     JwtTokenHolderBean jwtTokenHolderBean;
 
     public ProductApiClient() {
-        super(Product.class, new GenericType<Product>(){}, "products", new TypeReference<List<Product>>(){}, new TypeReference<Product>(){});
+        super();
     }
 
     public List<Product> getAllProducts(){

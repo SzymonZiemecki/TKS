@@ -82,5 +82,10 @@
             <to-view-id>/EditProfile.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>ChangePassword</from-outcome>
+            <to-view-id>/ChangePassword.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
     </navigation-rule>
 </faces-config>

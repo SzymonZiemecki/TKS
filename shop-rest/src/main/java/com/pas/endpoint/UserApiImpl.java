@@ -5,6 +5,7 @@ import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import com.pas.model.User.Cart;
 import com.pas.model.dto.ChangePasswordDTO;
+import com.pas.model.dto.UserDTO;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -32,15 +33,15 @@ public class UserApiImpl {
 
     @GET
     @RolesAllowed({"BaseUser", "Manager", "Admin", "Unauthorized"})
-    public List<User> getUsers(@QueryParam("allMatchingByLogin") Optional<String> allMatchingByLogin, @QueryParam("oneByLogin") Optional<String> oneByLogin) {
-        return userManager.findUsers(allMatchingByLogin, oneByLogin);
+    public List<UserDTO> getUsers(@QueryParam("allMatchingByLogin") Optional<String> allMatchingByLogin, @QueryParam("oneByLogin") Optional<String> oneByLogin) {
+        return UserDTO.entityListToDTO(userManager.findUsers(allMatchingByLogin, oneByLogin));
     }
 
     @GET
     @Path("/{id}")
     @RolesAllowed({"BaseUser", "Admin"})
-    public User getUserById(@PathParam("id") UUID id) {
-        return userManager.findById(id);
+    public UserDTO getUserById(@PathParam("id") UUID id) {
+        return UserDTO.fromEntityToDTO(userManager.findById(id));
     }
 
     @GET
@@ -66,9 +67,10 @@ public class UserApiImpl {
 
     @PUT
     @Path("/{id}")
-    @RolesAllowed({"Admin"})
-    public User updateUser(@PathParam("id") UUID id, User updatedUser) {
-        return userManager.updateUser(id, updatedUser);
+    @RolesAllowed({"BaseUser", "Manager", "Admin"})
+    public Response updateUser(@PathParam("id") UUID id, UserDTO updatedUser) {
+        userManager.updateUser(id, updatedUser);
+        return Response.ok().build();
     }
 
     @PUT
@@ -110,14 +112,13 @@ public class UserApiImpl {
     @POST
     @Path("/register")
     @RolesAllowed({"Unauthorized"})
-    public User register(@Valid User user) {
-        User toRegister = new BaseUser(user.getFirstName(), user.getLastName(), user.getLogin(), user.getPassword(), user.getAddress(), new Cart(), false, user.getAccountBalance());
-        return userManager.register(toRegister);
+    public User register(@Valid UserDTO user) {
+        return userManager.register(user);
     }
 
     @POST
     @RolesAllowed({"Admin"})
-    public User addUser(@Valid User user) {
+    public User addUser(@Valid UserDTO user) {
         return userManager.register(user);
     }
 

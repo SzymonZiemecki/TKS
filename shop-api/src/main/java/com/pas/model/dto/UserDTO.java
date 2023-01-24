@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class UserDTO {
     @JsonProperty
     UUID id;
@@ -35,38 +34,54 @@ public class UserDTO {
     @JsonProperty
     private Double accountBalance;
     @JsonProperty
+    private boolean suspended;
+    public UserDTO(UUID id, String firstName, String lastName, String login, String password, Address address, Double accountBalance, boolean suspended, String role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.password = password;
+        this.address = address;
+        this.accountBalance = accountBalance;
+        this.suspended = suspended;
+        this.role = role;
+    }
+
+    @JsonProperty
     private String role;
 
-    public UserDTO(UUID id, String firstName, String lastName, String login, Address address, Double accountBalance) {
+    public UserDTO(UserDTO dto) {
+        this.id = dto.id;
+        this.firstName = dto.firstName;
+        this.lastName = dto.lastName;
+        this.login = dto.login;
+        this.password = dto.password;
+        this.address = dto.address;
+        this.accountBalance = dto.accountBalance;
+        this.suspended = dto.suspended;
+        this.role = dto.role;
+    }
+
+    public UserDTO(UUID id, String firstName, String lastName, String login, Address address, Double accountBalance, boolean suspended, String role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
         this.address = address;
         this.accountBalance = accountBalance;
-        this.role = "BaseUser";
+        this.suspended = suspended;
+        this.role = role;
     }
 
-    public UserDTO(String firstName, String lastName, String login, String password, Address address, Double accountBalance) {
+    public UserDTO(String firstName, String lastName, String login,Double accountBalance) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
-        this.password = password;
-        this.address = address;
-        this.accountBalance = accountBalance;
-        this.role = "BaseUser";
-    }
-
-    public UserDTO(String firstName, String lastName, String login, String password, Double accountBalance) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.login = login;
-        this.password = password;
         this.accountBalance = accountBalance;
     }
 
     public static UserDTO fromEntityToDTO(User user) {
-        return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(), user.getAddress(), user.getAccountBalance());
+        return new UserDTO(user.getId(), user.getFirstName(), user.getLastName(), user.getLogin(), user.getAddress(), user.getAccountBalance(), user.isSuspended(), user.getClass().getSimpleName());
     }
 
     public static List<UserDTO> entityListToDTO(List<User> users) {
@@ -83,5 +98,30 @@ public class UserDTO {
         } else {
             throw new IllegalStateException("User is not instance of proper class");
         }
+    }
+
+
+
+    public static UserDTO baseUser(UserDTO userDTO){
+        UserDTO user = new UserDTO(userDTO);
+        user.setRole("BaseUser");
+        return user;
+    }
+
+    public static UserDTO baseUser(){
+        UserDTO user = new UserDTO();
+        user.setRole("BaseUser");
+        return user;
+    }
+    public static UserDTO admin(UserDTO userDTO){
+        UserDTO user = new UserDTO(userDTO);
+        user.setRole("Admin");
+        return user;
+    }
+
+    public static UserDTO manager(UserDTO userDTO){
+        UserDTO user = new UserDTO(userDTO);
+        user.setRole("Manager");
+        return user;
     }
 }

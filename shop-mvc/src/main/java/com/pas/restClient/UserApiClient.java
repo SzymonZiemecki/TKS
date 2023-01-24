@@ -2,10 +2,13 @@ package com.pas.restClient;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.pas.controller.Auth.JwtTokenHolderBean;
+import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import com.pas.model.User.Cart;
 import com.pas.model.User.CartItem;
 import com.pas.model.User.User;
+import com.pas.model.dto.ChangePasswordDTO;
+import com.pas.model.dto.UserDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.context.SessionScoped;
@@ -29,25 +32,25 @@ public class UserApiClient extends RestClient<User> implements Serializable {
     JwtTokenHolderBean jwtTokenHolderBean;
 
     public UserApiClient() {
-        super(User.class, new GenericType<User>(){}, "users", new TypeReference<List<User>>(){}, new TypeReference<User>(){});
+        super();
     }
 
-    public List<User> getAllUsers(){
+    public List<UserDTO> getAllUsers(){
         WebTarget webTarget = client.path("/users");
         Response response = webTarget.request(MediaType.APPLICATION_JSON)
                 .header("Authorization", jwtTokenHolderBean.getJwtToken())
                 .get();
-        return response.readEntity(new GenericType<List<User>>(){});
+        return response.readEntity(new GenericType<List<UserDTO>>(){});
     }
 
-    public void addUser(User user){
+    public void addUser(UserDTO user){
         WebTarget webTarget = client.path("/users");
         Response response = webTarget.request(MediaType.APPLICATION_JSON)
                 .header("Authorization", jwtTokenHolderBean.getJwtToken())
                 .post(Entity.json(user));
     }
 
-    public void updateUser(UUID id, User user){
+    public void updateUser(UUID id, UserDTO user){
         WebTarget webTarget = client.path("/users/" + id.toString());
         Response response = webTarget.request(MediaType.APPLICATION_JSON)
                 .header("Authorization", jwtTokenHolderBean.getJwtToken())
@@ -61,19 +64,19 @@ public class UserApiClient extends RestClient<User> implements Serializable {
                 .put(Entity.json(""));
     }
 
-    public List<User> findOneByLogin(String login){
+    public List<UserDTO> findOneByLogin(String login){
         WebTarget webTarget = client.path("/users").queryParam("oneByLogin", login);
         Response response = webTarget.request(MediaType.APPLICATION_JSON)
                 .header("Authorization", jwtTokenHolderBean.getJwtToken())
                 .get();
-        return response.readEntity(new GenericType<List<User>>(){});
+        return response.readEntity(new GenericType<List<UserDTO>>(){});
     }
 
-    public User getUserById(UUID id) {
+    public UserDTO getUserById(UUID id) {
         WebTarget webTarget = client.path("/users/" + id.toString());
          return webTarget.request(MediaType.APPLICATION_JSON)
                  .header("Authorization", jwtTokenHolderBean.getJwtToken())
-                .get(User.class);
+                .get(UserDTO.class);
     }
 
     public void suspendOrResumeUser(UUID id){
@@ -83,12 +86,12 @@ public class UserApiClient extends RestClient<User> implements Serializable {
                 .put(Entity.json(""));
     }
 
-    public List<User> getSearchedUsers(Optional<String> searchInput) {
+    public List<UserDTO> getSearchedUsers(Optional<String> searchInput) {
         WebTarget webTarget = client.path("/users").queryParam("allMatchingByLogin", searchInput.orElse(""));
         Response response = webTarget.request(MediaType.APPLICATION_JSON)
                 .header("Authorization", jwtTokenHolderBean.getJwtToken())
                 .get();
-        return response.readEntity(new GenericType<List<User>>(){});
+        return response.readEntity(new GenericType<List<UserDTO>>(){});
     }
 
     public void removeFromCart(UUID userId, UUID productId) {
@@ -98,10 +101,31 @@ public class UserApiClient extends RestClient<User> implements Serializable {
                 .method("PATCH",Entity.json(""));
     }
 
-    public void register(User currentUser) {
+    public void register(UserDTO currentUser) {
         WebTarget webTarget = client.path("/users/register");
         Response response = webTarget.request(MediaType.APPLICATION_JSON)
                 .header("Authorization", jwtTokenHolderBean.getJwtToken())
                 .post(Entity.json(currentUser));
+    }
+
+    public void changePassword(UUID id, ChangePasswordDTO changePasswordDTO) {
+        WebTarget webTarget = client.path("/users/" + id.toString() + "/changePassword");
+        webTarget.request(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtTokenHolderBean.getJwtToken())
+                .put(Entity.json(changePasswordDTO));
+    }
+
+    public List<Order> getUserOrders(UUID id) {
+        WebTarget webTarget = client.path("/users/" + id.toString() + "/allOrders");
+        return webTarget.request(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtTokenHolderBean.getJwtToken())
+                .get(new GenericType<List<Order>>(){});
+    }
+
+    public Cart getUserCart(UUID id) {
+        WebTarget webTarget = client.path("/users/" + id.toString() + "/cart");
+        return webTarget.request(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtTokenHolderBean.getJwtToken())
+                .get(Cart.class);
     }
 }

@@ -25,23 +25,8 @@ public abstract class RestClient<T> {
     WebTarget client;
 
     protected static final String API_URL = "https://localhost:8181/shop-rest-1.0-SNAPSHOT";
-    protected String endpoint;
-    TypeReference<List<T>> allTypeReference;
-    TypeReference<T> singleTypeReference;
-
-    GenericType<T> genericType;
-    Class<T> clazz;
 
     public RestClient() {
-        this.client = ClientBuilder.newClient().target(API_URL).register(JacksonFeature.class);
-    }
-
-    public RestClient(Class<T> clazz , GenericType<T> genericType, String endpoint, TypeReference<List<T>> allTypeReference, TypeReference<T> singleTypeReference) {
-        this.endpoint = endpoint;
-        this.allTypeReference = allTypeReference;
-        this.singleTypeReference = singleTypeReference;
-        this.genericType = genericType;
-        this.clazz= clazz;
         this.client = ClientBuilder.newClient().target(API_URL).register(JacksonFeature.class);
     }
 }

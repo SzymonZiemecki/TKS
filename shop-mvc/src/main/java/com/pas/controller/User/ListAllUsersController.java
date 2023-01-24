@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pas.controller.Conversational;
 import com.pas.model.Product.Product;
 import com.pas.model.User.User;
+import com.pas.model.dto.UserDTO;
 import com.pas.restClient.UserApiClient;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
@@ -42,7 +43,7 @@ public class ListAllUsersController extends Conversational implements Serializab
     @Inject
     UserCartController userCartController;
 
-    List<User> currentUsers;
+    List<UserDTO> currentUsers;
     String searchInput = "";
 
     private final ResourceBundle resourceBundle = ResourceBundle.getBundle(
@@ -52,7 +53,7 @@ public class ListAllUsersController extends Conversational implements Serializab
     public void initCurrentUsers(){
        currentUsers = userApiClient.getAllUsers();
     }
-    public String suspendOrResumeUser(User user){
+    public String suspendOrResumeUser(UserDTO user){
         userApiClient.suspendOrResumeUser(user.getId());
         return "ListAllUsers";
     }
@@ -61,14 +62,14 @@ public class ListAllUsersController extends Conversational implements Serializab
         currentUsers = userApiClient.getSearchedUsers(Optional.of(searchInput));
     }
 
-    public String editUser(User user){
+    public String editUser(UserDTO user){
         beginNewConversation();
         editUserController.setCurrentUser(user);
         editUserController.setUserType(user.getClass().getSimpleName());
         return "EditUser";
     }
 
-    public String getDetails(User user){
+    public String getDetails(UserDTO user){
         beginNewConversation();
         editUserController.setCurrentUser(user);
         editUserController.setUserType(user.getClass().getSimpleName());
@@ -78,7 +79,7 @@ public class ListAllUsersController extends Conversational implements Serializab
 
     public String getCart(User user){
         beginNewConversation();
-        userCartController.setCurrentUser(user);
+        userCartController.setCart(userApiClient.getUserCart(user.getId()));
         return "UserCart";
     }
     public void loginValidator(FacesContext context, UIComponent component, Object value){
