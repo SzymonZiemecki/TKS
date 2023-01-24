@@ -72,5 +72,10 @@
             <to-view-id>/start.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>Register</from-outcome>
+            <to-view-id>/Register.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
     </navigation-rule>
 </faces-config>

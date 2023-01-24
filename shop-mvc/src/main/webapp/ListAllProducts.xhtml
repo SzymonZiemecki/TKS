@@ -42,9 +42,9 @@
                 <h:column>
                     <h:commandButton id="productDetailsBtn" action="#{listAllProductsController.getDetails(product)}" class="negative_btn" value="#{msg.details}">
                     </h:commandButton>
-                    <h:commandButton id="productEditBtn" action="#{listAllProductsController.editProduct(product)}" class="negative_btn" value="#{msg.edit}">
+                    <h:commandButton id="productEditBtn" rendered="${request.isUserInRole('Manager')}" action="#{listAllProductsController.editProduct(product)}" class="negative_btn" value="#{msg.edit}">
                     </h:commandButton>
-                    <h:commandButton id="productDeleteBtn" action="#{listAllProductsController.delete(product)}" class="negative_btn" value="#{msg.delete}">
+                    <h:commandButton id="productDeleteBtn" rendered="${request.isUserInRole('Manager')}" action="#{listAllProductsController.delete(product)}" class="negative_btn" value="#{msg.delete}">
                     </h:commandButton>
                 </h:column>
             </h:dataTable>

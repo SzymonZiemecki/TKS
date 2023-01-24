@@ -58,7 +58,7 @@ public class ListAllUsersController extends Conversational implements Serializab
     }
 
     public void getSearchedUsers(){
-        currentUsers = userApiClient.getSearchedUsers(Optional.of(searchInput), null);
+        currentUsers = userApiClient.getSearchedUsers(Optional.of(searchInput));
     }
 
     public String editUser(User user){

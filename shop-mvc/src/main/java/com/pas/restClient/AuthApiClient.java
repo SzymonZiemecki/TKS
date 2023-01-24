@@ -2,6 +2,9 @@ package com.pas.restClient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.MediaType;
 import lombok.*;
 
 import java.io.IOException;
@@ -10,8 +13,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-@ApplicationScoped
+@RequestScoped
 public class AuthApiClient extends RestClient{
 
     private static final String AUTH_HEADER_NAME="Authentication";
@@ -20,17 +24,11 @@ public class AuthApiClient extends RestClient{
 
     public String login(String login, String password){
         Credentials credentials = new Credentials(login, password);
-        try {
-            String jsonAuthBody = new ObjectMapper().writeValueAsString(credentials);
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(API_URL+"auth/login"))
-                    .headers("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(jsonAuthBody)).build();
-            Map<String, List<String>> responseHeaders = client.send(request, HttpResponse.BodyHandlers.ofString()).headers().map();
-            return responseHeaders.containsKey(AUTH_HEADER_NAME) ? responseHeaders.get(AUTH_HEADER_NAME).get(0) : "";
-        } catch (InterruptedException | IOException e) {
-            throw new RuntimeException(e);
-        }
+            Optional<String> header = Optional.ofNullable(client.path("/auth/login")
+                    .request(MediaType.APPLICATION_JSON)
+                    .post(Entity.json(credentials)).getHeaderString(AUTH_HEADER_NAME));
+            return header.isPresent() ? header.get() : "";
+
     }
 
     @Data

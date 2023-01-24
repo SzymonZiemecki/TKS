@@ -34,7 +34,7 @@ public class UserCartController implements Serializable {
 
     public String removeFromCart(Product product) {
         userApiClient.removeFromCart(currentUser.getId(), product.getId());
-        currentUser = userApiClient.getByIdRequest(currentUser.getId());
+        currentUser = userApiClient.getUserById(currentUser.getId());
         return "UserCart";
     }
 

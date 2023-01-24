@@ -21,7 +21,7 @@ public class OrderApiImpl{
     @Inject
     OrderManager orderManager;
     @GET
-    @RolesAllowed({"Manager"})
+    @RolesAllowed({"Manager", "Admin"})
     public List<Order> getAllOrders() {
         return orderManager.findAllOrders();
     }

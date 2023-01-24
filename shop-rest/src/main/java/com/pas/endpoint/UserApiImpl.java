@@ -31,7 +31,7 @@ public class UserApiImpl {
     Principal principal;
 
     @GET
-    @RolesAllowed({"Admin"})
+    @RolesAllowed({"BaseUser", "Manager", "Admin", "Unauthorized"})
     public List<User> getUsers(@QueryParam("allMatchingByLogin") Optional<String> allMatchingByLogin, @QueryParam("oneByLogin") Optional<String> oneByLogin) {
         return userManager.findUsers(allMatchingByLogin, oneByLogin);
     }

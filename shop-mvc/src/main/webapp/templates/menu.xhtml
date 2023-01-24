@@ -18,16 +18,24 @@
             <h:link styleClass="nav-link" rendered="${request.isUserInRole('Manager')}" outcome="AddNewProduct">#{msg.menu_newProduct}</h:link>
         </div>
     </li>
+    <h:form rendered="${!request.isUserInRole('Unauthorized')}">
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">#{msg.menu_tab_order}</a>
         <div class="dropdown-menu">
             <h:link styleClass="nav-link" rendered="${request.isUserInRole('Admin')}" outcome="ListAllOrders">#{msg.menu_ListAllOrders}</h:link>
+            <h:link styleClass="nav-link" rendered="${request.isUserInRole('baseUser')}" outcome="ListUserOrders">Moje zamowienia</h:link>
         </div>
     </li>
+    </h:form>
+    <h:form rendered="${request.isUserInRole('Unauthorized')}">
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Login</a>
         <div class="dropdown-menu">
             <h:link styleClass="nav-link" outcome="Login">Login</h:link>
         </div>
     </li>
+    </h:form>
+    <h:form rendered="${!request.isUserInRole('Unauthorized')}">
+        <h:commandButton rendered="${!request.isUserInRole('Unauthorized')}" action="${jwtTokenHolderBean.logout()}" value="Wyloguj"/>
+    </h:form>
 </ul>

@@ -7,15 +7,24 @@ import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import com.pas.model.User.User;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import org.glassfish.jersey.jackson.JacksonFeature;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
-@ApplicationScoped
-public class ProductApiClient extends RestClient<Product>{
+@RequestScoped
+public class ProductApiClient extends RestClient<Product> implements Serializable {
 
     @Inject
     JwtTokenHolderBean jwtTokenHolderBean;
@@ -25,26 +34,46 @@ public class ProductApiClient extends RestClient<Product>{
     }
 
     public List<Product> getAllProducts(){
-       return this.getAllRequest();
+        WebTarget webTarget = client.path("/products");
+        Response response = webTarget.request(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtTokenHolderBean.getJwtToken())
+                .get();
+        return response.readEntity(new GenericType<List<Product>>(){});
     }
 
     public Product getProductById(UUID id) {
-        return this.getByIdRequest(id);
+        WebTarget webTarget = client.path("/products/" + id.toString());
+        return webTarget.request(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtTokenHolderBean.getJwtToken())
+                .get(Product.class);
     }
 
     public void addProduct(Product product){
-        this.addRequest(product);
+        WebTarget webTarget = client.path("/products");
+        webTarget.request(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtTokenHolderBean.getJwtToken())
+                .post(Entity.json(product));
     }
 
     public void updateProduct(UUID id, Product product){
-        this.updateRequest(id, product);
+        WebTarget webTarget = client.path("/products/" + id.toString());
+        webTarget.request(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtTokenHolderBean.getJwtToken())
+                .put(Entity.json(product));
     }
 
     public void deleteProductById(UUID id){
-        this.deleteRequest(id);
+        WebTarget webTarget = client.path("/products/" + id.toString());
+        webTarget.request(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtTokenHolderBean.getJwtToken())
+                .delete();
     }
 
     public List<Order> ordersContainingProduct(UUID id){
-        return (List<Order>) this.customGet("/" + id.toString() + "/ordersContainingProduct", new TypeReference<List<Order>>(){});
+        WebTarget webTarget = client.path("/products/" + id.toString() + "/ordersContainingProduct");
+        Response response = webTarget.request(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtTokenHolderBean.getJwtToken())
+                .get();
+        return response.readEntity(new GenericType<List<Order>>(){});
     }
 }

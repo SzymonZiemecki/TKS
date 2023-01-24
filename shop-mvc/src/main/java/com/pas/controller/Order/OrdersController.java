@@ -29,8 +29,8 @@ public class OrdersController extends Conversational implements Serializable {
     List<Order> currentOrders;
 
     @PostConstruct
-    public void initCurrentProducts(){
-        currentOrders = orderApiClient.getAllRequest();
+    public void initCurrentOrders(){
+        currentOrders = orderApiClient.getAllOrders();
     }
 
     public String deliverOrder(Order order){

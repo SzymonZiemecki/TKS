@@ -15,7 +15,6 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
-import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -92,12 +91,15 @@ public class UserManager {
                 cartItems.get(index).setQuantity(cartItems.get(index).getQuantity() + quantity);
             } else {
                 found.get().getCart().getCartItems().add(new CartItem(product.get(), quantity));
-
             }
             return found.get().getCart();
         } else {
             throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue());
         }
+    }
+
+    private CartItem newCartItem(CartItem item, Long quantity){
+        return new CartItem(item.getProduct(), item.getQuantity() + quantity);
     }
 
     public Cart removeFromCart(UUID userId, UUID productId) {

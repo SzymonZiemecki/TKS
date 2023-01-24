@@ -1,6 +1,9 @@
 package com.pas.controller.Auth;
 
 import com.pas.restClient.AuthApiClient;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -8,6 +11,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @ViewScoped
 @Named
@@ -21,9 +26,19 @@ public class AuthController implements Serializable {
     @Inject
     AuthApiClient authApiClient;
 
-    public String login(){
-        String jwtToken = authApiClient.login(login, password);
-        jwtTokenHolderBean.setJwtToken(jwtToken);
+    public String login() {
+        String jwt;
+        try {
+            jwt = authApiClient.login(login, password);
+        } catch (Exception e) {
+            return "Start";
+        }
+        if (jwt != null) {
+            jwtTokenHolderBean.setLoggedInUser(jwt);
+            return "Start";
+        } else {
+
+        }
         return "Start";
     }
 }

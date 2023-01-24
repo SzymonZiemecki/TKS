@@ -24,7 +24,13 @@ public class AddUserController implements Serializable {
 
     public String add(){
         currentUser = commonUserController.createUserOfType(currentUser, userType);
-        userApiClient.addRequest(currentUser);
+        userApiClient.addUser(currentUser);
+        return "ListAllUsers";
+    }
+
+    public String register(){
+        currentUser = commonUserController.createUserOfType(currentUser, userType);
+        userApiClient.register(currentUser);
         return "ListAllUsers";
     }
 }
