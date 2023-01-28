@@ -41,7 +41,7 @@ public class EditUserController implements Serializable {
     public void init(){
         Response res = userApiClient.findOneByLogin(context().getUserPrincipal().getName());
         currentUser = res.readEntity(UserDTO.class);
-        ifMatch = res.getHeaderString("ETag");
+        ifMatch = res.getEntityTag().getValue();
         currentUserOrders = userApiClient.getUserOrdersAdmin(currentUser.getId());
 
     }

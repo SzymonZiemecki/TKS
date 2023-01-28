@@ -92,7 +92,7 @@ public class UserApiImpl {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("id", updatedUser.getId().toString());
         jsonObject.addProperty("login", updatedUser.getLogin());
-        if(JWTAuthTokenUtils.verify(ifMatch, jsonObject.toString())){
+        if(!JWTAuthTokenUtils.verify(ifMatch, jsonObject.toString())){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         userManager.updateUser(id, updatedUser);
