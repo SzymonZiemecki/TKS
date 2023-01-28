@@ -14,6 +14,8 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,15 +35,20 @@ public class EditUserController implements Serializable {
     List<Order> currentUserOrders;
     UserDTO currentUser;
     String userType;
+    String ifMatch ="";
 
     @PostConstruct()
     public void init(){
-        currentUser = userApiClient.findOneByLogin(context().getUserPrincipal().getName()).get(0);
+        Response res = userApiClient.findOneByLogin(context().getUserPrincipal().getName());
+        currentUser = res.readEntity(UserDTO.class);
+        ifMatch = res.getHeaderString("ETag");
+        currentUserOrders = userApiClient.getUserOrdersAdmin(currentUser.getId());
+
     }
 
    public String update(){
        currentUser = commonUserController.createUserOfType(currentUser, userType);
-       userApiClient.updateUser(currentUser.getId(), currentUser);
+       userApiClient.updateUser(currentUser.getId(), currentUser, ifMatch);
        return "ListAllUsers";
    }
 }

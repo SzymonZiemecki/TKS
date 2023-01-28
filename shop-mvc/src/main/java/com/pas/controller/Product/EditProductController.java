@@ -1,5 +1,6 @@
 package com.pas.controller.Product;
 
+import com.pas.controller.User.ChangePasswordController;
 import com.pas.controller.User.EditProfileController;
 import com.pas.model.Order;
 import com.pas.model.Product.Product;
@@ -13,6 +14,8 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,7 +47,8 @@ public class EditProductController implements Serializable {
 
     @PostConstruct
     public void initCurrentOrders(){
-        currentUser = userApiClient.findOneByLogin(EditProfileController.context().getUserPrincipal().getName()).get(0);
+        Response res = userApiClient.findOneByLogin(ChangePasswordController.context().getUserPrincipal().getName());
+        currentUser = res.readEntity(UserDTO.class);
     }
 
     public String update() throws CloneNotSupportedException {

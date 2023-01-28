@@ -51,10 +51,11 @@ public class UserApiClient extends RestClient<User> implements Serializable {
                 .post(Entity.json(user));
     }
 
-    public void updateUser(UUID id, UserDTO user){
+    public void updateUser(UUID id, UserDTO user, String ifMatch){
         WebTarget webTarget = client.path("/users/" + id.toString());
         Response response = webTarget.request(MediaType.APPLICATION_JSON)
                 .header("Authorization", jwtTokenHolderBean.getJwtToken())
+                .header("If-Match", ifMatch)
                 .put(Entity.json(user));
     }
 
@@ -65,12 +66,11 @@ public class UserApiClient extends RestClient<User> implements Serializable {
                 .put(Entity.json(""));
     }
 
-    public List<UserDTO> findOneByLogin(String login){
+    public Response findOneByLogin(String login){
         WebTarget webTarget = client.path("/users").queryParam("oneByLogin", login);
-        Response response = webTarget.request(MediaType.APPLICATION_JSON)
+        return webTarget.request(MediaType.APPLICATION_JSON)
                 .header("Authorization", jwtTokenHolderBean.getJwtToken())
                 .get();
-        return response.readEntity(new GenericType<List<UserDTO>>(){});
     }
 
     public UserDTO getUserById(UUID id) {
@@ -118,6 +118,13 @@ public class UserApiClient extends RestClient<User> implements Serializable {
 
     public List<Order> getUserOrders(UUID id) {
         WebTarget webTarget = client.path("/users/" + id.toString() + "/allOrders");
+        return webTarget.request(MediaType.APPLICATION_JSON)
+                .header("Authorization", jwtTokenHolderBean.getJwtToken())
+                .get(new GenericType<List<Order>>(){});
+    }
+
+    public List<Order> getUserOrdersAdmin(UUID id) {
+        WebTarget webTarget = client.path("/users/" + id.toString() + "/orders");
         return webTarget.request(MediaType.APPLICATION_JSON)
                 .header("Authorization", jwtTokenHolderBean.getJwtToken())
                 .get(new GenericType<List<Order>>(){});

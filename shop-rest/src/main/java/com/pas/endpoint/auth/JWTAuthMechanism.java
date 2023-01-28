@@ -17,7 +17,6 @@ import java.util.HashSet;
 @ApplicationScoped
 @DeclareRoles({"Admin", "Manager", "BaseUser", "Unauthorized"})
 public class JWTAuthMechanism implements HttpAuthenticationMechanism {
-
     public final static String AUTHORIZATION_HEADER = "Authorization";
     public final static String BEARER = "Bearer ";
 

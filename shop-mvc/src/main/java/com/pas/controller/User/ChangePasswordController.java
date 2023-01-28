@@ -13,10 +13,13 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @ViewScoped
 @Named
@@ -33,7 +36,8 @@ public class ChangePasswordController implements Serializable {
     @PostConstruct()
     public void init(){
         changePasswordDTO = new ChangePasswordDTO();
-        currentUser = userApiClient.findOneByLogin(context().getUserPrincipal().getName()).get(0);
+        Response res = userApiClient.findOneByLogin(context().getUserPrincipal().getName());
+        currentUser = res.readEntity(UserDTO.class);
     }
 
     public static ExternalContext context(){

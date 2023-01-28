@@ -14,6 +14,8 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -53,7 +55,8 @@ public class UserCartController implements Serializable {
 
     @PostConstruct()
     public void init(){
-        currentUser = userApiClient.findOneByLogin(context().getUserPrincipal().getName()).get(0);
+        Response res = userApiClient.findOneByLogin(ChangePasswordController.context().getUserPrincipal().getName());
+        currentUser = res.readEntity(UserDTO.class);
         cart = userApiClient.getUserCart(currentUser.getId());
     }
 }

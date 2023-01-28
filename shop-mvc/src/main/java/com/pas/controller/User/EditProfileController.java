@@ -11,10 +11,15 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
+
+import static com.pas.controller.User.ChangePasswordController.context;
 
 @ViewScoped
 @Named
@@ -26,10 +31,13 @@ public class EditProfileController implements Serializable {
 
     @Inject
     UserApiClient userApiClient;
+    String ifMatch="";
 
     @PostConstruct()
     public void init(){
-        currentUser = userApiClient.findOneByLogin(context().getUserPrincipal().getName()).get(0);
+        Response res = userApiClient.findOneByLogin(context().getUserPrincipal().getName());
+        currentUser = res.readEntity(UserDTO.class);
+        ifMatch = res.getHeaderString("ETag");
     }
 
     public static ExternalContext context(){
@@ -37,7 +45,7 @@ public class EditProfileController implements Serializable {
     }
 
     public String update() {
-        userApiClient.updateUser(currentUser.getId(), currentUser);
+        userApiClient.updateUser(currentUser.getId(), currentUser, ifMatch);
         return "Start";
     }
 }

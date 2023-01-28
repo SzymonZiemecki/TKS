@@ -84,7 +84,7 @@ public class ListAllUsersController extends Conversational implements Serializab
     }
     public void loginValidator(FacesContext context, UIComponent component, Object value){
         String login = (String) value;
-        if (!userApiClient.findOneByLogin(login).isEmpty()) {
+        if (!userApiClient.findOneByLogin(login).readEntity(new GenericType<List<UserDTO>>(){}).isEmpty()) {
             throw new ValidatorException(new FacesMessage(resourceBundle.getString("validatorMessageLoginUsed")));
         }
     }

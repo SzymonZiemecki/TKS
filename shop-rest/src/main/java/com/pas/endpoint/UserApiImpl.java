@@ -1,5 +1,8 @@
 package com.pas.endpoint;
 
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.shaded.gson.JsonObject;
+import com.pas.endpoint.auth.JWTAuthTokenUtils;
 import com.pas.manager.UserManager;
 import com.pas.model.Order;
 import com.pas.model.Product.Product;
@@ -19,6 +22,7 @@ import com.pas.model.User.User;
 import jakarta.ws.rs.core.SecurityContext;
 
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.*;
 
 @Path("/users")
@@ -34,15 +38,30 @@ public class UserApiImpl {
 
     @GET
     @RolesAllowed({"BaseUser", "Manager", "Admin", "Unauthorized"})
-    public List<UserDTO> getUsers(@QueryParam("allMatchingByLogin") Optional<String> allMatchingByLogin, @QueryParam("oneByLogin") Optional<String> oneByLogin) {
-        return UserDTO.entityListToDTO(userManager.findUsers(allMatchingByLogin, oneByLogin));
+    public Response getUsers(@QueryParam("allMatchingByLogin") Optional<String> allMatchingByLogin, @QueryParam("oneByLogin") Optional<String> oneByLogin) throws JOSEException {
+        List<User> users = userManager.findUsers(allMatchingByLogin, oneByLogin);
+        if(oneByLogin.isPresent()){
+            User user = users.get(0);
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("id", String.valueOf(user.getId()));
+            jsonObject.addProperty("login", user.getLogin());
+            String ifMatch = JWTAuthTokenUtils.sign(jsonObject.toString());
+            return Response.status(Response.Status.OK).entity(UserDTO.fromEntityToDTO(user)).tag(ifMatch).build();
+        }
+        return Response.status(Response.Status.OK).entity(UserDTO.entityListToDTO(userManager.findUsers(allMatchingByLogin, oneByLogin))).build();
     }
 
     @GET
     @Path("/{id}")
     @RolesAllowed({"BaseUser", "Admin"})
-    public UserDTO getUserById(@PathParam("id") UUID id) {
-        return UserDTO.fromEntityToDTO(userManager.findById(id));
+    public Response getUserById(@PathParam("id") UUID id) throws JOSEException {
+        User user = userManager.findById(id);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("id", String.valueOf(id));
+        jsonObject.addProperty("login", user.getLogin());
+        String ifMatch = JWTAuthTokenUtils.sign(jsonObject.toString());
+        return Response.status(Response.Status.OK).entity(UserDTO.fromEntityToDTO(user)).tag(ifMatch).build();
     }
 
     @GET
@@ -69,7 +88,13 @@ public class UserApiImpl {
     @PUT
     @Path("/{id}")
     @RolesAllowed({"BaseUser", "Manager", "Admin"})
-    public Response updateUser(@PathParam("id") UUID id, UserDTO updatedUser) {
+    public Response updateUser(@PathParam("id") UUID id, UserDTO updatedUser, @HeaderParam("If-Match") String ifMatch) throws ParseException, JOSEException {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("id", updatedUser.getId().toString());
+        jsonObject.addProperty("login", updatedUser.getLogin());
+        if(JWTAuthTokenUtils.verify(ifMatch, jsonObject.toString())){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
         userManager.updateUser(id, updatedUser);
         return Response.ok().build();
     }

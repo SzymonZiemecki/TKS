@@ -11,6 +11,8 @@ import jakarta.enterprise.context.ConversationScoped;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.Response;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,7 +35,8 @@ public class OrderUserListController extends Conversational implements Serializa
 
     @PostConstruct
     public void initCurrentOrders(){
-        currentUser = userApiClient.findOneByLogin(context().getUserPrincipal().getName()).get(0);
+        Response res = userApiClient.findOneByLogin(ChangePasswordController.context().getUserPrincipal().getName());
+        currentUser = res.readEntity(UserDTO.class);
         currentOrders = userApiClient.getUserOrders(currentUser.getId());
     }
     public String deliverOrder(Order order){

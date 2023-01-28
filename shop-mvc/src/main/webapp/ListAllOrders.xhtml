@@ -55,7 +55,7 @@
                         <h:outputText value="${product.quantity}"/><br/>
                     </ui:repeat>
                 </h:column>
-                <h:column>
+                <h:column rendered="${viewUtils.isManager()}">
                     <h:commandButton value="#{msg.deliverOrder}" action="#{ordersController.deliverOrder(order)}" immediate="true"/>
                 </h:column>
             </h:dataTable>
