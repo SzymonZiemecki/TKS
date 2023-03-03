@@ -4,13 +4,11 @@ import com.pas.exception.BusinessLogicException;
 import com.pas.model.Order;
 import com.pas.model.Product.Product;
 import com.pas.model.User.CartItem;
-import com.pas.repository.OrderRepository;
-import com.pas.repository.ProductRepository;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

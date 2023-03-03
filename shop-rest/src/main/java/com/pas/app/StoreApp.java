@@ -1,8 +1,6 @@
 package com.pas.app;
 
-import com.pas.endpoint.OrderApiImpl;
 import com.pas.endpoint.ProductApiImpl;
-import com.pas.endpoint.UserApiImpl;
 import jakarta.faces.annotation.FacesConfig;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;

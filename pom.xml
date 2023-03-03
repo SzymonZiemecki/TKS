@@ -11,8 +11,11 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>shop-model</module>
-        <module>shop-rest</module>
+<!--        <module>shop-model</module>-->
+<!--        <module>shop-rest</module>-->
+        <module>RepositoriesAdapters</module>
+        <module>ApplicationPorts</module>
+        <module>ApplicationCore</module>
     </modules>
 
     <properties>
