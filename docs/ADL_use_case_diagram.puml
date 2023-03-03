@@ -9,7 +9,7 @@ Guest --> (login)
 
 /'User - authenticated'/
 User --> (view products)
-User --> (add products to cart)
+User --> (add products to cartEnt)
 User --> (create order)
 User --> (manage account data)
 User --> (view past orders)
