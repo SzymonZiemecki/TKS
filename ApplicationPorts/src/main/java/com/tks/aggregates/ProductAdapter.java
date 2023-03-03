@@ -66,5 +66,5 @@ public class ProductAdapter implements AddProductPort, DeleteProductPort, GetPro
     public Product updateProduct(UUID id, Product product) {
         return null;
     }
-
 }
+
