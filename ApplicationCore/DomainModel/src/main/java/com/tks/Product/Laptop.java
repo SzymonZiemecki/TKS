@@ -28,5 +28,4 @@ public class Laptop extends Product {
         this.panelType = panelType;
     }
 
-
 }
