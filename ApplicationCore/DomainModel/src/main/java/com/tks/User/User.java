@@ -1,37 +1,22 @@
-package com.pas.model.User;
+package com.tks.User;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.pas.model.Address;
-import com.pas.model.IdTrait;
-import com.pas.model.Product.Product;
-import com.pas.utils.ItemMapDeserializer;
-import com.pas.utils.ItemMapSerializer;
+
+import com.tks.model.Address;
+import com.tks.model.Cart;
+import com.tks.IdTrait;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Data
 @SuperBuilder
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonTypeInfo( use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({
-        @JsonSubTypes.Type(Admin.class),
-        @JsonSubTypes.Type(BaseUser.class),
-        @JsonSubTypes.Type(Manager.class)}
-)
+
 public abstract class  User extends IdTrait implements Cloneable {
     @Size(min = 2, max = 20)
     private String firstName;
