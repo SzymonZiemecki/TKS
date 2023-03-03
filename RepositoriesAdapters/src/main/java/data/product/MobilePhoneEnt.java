@@ -39,6 +39,7 @@ public class MobilePhoneEnt extends ProductEnt {
     }
 
     public static MobilePhoneEnt toMobilePhoneEnt(MobilePhone mobilePhone) {
+
         return MobilePhoneEnt.builder()
                 .availableAmount(mobilePhone.getAvailableAmount())
                 .price(mobilePhone.getPrice())
@@ -72,4 +73,5 @@ public class MobilePhoneEnt extends ProductEnt {
                 .nfcPresent(mobilePhone.isNfcPresent())
                 .audioJackPresent(mobilePhone.isAudioJackPresent()).build();
     }
+
 }

@@ -4,6 +4,8 @@ import com.tks.Product.Laptop;
 import com.tks.Product.MobilePhone;
 import com.tks.Product.Product;
 import com.tks.Product.Tv;
+
+
 import data.model.IdTraitEnt;
 import jakarta.validation.constraints.Size;
 import lombok.*;
