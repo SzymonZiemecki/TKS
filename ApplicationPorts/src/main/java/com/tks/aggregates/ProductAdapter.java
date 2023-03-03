@@ -10,6 +10,7 @@ import com.tks.infrastructure.products.DeleteProductPort;
 import com.tks.infrastructure.products.GetProductPort;
 import com.tks.infrastructure.products.UpdateProductPort;
 import data.product.MobilePhoneEnt;
+import data.product.ProductEnt;
 import data.product.TvEnt;
 import data.product.LaptopEnt;
 import jakarta.inject.Inject;
@@ -27,14 +28,8 @@ public class ProductAdapter implements AddProductPort, DeleteProductPort, GetPro
     @Override
     @SneakyThrows
     public Product addItem(Product product) {
-//        return productRepositoryEnt.add(
-//            switch (product) {
-//                case Tv tv -> TvEnt.toEnt(product);
-//                case Laptop laptop -> LaptopEnt.toEnt(product);
-//                case MobilePhone mobilePhone -> MobilePhoneEnt.toEnt(product);
-//                default -> throw new Exception();
-//            }).toDomainModel();
-        return null;
+        return ProductEnt.ToProductDomainModel(productRepositoryEnt.add(ProductEnt.ToProductEnt(product)));
+//        return null;
     }
 
     @Override

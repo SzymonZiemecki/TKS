@@ -30,8 +30,25 @@ public class LaptopEnt extends ProductEnt {
         this.panelType = panelType;
     }
 
-    public static LaptopEnt toEnt(Laptop laptop) {
+    public static LaptopEnt toLaptopEnt(Laptop laptop) {
         return LaptopEnt.builder()
+                .availableAmount(laptop.getAvailableAmount())
+                .price(laptop.getPrice())
+                .name(laptop.getName())
+                .producer(laptop.getProducer())
+                .productDescription(laptop.getProductDescription())
+                .screenSize(laptop.getScreenSize())
+                .resolution(laptop.getResolution())
+                .panelType(laptop.getPanelType())
+                .ramAmount(laptop.getRamAmount())
+                .batterySize(laptop.getBatterySize())
+                .cpu(laptop.getCpu())
+                .diskSize(laptop.getDiskSize())
+                .build();
+    }
+
+    public static Laptop toLaptopDomainModel(LaptopEnt laptop) {
+        return Laptop.builder()
                 .availableAmount(laptop.getAvailableAmount())
                 .price(laptop.getPrice())
                 .name(laptop.getName())
