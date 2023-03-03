@@ -38,7 +38,8 @@ public class MobilePhoneEnt extends ProductEnt {
         this.audioJackPresent = audioJackPresent;
     }
 
-    public static MobilePhoneEnt toEnt(MobilePhone mobilePhone) {
+    public static MobilePhoneEnt toMobilePhoneEnt(MobilePhone mobilePhone) {
+
         return MobilePhoneEnt.builder()
                 .availableAmount(mobilePhone.getAvailableAmount())
                 .price(mobilePhone.getPrice())
@@ -54,4 +55,23 @@ public class MobilePhoneEnt extends ProductEnt {
                 .nfcPresent(mobilePhone.isNfcPresent())
                 .audioJackPresent(mobilePhone.isAudioJackPresent()).build();
     }
+
+
+    public static MobilePhone toMobilePhoneDomainModel(MobilePhoneEnt mobilePhone) {
+        return MobilePhone.builder()
+                .availableAmount(mobilePhone.getAvailableAmount())
+                .price(mobilePhone.getPrice())
+                .name(mobilePhone.getName())
+                .producer(mobilePhone.getProducer())
+                .productDescription(mobilePhone.getProductDescription())
+                .screenSize(mobilePhone.getScreenSize())
+                .resolution(mobilePhone.getResolution())
+                .batterySize(mobilePhone.getBatterySize())
+                .memorySize(mobilePhone.getMemorySize())
+                .panelType(mobilePhone.getPanelType())
+                .operatingSystem(mobilePhone.getOperatingSystem())
+                .nfcPresent(mobilePhone.isNfcPresent())
+                .audioJackPresent(mobilePhone.isAudioJackPresent()).build();
+    }
+
 }

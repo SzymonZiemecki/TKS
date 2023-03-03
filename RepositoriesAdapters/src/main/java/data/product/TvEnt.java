@@ -24,7 +24,8 @@ public class TvEnt extends ProductEnt {
         this.panelType = panelType;
     }
 
-    public static TvEnt toEnt(Tv tv) {
+    public static TvEnt toTvEnt(Tv tv) {
+
         return TvEnt.builder()
                 .availableAmount(tv.getAvailableAmount())
                 .price(tv.getPrice())
@@ -36,4 +37,22 @@ public class TvEnt extends ProductEnt {
                 .refreshRate(tv.getRefreshRate())
                 .panelType(tv.getPanelType()).build();
     }
+
+    public static Tv toTvDomainModel(TvEnt tv) {
+        return Tv.builder()
+                .availableAmount(tv.getAvailableAmount())
+                .price(tv.getPrice())
+                .name(tv.getName())
+                .producer(tv.getProducer())
+                .productDescription(tv.getProductDescription())
+                .screenSize(tv.getScreenSize())
+                .resolution(tv.getResolution())
+                .refreshRate(tv.getRefreshRate())
+                .panelType(tv.getPanelType()).build();
+    }
+
+
+
+
+
 }

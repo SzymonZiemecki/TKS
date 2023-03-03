@@ -30,10 +30,10 @@ public abstract class Product extends IdTrait implements Cloneable{
         this.productDescription = productDescription;
     }
 
+
+
     @Override
     public Product clone() throws CloneNotSupportedException {
         return (Product) super.clone();
     }
-
-
 }
