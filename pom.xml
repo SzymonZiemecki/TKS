@@ -12,7 +12,6 @@
 
     <modules>
         <module>shop-api</module>
-        <module>shop-mvc</module>
         <module>shop-rest</module>
     </modules>
 
