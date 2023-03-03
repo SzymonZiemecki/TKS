@@ -27,4 +27,6 @@ public class Laptop extends Product {
         this.diskSize = diskSize;
         this.panelType = panelType;
     }
+
+
 }

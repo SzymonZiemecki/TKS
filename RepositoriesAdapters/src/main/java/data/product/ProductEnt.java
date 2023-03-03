@@ -1,5 +1,6 @@
 package data.product;
 
+import com.tks.Product.Product;
 import data.model.IdTraitEnt;
 import jakarta.validation.constraints.Size;
 import lombok.*;
