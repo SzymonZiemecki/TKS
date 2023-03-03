@@ -1,4 +1,10 @@
 package com.tks.infrastructure.products;
 
-public class UpdateProductPort {
+
+import com.tks.Product.Product;
+
+import java.util.UUID;
+
+public interface UpdateProductPort {
+    Product updateProduct(UUID id, Product product);
 }

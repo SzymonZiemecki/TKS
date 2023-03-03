@@ -10,7 +10,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class ProductRepository extends IRepositoryImpl<ProductEnt> {
+public class ProductRepositoryEnt extends IRepositoryImpl<ProductEnt> {
     public List<ProductEnt> findByName(String name){
         return filter(product -> product.getName().equals(name));
     }

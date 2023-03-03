@@ -1,5 +1,7 @@
 package data.product;
 
+import com.tks.Product.Laptop;
+import com.tks.Product.Product;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -26,5 +28,22 @@ public class LaptopEnt extends ProductEnt {
         this.batterySize = batterySize;
         this.diskSize = diskSize;
         this.panelType = panelType;
+    }
+
+    public static LaptopEnt toEnt(Laptop laptop) {
+        return LaptopEnt.builder()
+                .availableAmount(laptop.getAvailableAmount())
+                .price(laptop.getPrice())
+                .name(laptop.getName())
+                .producer(laptop.getProducer())
+                .productDescription(laptop.getProductDescription())
+                .screenSize(laptop.getScreenSize())
+                .resolution(laptop.getResolution())
+                .panelType(laptop.getPanelType())
+                .ramAmount(laptop.getRamAmount())
+                .batterySize(laptop.getBatterySize())
+                .cpu(laptop.getCpu())
+                .diskSize(laptop.getDiskSize())
+                .build();
     }
 }

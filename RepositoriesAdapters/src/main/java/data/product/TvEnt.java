@@ -1,5 +1,7 @@
 package data.product;
 
+import com.tks.Product.Product;
+import com.tks.Product.Tv;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -20,5 +22,18 @@ public class TvEnt extends ProductEnt {
         this.resolution = resolution;
         this.refreshRate = refreshRate;
         this.panelType = panelType;
+    }
+
+    public static TvEnt toEnt(Tv tv) {
+        return TvEnt.builder()
+                .availableAmount(tv.getAvailableAmount())
+                .price(tv.getPrice())
+                .name(tv.getName())
+                .producer(tv.getProducer())
+                .productDescription(tv.getProductDescription())
+                .screenSize(tv.getScreenSize())
+                .resolution(tv.getResolution())
+                .refreshRate(tv.getRefreshRate())
+                .panelType(tv.getPanelType()).build();
     }
 }

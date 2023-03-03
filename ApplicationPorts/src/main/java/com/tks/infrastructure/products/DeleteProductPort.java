@@ -1,4 +1,8 @@
 package com.tks.infrastructure.products;
 
-public class DeleteProductPort {
+
+import java.util.UUID;
+
+public interface DeleteProductPort {
+    void removeItem(UUID id);
 }
