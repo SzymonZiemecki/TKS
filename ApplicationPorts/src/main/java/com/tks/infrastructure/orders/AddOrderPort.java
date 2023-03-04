@@ -6,5 +6,5 @@ import com.tks.model.Order;
 import java.util.UUID;
 
 public interface AddOrderPort {
-    Order createOrder(UUID userId, Address shippingAddress);
+    Order createOrder(Order order);
 }

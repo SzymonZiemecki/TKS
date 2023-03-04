@@ -11,8 +11,6 @@ import lombok.experimental.SuperBuilder;
 import java.util.Date;
 import java.util.List;
 
-import static com.tks.model.Address.toAddressDomainModel;
-
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -40,12 +38,4 @@ public class Order extends IdTrait {
         this.isDelivered = isDelivered;
         this.price = price;
     }
-
-    public static Order toOrderDomainModel(OrderEnt orderEnt) {
-        return Order.builder()
-                .address(toAddressDomainModel(orderEnt.getAddress()))
-                .customer(User.toUserDomainModel(orderEnt.getCustomer()))
-                .build();
-    }
-
 }

@@ -1,7 +1,6 @@
 package com.pas.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.pas.model.Product.Product;
 import com.pas.model.User.CartItem;
 import com.pas.model.User.User;
 import lombok.*;

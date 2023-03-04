@@ -3,7 +3,6 @@ package data.user;
 import java.util.UUID;
 
 import data.model.AddressEnt;
-import data.model.UserEnt;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,11 @@
 package com.tks.aggregates;
 
-import adapters.OrderRepository;
-import adapters.ProductRepositoryEnt;
+import com.tks.mapper.ModelMapperBean;
+import data.model.OrderEnt;
+import data.user.CartItemEnt;
+import jakarta.enterprise.context.ApplicationScoped;
+import repository.OrderEntRepository;
+import repository.ProductEntRepository;
 
 import com.tks.Product.Product;
 
@@ -13,47 +17,31 @@ import com.tks.infrastructure.products.UpdateProductPort;
 
 
 
-import data.model.CartItemEnt;
-
-
-
-import data.product.MobilePhoneEnt;
-
-import data.product.ProductEnt;
-
-import data.product.TvEnt;
-import data.product.LaptopEnt;
-
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-import static data.product.ProductEnt.toProductDomainModel;
-import static data.product.ProductEnt.toProductEnt;
 import static data.utils.ErrorInfoEnt.ENTITY_NOT_FOUND_MESSAGE;
 import static data.utils.ErrorInfoEnt.PRODUCT_IN_UNFINISHED_ORDER;
 
+@ApplicationScoped
 public class ProductAdapter implements AddProductPort, DeleteProductPort, GetProductPort, UpdateProductPort {
 
     @Inject
-    private ProductRepositoryEnt productRepositoryEnt;
+    private ProductEntRepository productRepositoryEnt;
 
     @Inject
-    private OrderRepository orderRepository;
+    private OrderEntRepository orderRepository;
+
+    @Inject
+    private ModelMapperBean mapper;
 
     @Override
     @SneakyThrows
     public Product addItem(Product product) {
-
-
-        return toProductDomainModel(productRepositoryEnt.add(toProductEnt(product)));
-
-
+        return ModelMapperBean.toDomainModel(productRepositoryEnt.add(ModelMapperBean.toEntModel(product)));
     }
 
     @Override
@@ -67,19 +55,26 @@ public class ProductAdapter implements AddProductPort, DeleteProductPort, GetPro
 
     @Override
     public boolean isInOngoingOrder(UUID productId) {
-        return orderRepository.filter(order -> !order.isDelivered()).stream().map(order -> order.getItems()).flatMap(list -> list.stream()).map(CartItemEnt::getProduct).map(product -> product.equals(productId)).filter($ -> $.equals(true)).findAny().orElse(false);
+        return orderRepository.filter(order -> !order.isDelivered()).stream()
+                .map(OrderEnt::getItems)
+                .flatMap(Collection::stream)
+                .map(CartItemEnt::getProduct)
+                .map(product -> product.equals(productId))
+                .filter($ -> $.equals(true))
+                .findAny()
+                .orElse(false);
     }
 
 
     @Override
     public Product findById(UUID id) {
-        return toProductDomainModel(productRepositoryEnt.findById(id).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue())));
+        return mapper.toDomainModel(productRepositoryEnt.findById(id).orElseThrow(() -> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.getValue())));
     }
 
     @Override
     public List<Product> findAllProducts() {
         List<Product> productEnts = new ArrayList<>();
-        productRepositoryEnt.findAll().forEach(productEnt -> productEnts.add(toProductDomainModel(productEnt)));
+        productRepositoryEnt.findAll().forEach(productEnt -> productEnts.add(ModelMapperBean.toDomainModel(productEnt)));
 
         return productEnts;
     }
@@ -87,16 +82,14 @@ public class ProductAdapter implements AddProductPort, DeleteProductPort, GetPro
     @Override
     public List<Product> findByName(String name) {
         List<Product> productEnts = new ArrayList<>();
-        productRepositoryEnt.findByName(name).forEach(productEnt -> productEnts.add(toProductDomainModel(productEnt)));
-
+        productRepositoryEnt.findByName(name).forEach(productEnt -> productEnts.add(ModelMapperBean.toDomainModel(productEnt)));
         return productEnts;
     }
 
     @Override
     public List<Product> findByProducer(String producer) {
         List<Product> productEnts = new ArrayList<>();
-        productRepositoryEnt.findByProducer(producer).forEach(productEnt -> productEnts.add(toProductDomainModel(productEnt)));
-
+        productRepositoryEnt.findByProducer(producer).forEach(productEnt -> productEnts.add(ModelMapperBean.toDomainModel(productEnt)));
         return productEnts;
     }
 
@@ -113,7 +106,7 @@ public class ProductAdapter implements AddProductPort, DeleteProductPort, GetPro
 
     @Override
     public Product updateProduct(UUID id, Product product) {
-        return toProductDomainModel(productRepositoryEnt.update(id, toProductEnt(product)));
+        return mapper.toDomainModel(productRepositoryEnt.update(id, ModelMapperBean.toEntModel(product)));
     }
 }
 

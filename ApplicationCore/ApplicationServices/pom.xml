@@ -11,4 +11,24 @@
     <artifactId>ApplicationServices</artifactId>
     <name>Archetype - ApplicationServices</name>
     <url>http://maven.apache.org</url>
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.pas</groupId>
+            <artifactId>ApplicationPorts</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.hilling.junit.cdi</groupId>
+            <artifactId>cdi-test-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+        </dependency>
+    </dependencies>
 </project>
