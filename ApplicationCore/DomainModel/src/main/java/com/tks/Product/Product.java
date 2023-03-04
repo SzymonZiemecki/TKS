@@ -2,6 +2,8 @@ package com.tks.Product;
 
 
 import com.tks.IdTrait;
+
+import data.product.ProductEnt;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -36,4 +38,5 @@ public abstract class Product extends IdTrait implements Cloneable{
     public Product clone() throws CloneNotSupportedException {
         return (Product) super.clone();
     }
+
 }

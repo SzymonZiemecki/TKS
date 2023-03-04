@@ -1,6 +1,7 @@
 package com.tks.model;
 
 
+import data.model.AddressEnt;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -27,4 +28,14 @@ public class Address{
     @NotNull
     @Size(min = 6, max = 10)
     private String zipCode;
+
+    public static Address toAddressDomainModel(AddressEnt addressEnt) {
+        return Address.builder()
+                .city(addressEnt.getCity())
+                .country(addressEnt.getCountry())
+                .houseNumber(addressEnt.getHouseNumber())
+                .street(addressEnt.getStreet())
+                .zipCode(addressEnt.getZipCode())
+                .build();
+    }
 }
