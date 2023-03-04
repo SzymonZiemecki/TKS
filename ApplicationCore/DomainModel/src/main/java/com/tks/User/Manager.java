@@ -13,8 +13,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
-import static com.tks.model.Address.toAddressDomainModel;
-
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -33,16 +31,4 @@ public class Manager extends User {
         super(user);
     }
 
-    public static Manager toManagerDomainModel(ManagerEnt managerEnt) {
-        return Manager.builder()
-                .address(toAddressDomainModel(managerEnt.getAddress()))
-                .accountBalance(managerEnt.getAccountBalance())
-                .cart(Cart.toCartDomainModel(managerEnt.getCart()))
-                .firstName(managerEnt.getFirstName())
-                .lastName(managerEnt.getLastName())
-                .login(managerEnt.getLogin())
-                .suspended(managerEnt.isSuspended())
-                .password(managerEnt.getPassword())
-                .build();
-    }
 }

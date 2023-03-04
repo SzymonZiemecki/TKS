@@ -14,8 +14,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
-import static com.tks.model.Address.toAddressDomainModel;
-
 @Data
 @SuperBuilder
 @NoArgsConstructor
@@ -31,18 +29,5 @@ public class Admin extends User {
     }
     public Admin(User user) {
         super(user);
-    }
-
-    public static Admin toAdminDomainModel(AdminEnt adminEnt) {
-        return Admin.builder()
-                .address(toAddressDomainModel(adminEnt.getAddress()))
-                .accountBalance(adminEnt.getAccountBalance())
-                .cart(Cart.toCartDomainModel(adminEnt.getCart()))
-                .firstName(adminEnt.getFirstName())
-                .lastName(adminEnt.getLastName())
-                .login(adminEnt.getLogin())
-                .suspended(adminEnt.isSuspended())
-                .password(adminEnt.getPassword())
-                .build();
     }
 }
