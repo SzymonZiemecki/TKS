@@ -4,19 +4,28 @@ package com.tks.User;
 import com.tks.model.Address;
 import com.tks.model.Cart;
 import com.tks.IdTrait;
+
+import data.model.UserEnt;
+import data.user.AdminEnt;
+import data.user.BaseUserEnt;
+import data.user.ManagerEnt;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.SneakyThrows;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
+import static com.tks.User.Admin.toAdminDomainModel;
+import static com.tks.User.BaseUser.toBaseUserDomainModel;
+import static com.tks.User.Manager.toManagerDomainModel;
+
 @Data
 @SuperBuilder
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-
 public abstract class  User extends IdTrait implements Cloneable {
     @Size(min = 2, max = 20)
     private String firstName;
@@ -81,5 +90,15 @@ public abstract class  User extends IdTrait implements Cloneable {
         this.cart = user.cart;
         this.suspended = user.suspended;
         this.accountBalance = user.accountBalance;
+    }
+
+    @SneakyThrows
+    public static User toUserDomainModel(UserEnt userEnt) {
+        return switch(userEnt) {
+            case ManagerEnt manager -> toManagerDomainModel((ManagerEnt) userEnt);
+            case BaseUserEnt baseUserEnt -> toBaseUserDomainModel((BaseUserEnt) baseUserEnt);
+            case AdminEnt adminEnt -> toAdminDomainModel((AdminEnt) adminEnt);
+            default -> throw new IllegalArgumentException();
+        };
     }
 }

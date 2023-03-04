@@ -1,5 +1,7 @@
 package data.model;
 
+import com.tks.model.Address;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -29,4 +31,14 @@ public class AddressEnt {
     @NotNull
     @Size(min = 6, max = 10)
     private String zipCode;
+
+    public static AddressEnt toAddressEnt(Address address) {
+        return AddressEnt.builder()
+                .city(address.getCity())
+                .country(address.getCountry())
+                .street(address.getStreet())
+                .houseNumber(address.getHouseNumber())
+                .zipCode(address.getZipCode())
+                .build();
+    }
 }

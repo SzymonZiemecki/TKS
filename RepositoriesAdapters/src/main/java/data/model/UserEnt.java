@@ -1,5 +1,7 @@
 package data.model;
 
+import com.tks.User.User;
+
 import java.util.UUID;
 
 import data.user.CartEnt;
@@ -76,5 +78,16 @@ public class UserEnt extends IdTraitEnt {
         this.cart = user.cart;
         this.suspended = user.suspended;
         this.accountBalance = user.accountBalance;
+    }
+
+    public static UserEnt toUserEnt(User user) {
+        UserEnt.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .login(user.getLogin())
+                .password(user.getPassword())
+                .address(AddressEnt.toAddressEnt(user.getAddress()))
+                .cart(user.getCart())
     }
 }
