@@ -14,4 +14,6 @@ public interface GetProductPort {
     List<Product> findByProducer(String producer);
     List<Product> getProducts(Optional<String> producer, Optional<String> name);
 
+    boolean isInOngoingOrder(UUID productId);
+
 }
