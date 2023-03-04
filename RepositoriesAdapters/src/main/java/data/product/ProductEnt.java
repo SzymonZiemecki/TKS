@@ -61,6 +61,7 @@ public abstract class ProductEnt extends IdTraitEnt implements Cloneable {
         };
     }
 
+
     @Override
     public ProductEnt clone() throws CloneNotSupportedException {
         return (ProductEnt) super.clone();

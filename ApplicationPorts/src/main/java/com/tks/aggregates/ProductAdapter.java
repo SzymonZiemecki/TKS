@@ -12,10 +12,17 @@ import com.tks.infrastructure.products.GetProductPort;
 import com.tks.infrastructure.products.UpdateProductPort;
 
 
+
 import data.model.CartItemEnt;
 
 
+
+import data.product.MobilePhoneEnt;
+
 import data.product.ProductEnt;
+
+import data.product.TvEnt;
+import data.product.LaptopEnt;
 
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
@@ -43,7 +50,9 @@ public class ProductAdapter implements AddProductPort, DeleteProductPort, GetPro
     @SneakyThrows
     public Product addItem(Product product) {
 
+
         return toProductDomainModel(productRepositoryEnt.add(toProductEnt(product)));
+
 
     }
 
