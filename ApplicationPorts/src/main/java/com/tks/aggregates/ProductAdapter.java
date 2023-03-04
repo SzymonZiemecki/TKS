@@ -11,7 +11,12 @@ import com.tks.infrastructure.products.DeleteProductPort;
 import com.tks.infrastructure.products.GetProductPort;
 import com.tks.infrastructure.products.UpdateProductPort;
 
+
 import data.model.CartItemEnt;
+
+
+import data.product.ProductEnt;
+
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
@@ -37,7 +42,9 @@ public class ProductAdapter implements AddProductPort, DeleteProductPort, GetPro
     @Override
     @SneakyThrows
     public Product addItem(Product product) {
+
         return toProductDomainModel(productRepositoryEnt.add(toProductEnt(product)));
+
     }
 
     @Override
@@ -100,4 +107,5 @@ public class ProductAdapter implements AddProductPort, DeleteProductPort, GetPro
         return toProductDomainModel(productRepositoryEnt.update(id, toProductEnt(product)));
     }
 }
+
 

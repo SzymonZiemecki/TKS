@@ -32,6 +32,7 @@ public class LaptopEnt extends ProductEnt {
     }
 
     public static LaptopEnt toLaptopEnt(Laptop laptop) {
+
         return LaptopEnt.builder()
                 .availableAmount(laptop.getAvailableAmount())
                 .price(laptop.getPrice())
@@ -47,6 +48,7 @@ public class LaptopEnt extends ProductEnt {
                 .diskSize(laptop.getDiskSize())
                 .build();
     }
+
 
     public static Laptop toLaptopDomainModel(LaptopEnt laptop) {
         return Laptop.builder()

@@ -26,6 +26,7 @@ public class TvEnt extends ProductEnt {
     }
 
     public static TvEnt toTvEnt(Tv tv) {
+
         return TvEnt.builder()
                 .availableAmount(tv.getAvailableAmount())
                 .price(tv.getPrice())
@@ -50,6 +51,4 @@ public class TvEnt extends ProductEnt {
                 .refreshRate(tv.getRefreshRate())
                 .panelType(tv.getPanelType()).build();
     }
-
-
 }
