@@ -4,8 +4,8 @@ import data.product.ProductEnt;
 import data.product.TvEnt;
 import data.user.*;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+
 import repository.OrderEntRepository;
 import repository.ProductEntRepository;
 import repository.UserEntRepository;
@@ -19,7 +19,7 @@ public class BaseTest {
     protected OrderEntRepository orderEntRepository;
     protected ProductEntRepository productEntRepository;
 
-    @BeforeAll
+    @BeforeEach
     public void init(){
         userEntRepository = new UserEntRepository();
         orderEntRepository = new OrderEntRepository();
