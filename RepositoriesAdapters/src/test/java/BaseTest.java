@@ -3,8 +3,10 @@ import data.model.OrderEnt;
 import data.product.ProductEnt;
 import data.product.TvEnt;
 import data.user.*;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
+
 import repository.OrderEntRepository;
 import repository.ProductEntRepository;
 import repository.UserEntRepository;
@@ -19,13 +21,13 @@ public class BaseTest {
     protected ProductEntRepository productEntRepository;
 
     @BeforeEach
-    public void init(){
+    public void init() {
         userEntRepository = new UserEntRepository();
         orderEntRepository = new OrderEntRepository();
         productEntRepository = new ProductEntRepository();
     }
 
-    public UserEnt prepareBaseUser(){
+    public UserEnt prepareBaseUser() {
         return BaseUserEnt.builder()
                 .firstName(generateRandomStringOf(10))
                 .lastName(generateRandomStringOf(10))
@@ -38,7 +40,7 @@ public class BaseTest {
                 .build();
     }
 
-    public UserEnt prepareManager(){
+    public UserEnt prepareManager() {
         return ManagerEnt.builder()
                 .firstName(generateRandomStringOf(10))
                 .lastName(generateRandomStringOf(10))
@@ -51,7 +53,7 @@ public class BaseTest {
                 .build();
     }
 
-    public UserEnt prepareAdmin(){
+    public UserEnt prepareAdmin() {
         return AdminEnt.builder()
                 .firstName(generateRandomStringOf(10))
                 .lastName(generateRandomStringOf(10))
@@ -64,7 +66,7 @@ public class BaseTest {
                 .build();
     }
 
-    public AddressEnt prepareAddress(){
+    public AddressEnt prepareAddress() {
         return AddressEnt.builder()
                 .houseNumber(generateRandomStringOf(10))
                 .street(generateRandomStringOf(10))
@@ -74,7 +76,7 @@ public class BaseTest {
                 .build();
     }
 
-    public OrderEnt prepareOrder(){
+    public OrderEnt prepareOrder() {
         return OrderEnt.builder()
                 .customer(prepareBaseUser())
                 .address(prepareAddress())
@@ -87,7 +89,7 @@ public class BaseTest {
                 .items(prepareOrderItems()).build();
     }
 
-    public ProductEnt prepareTv(){
+    public ProductEnt prepareTv() {
         return TvEnt.builder()
                 .availableAmount(10)
                 .price(20d)
@@ -101,12 +103,12 @@ public class BaseTest {
                 .build();
     }
 
-    public List<CartItemEnt> prepareOrderItems(){
-        return List.of(new CartItemEnt(prepareTv(),5l),
+    public List<CartItemEnt> prepareOrderItems() {
+        return List.of(new CartItemEnt(prepareTv(), 5l),
                 new CartItemEnt(prepareTv(), 3l));
     }
 
-    private String generateRandomStringOf(int count){
+    private String generateRandomStringOf(int count) {
         return RandomStringUtils.randomAlphabetic(count);
     }
 }
