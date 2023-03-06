@@ -103,11 +103,9 @@ public class OrderService implements OrderUseCase {
     }
 
     private boolean isEnoughItems(List<CartItem> orderItems) {
-        return orderItems.stream()
-                .map((orderItem -> isEnoughItems(orderItem.getProduct(), (long) orderItem.getProduct().getAvailableAmount())))
-                .filter(result -> result.equals(true))
-                .findAny()
-                .orElseThrow(() -> new BusinessLogicException(ORDER_ITEM_OUT_OF_STOCK.getValue()));
+        return Optional.of(orderItems.stream()
+                .map((orderItem -> isEnoughItems(orderItem.getProduct(), orderItem.getQuantity())))
+                .allMatch(result -> result.equals(true))).orElseThrow(() -> new BusinessLogicException(ORDER_ITEM_OUT_OF_STOCK.getValue()));
     }
 
     private boolean isEnoughItems(Product product, Long availableAmount) {
