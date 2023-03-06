@@ -10,14 +10,12 @@ import com.tks.infrastructure.orders.UpdateOrderPort;
 import com.tks.infrastructure.users.GetUserPort;
 import com.tks.infrastructure.users.UpdateUserPort;
 import com.tks.model.Address;
+import com.tks.model.Cart;
 import com.tks.model.CartItem;
 import com.tks.model.Order;
 import com.tks.userinterface.OrderUseCase;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -69,7 +67,7 @@ public class OrderService implements OrderUseCase {
         if (shouldCreateOrder(userId, orderItems, shippingAddress, orderValue)) {
             process(customer, orderItems, orderValue, shippingAddress);
             Order order = addOrderPort.createOrder(new Order(customer, shippingAddress, orderItems, new Date(), true, 0, false, calculateOrderValue(orderItems)));
-            //updateUserPort.clearUserCart(customer.getId());
+            clearUserCart(customer.getId());
             return order;
         } else {
             throw new BusinessLogicException(ORDER_VIOLATED_BUSINESS_LOGIC.getValue());
@@ -139,5 +137,11 @@ public class OrderService implements OrderUseCase {
     private synchronized void process(User user, List<CartItem> products, Double orderValue, Address address) {
         user.setAccountBalance(user.getAccountBalance() - orderValue);
         products.forEach((product) -> product.getProduct().setAvailableAmount((int) (product.getProduct().getAvailableAmount() - product.getQuantity())));
+    }
+
+    private void clearUserCart(UUID userId){
+        User user = getUserPort.findUserById(userId);
+        user.setCart(new Cart(new ArrayList<>()));
+        updateUserPort.updateUser(userId, user);
     }
 }
