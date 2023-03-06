@@ -1,2 +1,2 @@
-public class OrderRepositoryTest {
+public class OrderRepositoryTest extends BaseTest{
 }

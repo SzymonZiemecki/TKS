@@ -1,2 +1,2 @@
-public class ProductRepositoryTest {
+public class ProductRepositoryTest extends BaseTest{
 }

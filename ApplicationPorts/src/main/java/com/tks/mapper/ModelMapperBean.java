@@ -27,7 +27,6 @@ import org.modelmapper.ModelMapper;
 import java.util.List;
 import java.util.Map;
 
-@ApplicationScoped
 public class ModelMapperBean {
 
     private static ModelMapper mapper = new ModelMapper();
