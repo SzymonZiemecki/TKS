@@ -4,18 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.pas</groupId>
+    <groupId>com.tks</groupId>
     <artifactId>TKS-Parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>TKS-Parent</name>
     <packaging>pom</packaging>
 
     <modules>
-<!--        <module>shop-model</module>-->
-<!--        <module>shop-rest</module>-->
-        <module>RepositoriesAdapters</module>
-        <module>ApplicationPorts</module>
-        <module>ApplicationCore</module>
+        <module>adapters</module>
+        <module>ports</module>
+        <module>core</module>
+        <module>rest</module>
     </modules>
 
     <properties>
@@ -34,7 +33,6 @@
         <jackson.version>2.13.4</jackson.version>
         <jackson-databind.version>2.13.4.2</jackson-databind.version>
         <jakarta-faces-api.version>3.0.0</jakarta-faces-api.version>
-        <testcontainers.version>1.16.3</testcontainers.version>
         <jaxb-api.verison>2.3.0</jaxb-api.verison>
         <restassured.version>2.9.0</restassured.version>
         <jersey-media-json-jackson.version>3.1.0</jersey-media-json-jackson.version>
@@ -50,6 +48,7 @@
         <jakarta.cdi-api.version>3.0.1</jakarta.cdi-api.version>
         <mockito.version>5.1.1</mockito.version>
         <apache-commons.version>3.12.0</apache-commons.version>
+        <testcontainers.version>1.16.3</testcontainers.version>
     </properties>
 
     <dependencyManagement>
@@ -233,7 +232,7 @@
                 <version>2.25.1</version>
             </dependency>
             <dependency>
-                <groupId>com.pas</groupId>
+                <groupId>com.tks</groupId>
                 <artifactId>shop-api</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>
@@ -255,6 +254,27 @@
                 <artifactId>mockito-junit-jupiter</artifactId>
                 <scope>test</scope>
                 <version>${mockito.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tks</groupId>
+                <artifactId>model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.tks</groupId>
+                <artifactId>ports</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tks</groupId>
+                <artifactId>adapters</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
