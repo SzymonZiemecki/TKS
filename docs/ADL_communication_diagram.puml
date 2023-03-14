@@ -1,6 +1,0 @@
-@startuml
-
-title Simple communication\nexample
-
-Alice -> Bob: Authentication Request
-@enduml
