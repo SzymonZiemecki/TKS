@@ -64,7 +64,7 @@ public class EntityModelMapper {
 
     private static Map<Class, Class> toDomainMappings() {
         return Map.ofEntries
-                (Map.entry(Address.class, Address.class),
+                (Map.entry(AddressEnt.class, Address.class),
                         Map.entry(IdTraitEnt.class, IdTrait.class),
                         Map.entry(OrderEnt.class, Order.class),
                         Map.entry(LaptopEnt.class, Laptop.class),

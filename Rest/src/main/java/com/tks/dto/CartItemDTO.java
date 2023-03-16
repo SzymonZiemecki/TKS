@@ -1,6 +1,6 @@
 package com.tks.dto;
 
-import java.util.List;
+import com.tks.dto.product.ProductDTO;
 
 import lombok.*;
 
@@ -10,7 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CartDTO {
+public class CartItemDTO {
 
-    List<CartItemDTO> cartItems;
+    ProductDTO product;
+    long quantity;
 }
