@@ -3,9 +3,15 @@ package com.tks.dto;
 import com.tks.data.user.CartItemEnt;
 import com.tks.dto.product.ProductDTO;
 import com.tks.model.CartItem;
-import lombok.SneakyThrows;
+import lombok.*;
 import org.apache.commons.beanutils.BeanUtils;
 
+@Getter
+@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class CartItemDTO {
 
     ProductDTO product;
@@ -26,4 +32,5 @@ public class CartItemDTO {
         BeanUtils.copyProperties(cartItem, cartItemDTO);
         return cartItem;
     }
+
 }

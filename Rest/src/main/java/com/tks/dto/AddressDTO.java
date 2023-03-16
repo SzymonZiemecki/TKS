@@ -1,6 +1,5 @@
 package com.tks.dto;
 
-import com.tks.data.model.AddressEnt;
 import com.tks.model.Address;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

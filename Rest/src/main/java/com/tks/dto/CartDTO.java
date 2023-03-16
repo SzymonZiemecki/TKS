@@ -1,12 +1,17 @@
 package com.tks.dto;
 
 import com.tks.model.Cart;
-import lombok.SneakyThrows;
+import lombok.*;
 import org.apache.commons.beanutils.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@Data
+@AllArgsConstructor
+@Builder
 public class CartDTO {
 
     private List<CartItemDTO> cartItems;
@@ -30,4 +35,5 @@ public class CartDTO {
         BeanUtils.copyProperties(cart, cartDTO);
         return cart;
     }
+
 }
