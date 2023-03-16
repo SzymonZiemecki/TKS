@@ -1,3 +1,4 @@
+/*
 package com.tks.api;
 
 import com.tks.Product.Product;
@@ -35,3 +36,4 @@ public interface ProductRestApi {
     @RolesAllowed({"Manager"})
     Response deleteProduct(@PathParam("id") UUID id);
 }
+*/
