@@ -1,13 +1,12 @@
-/*
 package com.tks.adapter;
 
-import com.tks.api.OrderRestApi;
-import com.tks.dto.AddressDTO;
+ import com.tks.dto.AddressDTO;
 import com.tks.dto.OrderDTO;
 import com.tks.model.Address;
 import com.tks.model.Order;
 import com.tks.userinterface.OrderService;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.ejb.Remote;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -17,18 +16,25 @@ import jakarta.ws.rs.core.Response;
 import java.util.List;
 import java.util.UUID;
 
-public class OrderApiImpl implements OrderRestApi {
+@Path("/orders")
+@Consumes("application/json")
+@Produces("application/json")
+@Remote
+public class OrderApiImpl  {
 
     @Inject
     OrderService orderManager;
 
-    @Override
+    @GET
+    @RolesAllowed({"Manager", "Admin"})
     public Response getAllOrders() {
         return Response.ok().entity(orderManager.getAllOrders()).build();
     }
 
-    @Override
-    public Response getOrderById(UUID id) {
+    @GET
+    @Path("/{id}")
+    @RolesAllowed({"Manager"})
+    public Response getOrderById(@PathParam("id") UUID id) {
         OrderDTO order = new OrderDTO();
         try {
             orderManager.getOrderById(id);
@@ -38,18 +44,24 @@ public class OrderApiImpl implements OrderRestApi {
         return Response.ok().entity(order).build();
     }
 
-    @Override
+    @GET
+    @Path("/ongoing")
+    @RolesAllowed({"Manager"})
     public Response getOngoingOrders() {
         return Response.ok().entity(orderManager.getOngoingOrders()).build();
     }
 
-    @Override
+    @GET
+    @Path("/finished")
+    @RolesAllowed({"Manager"})
     public Response getFinishedOrders() {
         return Response.ok().entity(orderManager.getFinishedOrders()).build();
     }
 
-    @Override
-    public Response createOrder(UUID userId, AddressDTO shippingAddress) {
+    @POST
+    @Path("/create")
+    @RolesAllowed({"BaseUser"})
+    public Response createOrder(@QueryParam("userId") UUID userId, @Valid AddressDTO shippingAddress) {
         Order order = new Order();
         try {
             order = orderManager.createOrder(userId, new Address());
@@ -59,8 +71,10 @@ public class OrderApiImpl implements OrderRestApi {
         return Response.ok(order).build();
     }
 
-    @Override
-    public Response deliverOrder(UUID orderId) {
+    @PUT
+    @Path("/{id}/deliver")
+    @RolesAllowed("Manager")
+    public Response deliverOrder(@PathParam("id") UUID orderId) {
         try {
             orderManager.deliverOrder(orderId);
         } catch (Exception e) {
@@ -69,8 +83,10 @@ public class OrderApiImpl implements OrderRestApi {
         return Response.ok().build();
     }
 
-    @Override
-    public Response deleteOrder(UUID orderId) {
+    @DELETE
+    @Path("/{id}")
+    @RolesAllowed({"Manager"})
+    public Response deleteOrder(@PathParam("id") UUID orderId) {
         try {
             orderManager.deleteOrder(orderId);
         } catch (Exception e) {
@@ -81,4 +97,3 @@ public class OrderApiImpl implements OrderRestApi {
 
 
 }
-*/
