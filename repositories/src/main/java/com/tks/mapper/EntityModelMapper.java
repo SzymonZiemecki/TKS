@@ -35,33 +35,34 @@ public class EntityModelMapper {
         return (T) mapper.map(source, toEntMappings().get(source.getClass()));
     }
 
-    public static <S,T> List<T> listToDomainModel(List<S> source){
+    public static <S, T> List<T> listToDomainModel(List<S> source) {
         return (List<T>) source.stream()
-                .map( obj -> toDomainModel(obj))
+                .map(obj -> toDomainModel(obj))
                 .collect(Collectors.toList());
     }
 
-    public static <S,T> List<T> listToEntModel(List<S> source){
+    public static <S, T> List<T> listToEntModel(List<S> source) {
         return (List<T>) source.stream()
-                .map( obj -> toEntModel(obj))
+                .map(obj -> toEntModel(obj))
                 .collect(Collectors.toList());
     }
-    private static Map<Class, Class> toEntMappings(){
+
+    private static Map<Class, Class> toEntMappings() {
         return Map.ofEntries
                 (Map.entry(Address.class, AddressEnt.class),
-                Map.entry(IdTrait.class, IdTraitEnt.class),
-                Map.entry(Order.class, OrderEnt.class),
-                Map.entry(Laptop.class, LaptopEnt.class),
-                Map.entry(Tv.class, TvEnt.class),
-                Map.entry(MobilePhone.class, MobilePhoneEnt.class),
-                Map.entry(Admin.class, AdminEnt.class),
-                Map.entry(BaseUser.class, BaseUserEnt.class),
-                Map.entry(Manager.class, ManagerEnt.class),
-                Map.entry(Cart.class, CartEnt.class),
-                Map.entry(CartItem.class, CartItemEnt.class));
+                        Map.entry(IdTrait.class, IdTraitEnt.class),
+                        Map.entry(Order.class, OrderEnt.class),
+                        Map.entry(Laptop.class, LaptopEnt.class),
+                        Map.entry(Tv.class, TvEnt.class),
+                        Map.entry(MobilePhone.class, MobilePhoneEnt.class),
+                        Map.entry(Admin.class, AdminEnt.class),
+                        Map.entry(BaseUser.class, BaseUserEnt.class),
+                        Map.entry(Manager.class, ManagerEnt.class),
+                        Map.entry(Cart.class, CartEnt.class),
+                        Map.entry(CartItem.class, CartItemEnt.class));
     }
 
-    private static Map<Class, Class> toDomainMappings(){
+    private static Map<Class, Class> toDomainMappings() {
         return Map.ofEntries
                 (Map.entry(Address.class, Address.class),
                         Map.entry(IdTraitEnt.class, IdTrait.class),
@@ -75,4 +76,5 @@ public class EntityModelMapper {
                         Map.entry(CartEnt.class, Cart.class),
                         Map.entry(CartItemEnt.class, CartItem.class));
     }
+
 }

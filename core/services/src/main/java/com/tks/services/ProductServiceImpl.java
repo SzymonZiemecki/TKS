@@ -58,6 +58,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProducts(Optional<String> producer, Optional<String> name) {
-        return List.of();
+        return productRepository.findAll();
     }
 }
