@@ -10,7 +10,6 @@ import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.ext.Provider;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
