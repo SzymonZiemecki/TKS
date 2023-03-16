@@ -1,3 +1,4 @@
+/*
 package com.tks.adapter;
 
 import com.tks.security.JWTAuthTokenUtils;
@@ -34,3 +35,4 @@ public class AuthEndpointImpl implements AuthRestApi {
         }
     }
 }
+*/

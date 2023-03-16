@@ -1,3 +1,4 @@
+/*
 package com.tks.adapter;
 
 import com.nimbusds.jose.JOSEException;
@@ -102,3 +103,4 @@ public class UserApiImpl implements UserRestApi {
         return Response.ok().build();
     }
 }
+*/

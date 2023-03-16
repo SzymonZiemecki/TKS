@@ -1,3 +1,4 @@
+/*
 package com.tks.adapter;
 
 import com.tks.Product.Product;
@@ -43,3 +44,4 @@ public class ProductApiImpl implements ProductRestApi {
     }
 
 }
+*/

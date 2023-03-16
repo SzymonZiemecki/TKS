@@ -1,8 +1,11 @@
+/*
 package com.tks.adapter;
 
 import com.tks.api.OrderRestApi;
 import com.tks.dto.AddressDTO;
 import com.tks.dto.OrderDTO;
+import com.tks.model.Address;
+import com.tks.model.Order;
 import com.tks.userinterface.OrderService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -47,9 +50,9 @@ public class OrderApiImpl implements OrderRestApi {
 
     @Override
     public Response createOrder(UUID userId, AddressDTO shippingAddress) {
-        OrderDTO order = new OrderDTO();
+        Order order = new Order();
         try {
-            order = orderManager.createOrder(userId, shippingAddress);
+            order = orderManager.createOrder(userId, new Address());
         } catch (Exception e) {
             return Response.serverError().entity(e.getMessage()).build();
         }
@@ -78,3 +81,4 @@ public class OrderApiImpl implements OrderRestApi {
 
 
 }
+*/
