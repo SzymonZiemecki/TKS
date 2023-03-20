@@ -60,7 +60,7 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Override
     public Optional<Product> findById(UUID id) {
-        return toDomainModel(productEntRepository.findById(id));
+        return Optional.of(toDomainModel(productEntRepository.findById(id).get()));
 
     }
 

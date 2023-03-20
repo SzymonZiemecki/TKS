@@ -1,6 +1,7 @@
 package com.tks.adapter;
 
 import com.tks.Product.Product;
+import com.tks.api.ProductRestApi;
 import com.tks.dto.product.ProductDTO;
 import com.tks.userinterface.ProductService;
 import jakarta.annotation.security.RolesAllowed;
@@ -21,8 +22,7 @@ import static com.tks.converter.DTOModelMapper.*;
 @Path("/products")
 @Consumes("application/json")
 @Produces("application/json")
-@Remote
-public class ProductApiImpl {
+public class ProductApiImpl implements ProductRestApi {
     @Inject
     ProductService productManager;
 

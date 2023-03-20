@@ -48,7 +48,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     @Override
     public Optional<User> findById(UUID id) {
-        return toDomainModel(userRepository.findById(id));
+        return Optional.of(toDomainModel(userRepository.findById(id).get()));
     }
 
     @Override
