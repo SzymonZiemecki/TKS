@@ -42,7 +42,7 @@
         <jakarta.enterprise.cdi-api.version>3.0.0</jakarta.enterprise.cdi-api.version>
         <cxf.version>4.0.0</cxf.version>
         <jackson-jaxrs-json-provider.version>2.13.4</jackson-jaxrs-json-provider.version>
-        <jersey.version>2.15</jersey.version>
+        <jersey.version>3.1.1</jersey.version>
         <modelMapper.version>3.1.1</modelMapper.version>
         <cdi-test.version>4.2.0</cdi-test.version>
         <jakarta.cdi-api.version>3.0.1</jakarta.cdi-api.version>

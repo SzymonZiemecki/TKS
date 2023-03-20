@@ -9,6 +9,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Builder
 public class CartItemEnt {
     ProductEnt product;

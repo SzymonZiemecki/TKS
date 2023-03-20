@@ -3,8 +3,10 @@ package com.tks.adapter;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import com.tks.User.User;
+import com.tks.api.UserRestApi;
 import com.tks.dto.ChangePasswordDTO;
 import com.tks.dto.RegisterDTO;
+import com.tks.dto.UserDTO;
 import com.tks.security.JWTAuthTokenUtils;
 import com.tks.userinterface.UserService;
 
@@ -20,12 +22,12 @@ import java.text.ParseException;
 import java.util.*;
 
 import static com.tks.converter.Mapper.toDTOModel;
+import static com.tks.converter.Mapper.toDomainModel;
 
 @Path("/users")
 @Consumes("application/json")
 @Produces("application/json")
-@Remote
-public class UserApiImpl {
+public class UserApiImpl implements UserRestApi {
 
     @Inject
     UserService userManager;
@@ -33,7 +35,7 @@ public class UserApiImpl {
     @GET
     @RolesAllowed({"Admin", "Unauthorized", "BaseUser", "Manager"})
     public Response getUsers(@QueryParam("allMatchingByLogin") Optional<String> allMatchingByLogin, @QueryParam("oneByLogin") Optional<String> oneByLogin) {
-        return Response.status(Response.Status.OK).entity(userManager.getAllUsersByLogin(String.valueOf(allMatchingByLogin))).build();
+        return Response.status(Response.Status.OK).entity(userManager.getAllUsers()).build();
     }
 
     @GET
@@ -73,21 +75,16 @@ public class UserApiImpl {
     @PUT
     @Path("/{id}")
     @RolesAllowed({"BaseUser", "Manager", "Admin"})
-    public Response updateUser(@PathParam("id") UUID id, User updatedUser, @HeaderParam("If-Match") String ifMatch) throws ParseException, JOSEException {
-        return null;
+    public Response updateUser(@PathParam("id") UUID id, UserDTO updatedUser, @HeaderParam("If-Match") String ifMatch) throws ParseException, JOSEException {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("id", updatedUser.getId().toString());
+        jsonObject.addProperty("login", updatedUser.getLogin());
+        if(!JWTAuthTokenUtils.verify(ifMatch, jsonObject.toString())){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        userManager.updateUser(id, toDomainModel(updatedUser));
+        return Response.ok().build();
     }
-
-//    @Override
-//    public Response updateUser(UUID id, UserDTO updatedUser, @HeaderParam("If-Match") String ifMatch) throws ParseException, JOSEException {
-//        JsonObject jsonObject = new JsonObject();
-//        jsonObject.addProperty("id", updatedUser.getId().toString());
-//        jsonObject.addProperty("login", updatedUser.getLogin());
-//        if(!JWTAuthTokenUtils.verify(ifMatch, jsonObject.toString())){
-//            return Response.status(Response.Status.BAD_REQUEST).build();
-//        }
-//        userManager.updateUser(id, updatedUser);
-//        return Response.ok().build();
-//    }
 
     @PUT
     @Path("/{id}/changePassword")

@@ -57,7 +57,7 @@ public class OrderRepositoryAdapter implements OrderRepositoryPort {
 
     @Override
     public Optional<Order> findById(UUID id) {
-        return toDomainModel(orderRepository.findById(id));
+        return Optional.of(toDomainModel(orderRepository.findById(id).get()));
     }
 
     @Override

@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public abstract class Product extends IdTrait implements Cloneable{
+public class Product extends IdTrait implements Cloneable{
     private int availableAmount;
     private Double price;
     @Size(min = 2, max = 20)

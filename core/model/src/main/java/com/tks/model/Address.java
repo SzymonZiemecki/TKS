@@ -11,6 +11,7 @@ import lombok.experimental.SuperBuilder;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Address{
     @NotNull
     @Size(min = 2, max = 20)

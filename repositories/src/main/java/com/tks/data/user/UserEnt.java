@@ -4,12 +4,14 @@ import java.util.UUID;
 import com.tks.data.model.AddressEnt;
 import com.tks.data.model.IdTraitEnt;
 import jakarta.validation.constraints.Size;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 @SuperBuilder
 public class UserEnt extends IdTraitEnt {
     @Size(min = 2, max = 20)

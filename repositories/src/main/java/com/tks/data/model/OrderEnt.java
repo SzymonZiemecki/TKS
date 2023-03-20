@@ -13,6 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 public class OrderEnt extends IdTraitEnt {
     private UserEnt customer;
     private AddressEnt address;
