@@ -1,5 +1,6 @@
 package com.tks.adapter;
 
+import com.tks.api.AuthRestApi;
 import com.tks.security.JWTAuthTokenUtils;
 import com.tks.dto.JWTResponse;
 import com.tks.dto.LoginDTO;
@@ -26,8 +27,7 @@ import static jakarta.ws.rs.core.Response.Status.UNAUTHORIZED;
 @Path("/auth/login")
 @Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
-@Remote
-public class AuthEndpointImpl {
+public class AuthEndpointImpl implements AuthRestApi {
 
     @Inject
     private IdentityStoreHandler identityStoreHandler;

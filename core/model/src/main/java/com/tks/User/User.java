@@ -18,7 +18,7 @@ import java.util.UUID;
 @SuperBuilder
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public abstract class  User extends IdTrait implements Cloneable {
+public class  User extends IdTrait implements Cloneable {
     @Size(min = 2, max = 20)
     private String firstName;
     @Size(min = 2, max = 20)

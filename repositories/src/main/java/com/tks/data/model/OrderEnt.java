@@ -17,6 +17,7 @@ import org.apache.commons.beanutils.BeanUtils;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 public class OrderEnt extends IdTraitEnt {
     private UserEnt customer;
     private AddressEnt address;

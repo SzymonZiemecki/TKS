@@ -12,6 +12,7 @@ import org.apache.commons.beanutils.BeanUtils;
 @Getter
 @Setter
 @Data
+@EqualsAndHashCode
 @AllArgsConstructor
 @Builder
 public class CartEnt {

@@ -19,7 +19,6 @@ import java.util.UUID;
 @Path("/orders")
 @Consumes("application/json")
 @Produces("application/json")
-@Remote
 public class OrderApiImpl  {
 
     @Inject

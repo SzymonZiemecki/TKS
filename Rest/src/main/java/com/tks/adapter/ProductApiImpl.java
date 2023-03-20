@@ -1,30 +1,25 @@
 package com.tks.adapter;
 
 import com.tks.Product.Product;
-import com.tks.data.product.ProductEnt;
+import com.tks.api.ProductRestApi;
 import com.tks.dto.product.ProductDTO;
 import com.tks.userinterface.ProductService;
 import jakarta.annotation.security.RolesAllowed;
-import jakarta.ejb.Remote;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.tks.converter.DTOModelMapper.*;
 
 @Path("/products")
 @Consumes("application/json")
 @Produces("application/json")
-@Remote
-public class ProductApiImpl {
+public class ProductApiImpl implements ProductRestApi {
     @Inject
     ProductService productManager;
 

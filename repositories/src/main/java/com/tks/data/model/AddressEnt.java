@@ -14,6 +14,7 @@ import org.apache.commons.beanutils.BeanUtils;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class AddressEnt {
     @NotNull
     @Size(min = 2, max = 20)

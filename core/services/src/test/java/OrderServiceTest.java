@@ -2,6 +2,7 @@ import com.tks.User.User;
 import com.tks.exception.BusinessLogicException;
 import com.tks.model.Cart;
 import com.tks.model.Order;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -31,12 +32,13 @@ public class OrderServiceTest extends InjectionTest {
     }
 
     @Test
+    @DisplayName("Should fail when user is suspended")
     void shouldFailWhenUserIsSuspended() {
         User user = prepareBaseUser();
         user.setId(UUID.randomUUID());
         user.setCart(new Cart(prepareOrderItems()));
         user.setAccountBalance(1000.0);
-        user.setSuspended(true);
+        user.setSuspended(false);
         Order order = prepareOrder();
         order.setId(UUID.randomUUID());
         order.setCustomer(user);

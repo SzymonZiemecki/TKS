@@ -16,6 +16,7 @@ import org.apache.commons.beanutils.BeanUtils;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Builder
 public class CartItemEnt {
     ProductEnt product;

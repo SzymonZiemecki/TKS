@@ -68,7 +68,6 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     @Override
     public Optional<Product> findById(UUID id) {
         return Optional.ofNullable(ProductEnt.productEntToDomainModel(productEntRepository.findById(id).get()));
-
     }
 
     @Override
