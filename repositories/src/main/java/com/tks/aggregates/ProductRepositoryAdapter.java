@@ -25,17 +25,24 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Override
     public List<Product> findByProducer(String producer) {
-        return toDomainModel(productEntRepository.findByProducer(producer));
+        List<ProductEnt> productEntList= productEntRepository.findByProducer(producer);
+        List<Product> productList = new ArrayList<>();
+
+        for (ProductEnt ent: productEntList) {
+            productList.add(ProductEnt.productEntToDomainModel(ent));
+        }
+
+        return productList;
     }
 
     @Override
     public boolean isInOngoingOrder(UUID productId) {
-        return toDomainModel(productEntRepository.isInOngoingOrder(productId));
+        return (productEntRepository.isInOngoingOrder(productId));
     }
 
     @Override
     public Product add(Product entity) {
-        return toDomainModel(productEntRepository.add(toEntModel(entity)));
+        return ProductEnt.productEntToDomainModel(productEntRepository.add(ProductEnt.productToEnt(entity)));
     }
 
     @Override
@@ -45,12 +52,12 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Override
     public void delete(Product entity) {
-        productEntRepository.delete((ProductEnt) toEntModel(entity));
+        productEntRepository.delete(ProductEnt.productToEnt(entity));
     }
 
     @Override
     public Product update(UUID id, Product entity) {
-        return toDomainModel(productEntRepository.update(id, (ProductEnt) toEntModel(entity)));
+        return ProductEnt.productEntToDomainModel(productEntRepository.update(id, ProductEnt.productToEnt(entity)));
     }
 
     @Override
@@ -60,7 +67,7 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Override
     public Optional<Product> findById(UUID id) {
-        return toDomainModel(productEntRepository.findById(id));
+        return Optional.ofNullable(ProductEnt.productEntToDomainModel(productEntRepository.findById(id).get()));
 
     }
 

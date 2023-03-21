@@ -1,12 +1,18 @@
 package com.tks.data.user;
 import java.util.UUID;
 
+import com.tks.User.Admin;
+import com.tks.User.BaseUser;
+import com.tks.User.Manager;
+import com.tks.User.User;
 import com.tks.data.model.AddressEnt;
 import com.tks.data.model.IdTraitEnt;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.beanutils.BeanUtils;
 
 @Getter
 @Setter
@@ -75,5 +81,32 @@ public class UserEnt extends IdTraitEnt {
         this.cart = user.cart;
         this.suspended = user.suspended;
         this.accountBalance = user.accountBalance;
+    }
+
+    @SneakyThrows
+    public static UserEnt userToEnt(User user) {
+        UserEnt userEnt;
+        switch (user){
+            case Manager manager -> userEnt = new ManagerEnt();
+            case BaseUser baseUser -> userEnt = new BaseUserEnt();
+            case Admin admin -> userEnt = new AdminEnt();
+            default -> throw new IllegalStateException("Unexpected value: " + user);
+        }
+        BeanUtils.copyProperties(userEnt, user);
+
+        return userEnt;
+    }
+
+    @SneakyThrows
+    public static User userEntToDomainModel(UserEnt userEnt) {
+        User user;
+        switch (userEnt){
+            case ManagerEnt manager -> user = new Manager();
+            case BaseUserEnt baseUser -> user = new BaseUser();
+            case AdminEnt admin -> user = new Admin();
+            default -> throw new IllegalStateException("Unexpected value: " + userEnt);
+        }
+        BeanUtils.copyProperties(user, userEnt);
+        return user;
     }
 }

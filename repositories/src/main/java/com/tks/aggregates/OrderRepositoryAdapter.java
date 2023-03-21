@@ -32,7 +32,7 @@ public class OrderRepositoryAdapter implements OrderRepositoryPort {
 
     @Override
     public Order add(Order entity) {
-        return toDomainModel(orderRepository.add(toEntModel(entity)));
+        return OrderEnt.orderEntToDomainModel(orderRepository.add(OrderEnt.orderToEnt(entity)));
     }
 
     @Override
@@ -42,12 +42,12 @@ public class OrderRepositoryAdapter implements OrderRepositoryPort {
 
     @Override
     public void delete(Order entity) {
-        orderRepository.delete((OrderEnt) toEntModel(entity));
+        orderRepository.delete(OrderEnt.orderToEnt(entity));
     }
 
     @Override
     public Order update(UUID id, Order entity) {
-        return toDomainModel(orderRepository.update(id, toEntModel(entity)));
+        return OrderEnt.orderEntToDomainModel(orderRepository.update(id, OrderEnt.orderToEnt(entity)));
     }
 
     @Override
@@ -57,7 +57,7 @@ public class OrderRepositoryAdapter implements OrderRepositoryPort {
 
     @Override
     public Optional<Order> findById(UUID id) {
-        return toDomainModel(orderRepository.findById(id));
+        return Optional.of(OrderEnt.orderEntToDomainModel(orderRepository.findById(id).get()));
     }
 
     @Override

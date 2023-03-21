@@ -1,12 +1,13 @@
 package com.tks.data.model;
 
+import com.tks.data.user.CartEnt;
+import com.tks.model.Address;
+import com.tks.model.Cart;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.beanutils.BeanUtils;
 
 @Data
 @SuperBuilder
@@ -29,4 +30,20 @@ public class AddressEnt {
     @NotNull
     @Size(min = 6, max = 10)
     private String zipCode;
+
+    @SneakyThrows
+    public static AddressEnt cartToEnt(Address address) {
+        AddressEnt addressEnt = new AddressEnt();
+        BeanUtils.copyProperties(addressEnt, address);
+
+        return addressEnt;
+    }
+
+    @SneakyThrows
+    public static Address addressEntToDomainModel(AddressEnt addressEnt) {
+        Address address = new Address();
+
+        BeanUtils.copyProperties(address, addressEnt);
+        return address;
+    }
 }

@@ -23,7 +23,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     @Override
     public User add(User entity) {
-        return toDomainModel(userRepository.add(toEntModel(entity)));
+        return UserEnt.userEntToDomainModel(userRepository.add(UserEnt.userToEnt(entity)));
     }
 
     @Override
@@ -33,12 +33,12 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     @Override
     public void delete(User entity) {
-        userRepository.delete((UserEnt) toEntModel(entity));
+        userRepository.delete(UserEnt.userToEnt(entity));
     }
 
     @Override
     public User update(UUID id, User entity) {
-        return toDomainModel(userRepository.update(id, toEntModel(entity)));
+        return UserEnt.userEntToDomainModel(userRepository.update(id, UserEnt.userToEnt(entity)));
     }
 
     @Override
@@ -48,7 +48,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     @Override
     public Optional<User> findById(UUID id) {
-        return toDomainModel(userRepository.findById(id));
+        return Optional.ofNullable(UserEnt.userEntToDomainModel(userRepository.findById(id).get()));
     }
 
     @Override
@@ -82,7 +82,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     @Override
     public User findOneByLogin(String login) {
-        return toDomainModel(userRepository.findOneByLogin(login));
+        return UserEnt.userEntToDomainModel(userRepository.findOneByLogin(login));
     }
 
     @Override
