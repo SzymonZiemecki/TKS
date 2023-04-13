@@ -2,6 +2,7 @@ package com.tks.data.user;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.tks.model.Cart;
 import com.tks.model.CartItem;
@@ -26,16 +27,14 @@ public class CartEnt {
     @SneakyThrows
     public static CartEnt cartToEnt(Cart cart) {
         CartEnt cartEnt = new CartEnt();
-        BeanUtils.copyProperties(cartEnt, cart);
-
+        cartEnt.setCartItems(cart.getCartItems().stream().map(CartItemEnt::cartItemToEnt).collect(Collectors.toList()));
         return cartEnt;
     }
 
     @SneakyThrows
     public static Cart cartEntToDomainModel(CartEnt cartEnt) {
         Cart cart = new Cart();
-
-        BeanUtils.copyProperties(cart, cartEnt);
+        cart.setCartItems(cartEnt.getCartItems().stream().map(CartItemEnt::cartItemEntToDomainModel).collect(Collectors.toList()));
         return cart;
     }
 }

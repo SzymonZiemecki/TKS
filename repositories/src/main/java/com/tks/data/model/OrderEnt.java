@@ -2,6 +2,7 @@ package com.tks.data.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.tks.data.user.CartEnt;
 import com.tks.data.user.UserEnt;
@@ -32,16 +33,30 @@ public class OrderEnt extends IdTraitEnt {
     @SneakyThrows
     public static OrderEnt orderToEnt(Order order) {
         OrderEnt orderEnt = new OrderEnt();
-        BeanUtils.copyProperties(orderEnt, order);
-
+        orderEnt.setId(order.getId());
+        orderEnt.setCustomer(UserEnt.userToEnt(order.getCustomer()));
+        orderEnt.setAddress(AddressEnt.addressToEntModel(order.getAddress()));
+        orderEnt.setCreationDate(order.getCreationDate());
+        orderEnt.setItems(order.getItems().stream().map(CartItemEnt::cartItemToEnt).collect(Collectors.toList()));
+        orderEnt.setPaid(order.isPaid());
+        orderEnt.setDiscountPercent(order.getDiscountPercent());
+        orderEnt.setDelivered(order.isDelivered());
+        orderEnt.setPrice(order.getPrice());
         return orderEnt;
     }
 
     @SneakyThrows
     public static Order orderEntToDomainModel(OrderEnt orderEnt) {
         Order order = new Order();
-
-        BeanUtils.copyProperties(order, orderEnt);
+        order.setId(orderEnt.getId());
+        order.setCustomer(UserEnt.userEntToDomainModel(orderEnt.getCustomer()));
+        order.setAddress(AddressEnt.addressEntToDomainModel(orderEnt.getAddress()));
+        order.setItems(orderEnt.getItems().stream().map(CartItemEnt::cartItemEntToDomainModel).collect(Collectors.toList()));
+        order.setCreationDate(orderEnt.getCreationDate());
+        order.setPaid(orderEnt.isPaid());
+        order.setDiscountPercent(order.getDiscountPercent());
+        order.setDelivered(orderEnt.isDelivered());
+        order.setPrice(orderEnt.getPrice());
         return order;
     }
 }

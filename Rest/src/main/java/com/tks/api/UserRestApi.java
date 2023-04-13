@@ -1,17 +1,13 @@
 package com.tks.api;
 
 import com.nimbusds.jose.JOSEException;
-import com.tks.User.User;
 import com.tks.dto.*;
-import com.tks.model.Cart;
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.ejb.Remote;
+import com.tks.dto.user.UserDTO;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
 import java.text.ParseException;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

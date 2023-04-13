@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
-import static com.tks.mapper.EntityModelMapper.*;
 
 @ApplicationScoped
 public class OrderRepositoryAdapter implements OrderRepositoryPort {
@@ -22,12 +22,18 @@ public class OrderRepositoryAdapter implements OrderRepositoryPort {
 
     @Override
     public List<Order> findOngoingOrders() {
-        return listToDomainModel(orderRepository.findOngoingOrders());
+        return orderRepository.findOngoingOrders()
+                .stream()
+                .map(OrderEnt::orderEntToDomainModel)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Order> findFinishedOrders() {
-        return listToDomainModel(orderRepository.findFinishedOrders());
+        return orderRepository.findFinishedOrders()
+                .stream()
+                .map(OrderEnt::orderEntToDomainModel)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -62,7 +68,10 @@ public class OrderRepositoryAdapter implements OrderRepositoryPort {
 
     @Override
     public List<Order> findAll() {
-        return listToDomainModel(orderRepository.findAll());
+        return orderRepository.findAll()
+                .stream()
+                .map(OrderEnt::orderEntToDomainModel)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -71,6 +80,9 @@ public class OrderRepositoryAdapter implements OrderRepositoryPort {
     }
 
     public List<Order> filter(Predicate<OrderEnt> predicate) {
-        return listToDomainModel(orderRepository.filter(predicate));
+        return orderRepository.filter(predicate)
+                .stream()
+                .map(OrderEnt::orderEntToDomainModel)
+                .collect(Collectors.toList());
     }
 }

@@ -1,6 +1,7 @@
 package com.tks.aggregates;
 
 import com.tks.Product.Product;
+import com.tks.data.model.OrderEnt;
 import com.tks.security.ProductRepositoryPort;
 import com.tks.data.product.ProductEnt;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -9,9 +10,7 @@ import com.tks.repository.ProductEntRepository;
 
 import java.util.*;
 import java.util.function.Predicate;
-
-import static com.tks.mapper.EntityModelMapper.*;
-
+import java.util.stream.Collectors;
 @ApplicationScoped
 public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
@@ -20,7 +19,10 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Override
     public List<Product> findByName(String name) {
-        return toDomainModel(productEntRepository.findByName(name));
+        return productEntRepository.findByName(name)
+                .stream()
+                .map(ProductEnt::productEntToDomainModel)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -72,7 +74,10 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Override
     public List<Product> findAll() {
-        return listToDomainModel(productEntRepository.findAll());
+        return productEntRepository.findAll()
+                .stream()
+                .map(ProductEnt::productEntToDomainModel)
+                .collect(Collectors.toList());
 
     }
 
@@ -80,8 +85,11 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     public int size() {
         return productEntRepository.size();
     }
-    public List<ProductEnt> filter(Predicate<ProductEnt> predicate) {
-        return listToDomainModel(productEntRepository.filter(predicate));
+    public List<Product> filter(Predicate<ProductEnt> predicate) {
+        return productEntRepository.filter(predicate)
+                .stream()
+                .map(ProductEnt::productEntToDomainModel)
+                .collect(Collectors.toList());
     }
 }
 

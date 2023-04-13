@@ -4,6 +4,7 @@ import com.tks.Product.Product;
 import com.tks.api.ProductRestApi;
 import com.tks.dto.product.ProductDTO;
 import com.tks.userinterface.ProductService;
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -19,12 +20,12 @@ import java.util.UUID;
 @Path("/products")
 @Consumes("application/json")
 @Produces("application/json")
+@PermitAll
 public class ProductApiImpl implements ProductRestApi {
     @Inject
     ProductService productManager;
 
     @GET
-    @RolesAllowed({"Admin", "Unauthorized", "BaseUser", "Manager"})
     public Response getProducts(@QueryParam("producer") Optional<String> producer, @QueryParam("name") Optional<String> name) {
 
         List<Product> productList= productManager.getProducts(producer, name);
@@ -39,27 +40,23 @@ public class ProductApiImpl implements ProductRestApi {
 
     @GET
     @Path("/{id}")
-    @RolesAllowed({"Admin", "Unauthorized", "BaseUser", "Manager"})
     public Response getProductById (@PathParam("id") UUID id) {
         return Response.ok().entity(ProductDTO.productToDTO(productManager.findById(id))).build();
     }
 
     @POST
-    @RolesAllowed({"Manager"})
     public Response addProduct(@Valid Product product) {
         return Response.ok().entity(ProductDTO.productToDTO(productManager.addItem(product))).build();
     }
 
     @PUT
     @Path("/{id}")
-    @RolesAllowed({"Manager"})
     public Response updateProduct(@PathParam("id") UUID id, @Valid Product product) {
         return Response.ok().entity(ProductDTO.productToDTO(productManager.updateProduct(id, product))).build();
     }
 
     @DELETE
     @Path("/{id}")
-    @RolesAllowed({"Manager"})
     public Response deleteProduct(@PathParam("id") UUID id) {
         productManager.removeItem(id);
         return Response.ok().build();

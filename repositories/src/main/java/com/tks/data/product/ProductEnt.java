@@ -14,6 +14,7 @@ import com.tks.data.user.BaseUserEnt;
 import com.tks.data.user.ManagerEnt;
 import com.tks.data.user.UserEnt;
 import jakarta.validation.constraints.Size;
+import jakarta.ws.rs.NotSupportedException;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.apache.commons.beanutils.BeanUtils;
@@ -49,11 +50,18 @@ public abstract class ProductEnt extends IdTraitEnt implements Cloneable {
     @SneakyThrows
     public static ProductEnt productToEnt(Product product) {
         ProductEnt productEnt;
-        switch (product){
-            case Tv tv -> productEnt = new TvEnt();
-            case MobilePhone mobilePhone -> productEnt = new MobilePhoneEnt();
-            case Laptop laptop -> productEnt = new LaptopEnt();
-            default -> throw new IllegalStateException("Unexpected value: " + product);
+        if(product instanceof  Tv){
+            productEnt = new TvEnt();
+
+        }
+        else if(product instanceof  MobilePhone){
+            productEnt = new TvEnt();
+        }
+        else if(product instanceof Laptop){
+            productEnt = new LaptopEnt();
+        }
+        else {
+            throw new NotSupportedException();
         }
         BeanUtils.copyProperties(productEnt, product);
 
@@ -63,11 +71,18 @@ public abstract class ProductEnt extends IdTraitEnt implements Cloneable {
     @SneakyThrows
     public static Product productEntToDomainModel(ProductEnt productEnt) {
         Product product;
-        switch (productEnt){
-            case TvEnt tvEnt -> product = new Tv();
-            case MobilePhoneEnt mobilePhoneEnt -> product = new MobilePhone();
-            case LaptopEnt laptopEnt -> product = new Laptop();
-            default -> throw new IllegalStateException("Unexpected value: " + productEnt);
+        if(productEnt instanceof  TvEnt){
+            product = new Tv();
+
+        }
+        else if(productEnt instanceof  MobilePhoneEnt){
+            product = new Tv();
+        }
+        else if(productEnt instanceof LaptopEnt){
+            product = new Laptop();
+        }
+        else {
+            throw new NotSupportedException();
         }
         BeanUtils.copyProperties(product, productEnt);
         return product;

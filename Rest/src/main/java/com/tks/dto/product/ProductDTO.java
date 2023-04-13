@@ -12,6 +12,7 @@ import com.tks.data.product.MobilePhoneEnt;
 import com.tks.data.product.ProductEnt;
 import com.tks.data.product.TvEnt;
 import jakarta.validation.constraints.Size;
+import jakarta.ws.rs.NotSupportedException;
 import lombok.*;
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -39,11 +40,17 @@ public abstract class ProductDTO extends IdTrait {
     @SneakyThrows
     public static ProductDTO productToDTO(Product product) {
         ProductDTO productDTO;
-        switch (product){
-            case Tv tv -> productDTO = new TvDTO();
-            case MobilePhone mobilePhone -> productDTO = new MobilePhoneDTO();
-            case Laptop laptop -> productDTO = new LaptopDTO();
-            default -> throw new IllegalStateException("Unexpected value: " + product);
+        if(product instanceof  Tv){
+            productDTO = new TvDTO();
+        }
+        else if(product instanceof  MobilePhone){
+            productDTO = new TvDTO();
+        }
+        else if(product instanceof Laptop){
+            productDTO = new LaptopDTO();
+        }
+        else {
+            throw new NotSupportedException();
         }
         BeanUtils.copyProperties(productDTO, product);
 
@@ -53,11 +60,18 @@ public abstract class ProductDTO extends IdTrait {
     @SneakyThrows
     public static Product productDTOToDomainModel(ProductDTO productDTO) {
         Product product;
-        switch (productDTO){
-            case TvDTO tvDTO -> product = new Tv();
-            case MobilePhoneDTO mobilePhoneDTO -> product = new MobilePhone();
-            case LaptopDTO laptopDTO -> product = new Laptop();
-            default -> throw new IllegalStateException("Unexpected value: " + productDTO);
+        if(productDTO instanceof TvDTO){
+            product = new Tv();
+
+        }
+        else if(productDTO instanceof  MobilePhoneDTO){
+            product = new Tv();
+        }
+        else if(productDTO instanceof LaptopDTO){
+            product = new Laptop();
+        }
+        else {
+            throw new NotSupportedException();
         }
         BeanUtils.copyProperties(product, productDTO);
         return product;

@@ -25,16 +25,16 @@ public class CartItemEnt {
     @SneakyThrows
     public static CartItemEnt cartItemToEnt(CartItem cartItem) {
         CartItemEnt cartItemEnt = new CartItemEnt();
-        BeanUtils.copyProperties(cartItemEnt, cartItem);
-
+        cartItemEnt.setProduct(ProductEnt.productToEnt(cartItem.getProduct()));
+        cartItemEnt.setQuantity(cartItem.getQuantity());
         return cartItemEnt;
     }
 
     @SneakyThrows
     public static CartItem cartItemEntToDomainModel(CartItemEnt cartItemEnt) {
         CartItem cartItem = new CartItem();
-
-        BeanUtils.copyProperties(cartItem, cartItemEnt);
+        cartItem.setProduct(ProductEnt.productEntToDomainModel(cartItemEnt.getProduct()));
+        cartItem.setQuantity(cartItemEnt.getQuantity());
         return cartItem;
     }
 
