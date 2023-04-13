@@ -2,13 +2,7 @@ package com.pas.endpoint;
 
 import com.pas.model.Address;
 import com.pas.model.Order;
-import jakarta.annotation.security.RolesAllowed;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.validation.Valid;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Response;
-import com.pas.manager.OrderManager;
+
 
 import java.util.List;
 import java.util.UUID;
