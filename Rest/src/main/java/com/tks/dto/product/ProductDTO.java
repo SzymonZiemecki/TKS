@@ -46,7 +46,7 @@ public abstract class ProductDTO extends IdTrait {
             productDTO = new TvDTO();
         }
         else if(product instanceof  MobilePhone){
-            productDTO = new TvDTO();
+            productDTO = new MobilePhoneDTO();
         }
         else if(product instanceof Laptop){
             productDTO = new LaptopDTO();
