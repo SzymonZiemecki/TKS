@@ -1,6 +1,7 @@
 package com.tks.aggregates;
 
 import com.tks.Product.Product;
+import com.tks.data.model.OrderEnt;
 import com.tks.security.ProductRepositoryPort;
 import com.tks.data.product.ProductEnt;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -9,9 +10,7 @@ import com.tks.repository.ProductEntRepository;
 
 import java.util.*;
 import java.util.function.Predicate;
-
-import static com.tks.mapper.EntityModelMapper.*;
-
+import java.util.stream.Collectors;
 @ApplicationScoped
 public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
@@ -20,22 +19,32 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Override
     public List<Product> findByName(String name) {
-        return toDomainModel(productEntRepository.findByName(name));
+        return productEntRepository.findByName(name)
+                .stream()
+                .map(ProductEnt::productEntToDomainModel)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Product> findByProducer(String producer) {
-        return toDomainModel(productEntRepository.findByProducer(producer));
+        List<ProductEnt> productEntList= productEntRepository.findByProducer(producer);
+        List<Product> productList = new ArrayList<>();
+
+        for (ProductEnt ent: productEntList) {
+            productList.add(ProductEnt.productEntToDomainModel(ent));
+        }
+
+        return productList;
     }
 
     @Override
     public boolean isInOngoingOrder(UUID productId) {
-        return toDomainModel(productEntRepository.isInOngoingOrder(productId));
+        return (productEntRepository.isInOngoingOrder(productId));
     }
 
     @Override
     public Product add(Product entity) {
-        return toDomainModel(productEntRepository.add(toEntModel(entity)));
+        return ProductEnt.productEntToDomainModel(productEntRepository.add(ProductEnt.productToEnt(entity)));
     }
 
     @Override
@@ -45,12 +54,12 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Override
     public void delete(Product entity) {
-        productEntRepository.delete((ProductEnt) toEntModel(entity));
+        productEntRepository.delete(ProductEnt.productToEnt(entity));
     }
 
     @Override
     public Product update(UUID id, Product entity) {
-        return toDomainModel(productEntRepository.update(id, (ProductEnt) toEntModel(entity)));
+        return ProductEnt.productEntToDomainModel(productEntRepository.update(id, ProductEnt.productToEnt(entity)));
     }
 
     @Override
@@ -60,13 +69,15 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Override
     public Optional<Product> findById(UUID id) {
-        return Optional.of(toDomainModel(productEntRepository.findById(id).get()));
-
+        return Optional.ofNullable(ProductEnt.productEntToDomainModel(productEntRepository.findById(id).get()));
     }
 
     @Override
     public List<Product> findAll() {
-        return listToDomainModel(productEntRepository.findAll());
+        return productEntRepository.findAll()
+                .stream()
+                .map(ProductEnt::productEntToDomainModel)
+                .collect(Collectors.toList());
 
     }
 
@@ -74,8 +85,11 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
     public int size() {
         return productEntRepository.size();
     }
-    public List<ProductEnt> filter(Predicate<ProductEnt> predicate) {
-        return listToDomainModel(productEntRepository.filter(predicate));
+    public List<Product> filter(Predicate<ProductEnt> predicate) {
+        return productEntRepository.filter(predicate)
+                .stream()
+                .map(ProductEnt::productEntToDomainModel)
+                .collect(Collectors.toList());
     }
 }
 

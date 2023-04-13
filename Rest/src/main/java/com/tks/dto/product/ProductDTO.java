@@ -3,8 +3,18 @@ package com.tks.dto.product;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.tks.IdTrait;
+import com.tks.Product.Laptop;
+import com.tks.Product.MobilePhone;
+import com.tks.Product.Product;
+import com.tks.Product.Tv;
+import com.tks.data.product.LaptopEnt;
+import com.tks.data.product.MobilePhoneEnt;
+import com.tks.data.product.ProductEnt;
+import com.tks.data.product.TvEnt;
 import jakarta.validation.constraints.Size;
+import jakarta.ws.rs.NotSupportedException;
 import lombok.*;
+import org.apache.commons.beanutils.BeanUtils;
 
 @Data
 @Getter
@@ -26,5 +36,45 @@ public abstract class ProductDTO extends IdTrait {
     private String producer;
     private String productDescription;
 
+
+    @SneakyThrows
+    public static ProductDTO productToDTO(Product product) {
+        ProductDTO productDTO;
+        if(product instanceof  Tv){
+            productDTO = new TvDTO();
+        }
+        else if(product instanceof  MobilePhone){
+            productDTO = new TvDTO();
+        }
+        else if(product instanceof Laptop){
+            productDTO = new LaptopDTO();
+        }
+        else {
+            throw new NotSupportedException();
+        }
+        BeanUtils.copyProperties(productDTO, product);
+
+        return productDTO;
+    }
+
+    @SneakyThrows
+    public static Product productDTOToDomainModel(ProductDTO productDTO) {
+        Product product;
+        if(productDTO instanceof TvDTO){
+            product = new Tv();
+
+        }
+        else if(productDTO instanceof  MobilePhoneDTO){
+            product = new Tv();
+        }
+        else if(productDTO instanceof LaptopDTO){
+            product = new Laptop();
+        }
+        else {
+            throw new NotSupportedException();
+        }
+        BeanUtils.copyProperties(product, productDTO);
+        return product;
+    }
 
 }

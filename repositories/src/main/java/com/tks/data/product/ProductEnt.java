@@ -1,9 +1,23 @@
 package com.tks.data.product;
 
+import com.tks.Product.Laptop;
+import com.tks.Product.MobilePhone;
+import com.tks.Product.Product;
+import com.tks.Product.Tv;
+import com.tks.User.Admin;
+import com.tks.User.BaseUser;
+import com.tks.User.Manager;
+import com.tks.User.User;
 import com.tks.data.model.IdTraitEnt;
+import com.tks.data.user.AdminEnt;
+import com.tks.data.user.BaseUserEnt;
+import com.tks.data.user.ManagerEnt;
+import com.tks.data.user.UserEnt;
 import jakarta.validation.constraints.Size;
+import jakarta.ws.rs.NotSupportedException;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.beanutils.BeanUtils;
 
 @Getter
 @Setter
@@ -31,5 +45,46 @@ public abstract class ProductEnt extends IdTraitEnt implements Cloneable {
     @Override
     public ProductEnt clone() throws CloneNotSupportedException {
         return (ProductEnt) super.clone();
+    }
+
+    @SneakyThrows
+    public static ProductEnt productToEnt(Product product) {
+        ProductEnt productEnt;
+        if(product instanceof  Tv){
+            productEnt = new TvEnt();
+
+        }
+        else if(product instanceof  MobilePhone){
+            productEnt = new TvEnt();
+        }
+        else if(product instanceof Laptop){
+            productEnt = new LaptopEnt();
+        }
+        else {
+            throw new NotSupportedException();
+        }
+        BeanUtils.copyProperties(productEnt, product);
+
+        return productEnt;
+    }
+
+    @SneakyThrows
+    public static Product productEntToDomainModel(ProductEnt productEnt) {
+        Product product;
+        if(productEnt instanceof  TvEnt){
+            product = new Tv();
+
+        }
+        else if(productEnt instanceof  MobilePhoneEnt){
+            product = new Tv();
+        }
+        else if(productEnt instanceof LaptopEnt){
+            product = new Laptop();
+        }
+        else {
+            throw new NotSupportedException();
+        }
+        BeanUtils.copyProperties(product, productEnt);
+        return product;
     }
 }

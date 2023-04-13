@@ -21,7 +21,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.source>17</maven.compiler.source>
-        <junit.version>5.8.1</junit.version>
+        <junit.version>5.9.2</junit.version>
         <javaEE.version>8.0.1</javaEE.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <maven-dependency-plugin.version>3.3.0</maven-dependency-plugin.version>
@@ -53,6 +53,7 @@
 
     <dependencyManagement>
         <dependencies>
+
             <dependency>
                 <groupId>jakarta.platform</groupId>
                 <artifactId>jakarta.jakartaee-api</artifactId>
@@ -85,11 +86,7 @@
                 <scope>test</scope>
             </dependency>
 
-            <dependency>
-                <groupId>org.glassfish.jersey.containers</groupId>
-                <artifactId>jersey-container-servlet-core</artifactId>
-                <version>${jersey.version}</version>
-            </dependency>
+
 
             <!-- For JSON -->
             <dependency>
@@ -224,7 +221,7 @@
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-servlet-core</artifactId>
-                <version>3.1.0</version>
+                <version>${jersey.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
@@ -280,6 +277,11 @@
                 <groupId>com.tks</groupId>
                 <artifactId>services</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>1.9.4</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

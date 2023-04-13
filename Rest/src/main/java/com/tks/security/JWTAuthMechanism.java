@@ -1,3 +1,4 @@
+/*
 package com.tks.security;
 
 import com.nimbusds.jwt.SignedJWT;
@@ -55,3 +56,4 @@ public class JWTAuthMechanism implements HttpAuthenticationMechanism {
         return httpMessageContext.notifyContainerAboutLogin("Unauthorized", new HashSet<>(Arrays.asList("Unauthorized")));
     }
 }
+*/

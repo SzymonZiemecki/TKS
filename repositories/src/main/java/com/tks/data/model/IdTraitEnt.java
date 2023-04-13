@@ -2,11 +2,12 @@ package com.tks.data.model;
 
 import java.util.UUID;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.tks.IdTrait;
+import com.tks.data.user.CartEnt;
+import com.tks.model.Cart;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.beanutils.BeanUtils;
 
 @Data
 @SuperBuilder
@@ -15,4 +16,5 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode
 public abstract class IdTraitEnt {
     private UUID id;
+
 }

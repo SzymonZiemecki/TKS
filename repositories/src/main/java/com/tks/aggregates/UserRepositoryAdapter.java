@@ -1,6 +1,8 @@
 package com.tks.aggregates;
 
 import com.tks.User.User;
+import com.tks.data.model.OrderEnt;
+import com.tks.data.product.ProductEnt;
 import com.tks.security.UserRepositoryPort;
 import com.tks.model.Order;
 import com.tks.data.user.UserEnt;
@@ -12,8 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
-
-import static com.tks.mapper.EntityModelMapper.*;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class UserRepositoryAdapter implements UserRepositoryPort {
@@ -23,7 +24,7 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     @Override
     public User add(User entity) {
-        return toDomainModel(userRepository.add(toEntModel(entity)));
+        return UserEnt.userEntToDomainModel(userRepository.add(UserEnt.userToEnt(entity)));
     }
 
     @Override
@@ -33,12 +34,12 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     @Override
     public void delete(User entity) {
-        userRepository.delete((UserEnt) toEntModel(entity));
+        userRepository.delete(UserEnt.userToEnt(entity));
     }
 
     @Override
     public User update(UUID id, User entity) {
-        return toDomainModel(userRepository.update(id, toEntModel(entity)));
+        return UserEnt.userEntToDomainModel(userRepository.update(id, UserEnt.userToEnt(entity)));
     }
 
     @Override
@@ -48,12 +49,15 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
 
     @Override
     public Optional<User> findById(UUID id) {
-        return Optional.of(toDomainModel(userRepository.findById(id).get()));
+        return Optional.ofNullable(UserEnt.userEntToDomainModel(userRepository.findById(id).get()));
     }
 
     @Override
     public List<User> findAll() {
-        return listToDomainModel(userRepository.findAll());
+        return userRepository.findAll()
+                .stream()
+                .map(UserEnt::userEntToDomainModel)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -62,31 +66,46 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     public List<User> filter(Predicate<UserEnt> predicate) {
-        return listToDomainModel(userRepository.filter(predicate));
+        return userRepository.filter(predicate)
+                .stream()
+                .map(UserEnt::userEntToDomainModel)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Order> findUserOrders(UUID userId) {
-        return listToDomainModel(userRepository.findUserOrders(userId));
+        return userRepository.findUserOrders(userId)
+                .stream()
+                .map(OrderEnt::orderEntToDomainModel)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Order> findOngoingUserOrders(UUID userId) {
-        return listToDomainModel(userRepository.findOngoingUserOrders(userId));
+        return userRepository.findOngoingUserOrders(userId)
+                .stream()
+                .map(OrderEnt::orderEntToDomainModel)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Order> findFinishedUserOrders(UUID userId) {
-        return listToDomainModel(userRepository.findFinishedUserOrders(userId));
+        return userRepository.findFinishedUserOrders(userId)
+                .stream()
+                .map(OrderEnt::orderEntToDomainModel)
+                .collect(Collectors.toList());
     }
 
     @Override
     public User findOneByLogin(String login) {
-        return toDomainModel(userRepository.findOneByLogin(login));
+        return UserEnt.userEntToDomainModel(userRepository.findOneByLogin(login));
     }
 
     @Override
     public List<User> findAllByMatchingLogin(String login) {
-        return listToDomainModel(userRepository.findAllByMatchingLogin(login));
+        return userRepository.findAllByMatchingLogin(login)
+                .stream()
+                .map(UserEnt::userEntToDomainModel)
+                .collect(Collectors.toList());
     }
 }

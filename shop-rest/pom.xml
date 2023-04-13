@@ -6,7 +6,7 @@
 
     <parent>
         <artifactId>TKS-Parent</artifactId>
-        <groupId>com.pas</groupId>
+        <groupId>com.tks</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <packaging>war</packaging>

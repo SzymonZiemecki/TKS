@@ -1,24 +1,14 @@
 package com.tks.converter;
 
-import com.tks.IdTrait;
-import com.tks.Product.Laptop;
 import com.tks.Product.MobilePhone;
 import com.tks.Product.Product;
 import com.tks.Product.Tv;
-import com.tks.User.Admin;
-import com.tks.User.BaseUser;
-import com.tks.User.Manager;
 import com.tks.User.User;
-import com.tks.data.model.IdTraitEnt;
-import com.tks.data.model.OrderEnt;
-import com.tks.data.product.LaptopEnt;
-import com.tks.data.product.MobilePhoneEnt;
-import com.tks.data.product.TvEnt;
-import com.tks.data.user.*;
 import com.tks.dto.*;
 import com.tks.dto.product.MobilePhoneDTO;
 import com.tks.dto.product.ProductDTO;
 import com.tks.dto.product.TvDTO;
+import com.tks.dto.user.UserDTO;
 import com.tks.model.Address;
 import com.tks.model.Cart;
 import com.tks.model.CartItem;
