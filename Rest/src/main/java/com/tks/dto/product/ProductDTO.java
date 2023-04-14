@@ -14,6 +14,7 @@ import com.tks.data.product.TvEnt;
 import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.NotSupportedException;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.apache.commons.beanutils.BeanUtils;
 
 @Data
@@ -21,6 +22,7 @@ import org.apache.commons.beanutils.BeanUtils;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 @JsonTypeInfo( use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = TvDTO.class, name = "Tv"),

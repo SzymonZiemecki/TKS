@@ -43,12 +43,12 @@ public class ProductRepositoryTest extends BaseTest {
         Assertions.assertEquals(productEntRepository.findAll().size(), 0);
         productEntRepository.add(productEnt);
         Assertions.assertEquals(productEntRepository.findAll().size(), 1);
-        Assertions.assertEquals(productEntRepository.findById(productEnt.getId()).get().getPrice(), 20);
+        Assertions.assertEquals(productEntRepository.findById(productEnt.getId()).getPrice(), 20);
         productEnt.setPrice(1000.0);
         productEnt.setProducer("szymonnn");
 
         productEntRepository.update(productEnt.getId(), productEnt);
-        Assertions.assertEquals(productEntRepository.findById(productEnt.getId()).get().getPrice(), 1000.0);
-        Assertions.assertEquals(productEntRepository.findById(productEnt.getId()).get().getProducer(), "szymonnn");
+        Assertions.assertEquals(productEntRepository.findById(productEnt.getId()).getPrice(), 1000.0);
+        Assertions.assertEquals(productEntRepository.findById(productEnt.getId()).getProducer(), "szymonnn");
     }
 }

@@ -10,7 +10,7 @@ public interface Repository<T>{
     void delete(T entity);
     T update(UUID id, T entity);
     boolean exists(String id);
-    Optional<T> findById(UUID id);
+    T findById(UUID id);
     List<T> findAll();
     int size();
 }

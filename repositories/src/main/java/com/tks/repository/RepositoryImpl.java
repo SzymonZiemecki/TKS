@@ -36,7 +36,7 @@ public class RepositoryImpl<T extends IdTraitEnt> implements Repository<T> {
         if (!objects.containsKey(id)) {
             log.info("Entity with provided id isnt present in app context");
         } else {
-            T entity = findById(id).orElse(null);
+            T entity = findById(id);
             objects.remove(entity.getId());
         }
     }
@@ -53,11 +53,8 @@ public class RepositoryImpl<T extends IdTraitEnt> implements Repository<T> {
     @Override
     @SneakyThrows
     public synchronized T update(UUID id, T entity) {
-        if (!findById(id).isPresent()) {
-            throw new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE.toString());
-        } else {
-            objects.replace(id, entity);
-        }
+        findById(id);
+        objects.replace(id, entity);
         return entity;
     }
 
@@ -67,8 +64,8 @@ public class RepositoryImpl<T extends IdTraitEnt> implements Repository<T> {
     }
 
     @Override
-    public Optional<T> findById(UUID id) {
-        return Optional.ofNullable(objects.get(id));
+    public T findById(UUID id) {
+        return Optional.ofNullable(objects.get(id)).orElseThrow(() -> new EntityNotFoundException("Entity doesn't exist"));
     }
 
     @Override

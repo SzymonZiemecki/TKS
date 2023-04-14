@@ -9,6 +9,7 @@ import com.tks.data.user.UserEnt;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import com.tks.repository.UserEntRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,8 +49,8 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public Optional<User> findById(UUID id) {
-        return Optional.ofNullable(UserEnt.userEntToDomainModel(userRepository.findById(id).get()));
+    public User findById(UUID id) {
+        return UserEnt.userEntToDomainModel(userRepository.findById(id));
     }
 
     @Override

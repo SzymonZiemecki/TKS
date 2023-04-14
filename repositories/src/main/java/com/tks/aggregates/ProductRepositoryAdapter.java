@@ -7,6 +7,7 @@ import com.tks.data.product.ProductEnt;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import com.tks.repository.ProductEntRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -64,12 +65,17 @@ public class ProductRepositoryAdapter implements ProductRepositoryPort {
 
     @Override
     public boolean exists(String id) {
-        return productEntRepository.findById(UUID.fromString(id)).isPresent();
+        try{
+            productEntRepository.findById(UUID.fromString(id));
+            return true;
+        } catch (EntityNotFoundException e){
+            return false;
+        }
     }
 
     @Override
-    public Optional<Product> findById(UUID id) {
-        return Optional.ofNullable(ProductEnt.productEntToDomainModel(productEntRepository.findById(id).get()));
+    public Product findById(UUID id) {
+        return ProductEnt.productEntToDomainModel(productEntRepository.findById(id));
     }
 
     @Override

@@ -1,19 +1,13 @@
-/*
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.restassured.builder.RequestSpecBuilder;
-import com.jayway.restassured.specification.RequestSpecification;
-import com.pas.model.User.BaseUser;
-import com.pas.model.User.User;
-import com.pas.model.dto.UserDTO;
+import com.tks.dto.AddressDTO;
+import com.tks.dto.user.UserDTO;
+import io.restassured.RestAssured;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.UUID;
 
-import static com.jayway.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -45,7 +39,7 @@ public class UserApiIntegrationTest extends TestContainerInitializer {
         String body2 = objectMapper.writeValueAsString(res);
 
         //update the user
-        UserDTO res2 = given(requestSpecification)
+        UserDTO res2 = RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .body(body2)
                 .log().all()
@@ -58,11 +52,17 @@ public class UserApiIntegrationTest extends TestContainerInitializer {
 
     @Test
     public void registerUserWithLongerThanRequiredNameTest() throws InterruptedException, JsonProcessingException {
-        UserDTO obj = new UserDTO("aaaaaaaaaaaaaaaaaaaandrzej", "Ziemecki", "third", "password", 120d);
+        UserDTO obj = UserDTO.builder()
+                .firstName("aaaaaaaaaaaaaaaaaaaaaasasaaaaaaaaaaaaaaaaaaaaa")
+                .lastName("sa")
+                .login("dgeee")
+                .password("password")
+                .accountBalance(120d)
+                .build();
         String json = objectMapper.writeValueAsString(obj);
 
         //registering user with exact same login should fail
-        String messageWithExpectedError = given(requestSpecification)
+        String messageWithExpectedError = RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .body(json)
                 .log().all()
@@ -70,7 +70,7 @@ public class UserApiIntegrationTest extends TestContainerInitializer {
                 .then()
                 .statusCode(400)//not sure if correct code
                 .extract().body().asString();
-        assertTrue(messageWithExpectedError.contains("The request sent by the client was syntactically incorrect."));
+        assertTrue(messageWithExpectedError.contains("Bad request"));
     }
 
     @Test
@@ -80,7 +80,7 @@ public class UserApiIntegrationTest extends TestContainerInitializer {
         String json = objectMapper.writeValueAsString(res);
 
         //registering user with exact same UUID should fail
-        String messageWithExpectedError = given(requestSpecification)
+        String messageWithExpectedError = RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .body(json)
                 .log().all()
@@ -92,10 +92,17 @@ public class UserApiIntegrationTest extends TestContainerInitializer {
     }
 
     private UserDTO registerUser(String name, String surname, String login) throws JsonProcessingException {
-        UserDTO obj = new UserDTO(name, surname, login, "password", 120d);
+        UserDTO obj = UserDTO.builder()
+                .firstName(name)
+                .lastName(surname)
+                .login(login)
+                .password("password")
+                .accountBalance(120d)
+                .address(new AddressDTO("polska", "bialo", "czerwoni", "na", "essie"))
+                .build();
         String json = objectMapper.writeValueAsString(obj);
 
-        UserDTO res = given(requestSpecification)
+        UserDTO res = RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .body(json)
                 .log().all()
@@ -106,11 +113,11 @@ public class UserApiIntegrationTest extends TestContainerInitializer {
     }
 
     private UserDTO getUserById(UUID id) {
-        return given(requestSpecification)
+        return RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .log().all()
                 .get("/users/{id}", id)
                 .then()
                 .extract().body().as(UserDTO.class);
     }
-}*/
+}

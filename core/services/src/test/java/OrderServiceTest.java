@@ -25,7 +25,7 @@ public class OrderServiceTest extends InjectionTest {
         Order order = prepareOrder();
         order.setId(UUID.randomUUID());
         order.setCustomer(user);
-        given(userRepository.findById(user.getId())).willReturn(Optional.of(user));
+        given(userRepository.findById(user.getId())).willReturn(user);
         given(orderRepository.add(any())).willReturn(order);
 
         assertNotNull(orderService.createOrder(user.getId(), prepareAddress()));
@@ -42,7 +42,7 @@ public class OrderServiceTest extends InjectionTest {
         Order order = prepareOrder();
         order.setId(UUID.randomUUID());
         order.setCustomer(user);
-        given(userRepository.findById(user.getId())).willReturn(Optional.of(user));
+        given(userRepository.findById(user.getId())).willReturn((user));
 
         Exception ex = assertThrows(BusinessLogicException.class, () -> orderService.createOrder(user.getId(), prepareAddress()));
         assertTrue(ex.getMessage().contains("suspended"));
@@ -57,7 +57,7 @@ public class OrderServiceTest extends InjectionTest {
         Order order = prepareOrder();
         order.setId(UUID.randomUUID());
         order.setCustomer(user);
-        given(userRepository.findById(user.getId())).willReturn(Optional.of(user));
+        given(userRepository.findById(user.getId())).willReturn(user);
 
         Exception ex = assertThrows(BusinessLogicException.class, () -> orderService.createOrder(user.getId(), prepareAddress()));
         assertTrue(ex.getMessage().contains("enough money"));
@@ -72,7 +72,7 @@ public class OrderServiceTest extends InjectionTest {
         Order order = prepareOrder();
         order.setId(UUID.randomUUID());
         order.setCustomer(user);
-        given(userRepository.findById(user.getId())).willReturn(Optional.of(user));
+        given(userRepository.findById(user.getId())).willReturn(user);
 
         Exception ex = assertThrows(BusinessLogicException.class, () -> orderService.createOrder(user.getId(), prepareAddress()));
         assertTrue(ex.getMessage().contains("out of stock"));

@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface ProductRestApi {
     Response getProducts(@QueryParam("producer") Optional<String> producer, @QueryParam("name") Optional<String> name);
     Response getProductById(@PathParam("id") UUID id);
-    Response addProduct(@Valid Product product);
-    Response updateProduct(@PathParam("id") UUID id, @Valid Product product);
+    Response addProduct(@Valid ProductDTO product);
+    Response updateProduct(@PathParam("id") UUID id, @Valid ProductDTO product);
     Response deleteProduct(@PathParam("id") UUID id);
 }

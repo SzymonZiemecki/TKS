@@ -1,81 +1,100 @@
-/*
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.restassured.builder.RequestSpecBuilder;
-import com.jayway.restassured.specification.RequestSpecification;
-import com.pas.model.Product.Product;
-import com.pas.model.Product.Tv;
-import com.pas.model.dto.UserDTO;
+import com.tks.dto.product.ProductDTO;
+import com.tks.dto.product.TvDTO;
+import io.restassured.RestAssured;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
-import static com.jayway.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertTrue;
+
 
 @Testcontainers
 public class ProductApiIntegrationTest extends TestContainerInitializer {
     @Test
     public void addProductTest() throws InterruptedException, JsonProcessingException {
-        Product obj = new Tv(2, 200.0, "name", "producer", "desc", "40", "8", "3", "IPS");
+        ProductDTO obj = TvDTO.builder()
+                .name("name")
+                .producer("producer")
+                .productDescription("description")
+                .price(20.2)
+                .availableAmount(20)
+                .refreshRate("fast")
+                .resolution("big")
+                .panelType("eesss")
+                .screenSize("koxxxx").build();
         String json = objectMapper.writeValueAsString(obj);
 
         //add product
-        Product res = given(requestSpecification)
+        ProductDTO res = RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .body(json)
                 .log().all()
                 .post("/products")
                 .then()
-                .extract().body().as(Product.class);
+                .extract().body().as(ProductDTO.class);
         Assertions.assertEquals(res.getProducer(), "producer");
     }
 
     @Test
-    public void readProductTest() throws InterruptedException, JsonProcessingException {
-        Product obj = new Tv(2, 200.0, "name", "producer", "desc", "40", "8", "3", "IPS");
+    public void readProductDTOTest() throws InterruptedException, JsonProcessingException {
+        ProductDTO obj = TvDTO.builder()
+                .name("name")
+                .producer("producer")
+                .productDescription("description")
+                .price(20.2)
+                .availableAmount(20)
+                .refreshRate("fast")
+                .resolution("big")
+                .panelType("eesss")
+                .screenSize("koxxx").build();
         String json = objectMapper.writeValueAsString(obj);
 
         //add product
-        Product res = given(requestSpecification)
+        ProductDTO res = RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .body(json)
                 .log().all()
                 .post("/products")
                 .then()
-                .extract().body().as(Product.class);
+                .extract().body().as(ProductDTO.class);
         Assertions.assertEquals(res.getProducer(), "producer");
 
 
         //get product
-        Product res2 = given(requestSpecification)
+        ProductDTO res2 = RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .log().all()
                 .get("/products/{id}", res.getId())
                 .then()
-                .extract().body().as(Product.class);
+                .extract().body().as(ProductDTO.class);
         Assertions.assertEquals(res2.getProducer(), "producer");
     }
 
     @Test
-    public void updateProductTest() throws InterruptedException, JsonProcessingException {
-        Product obj = new Tv(2, 200.0, "name", "producer", "desc", "40", "8", "3", "IPS");
+    public void updateProductDTOTest() throws InterruptedException, JsonProcessingException {
+        ProductDTO obj = TvDTO.builder()
+                .name("name")
+                .producer("producer")
+                .productDescription("description")
+                .price(20.2)
+                .availableAmount(20)
+                .refreshRate("fast")
+                .resolution("big")
+                .panelType("eesss")
+                .screenSize("koxxxx").build();
         String json = objectMapper.writeValueAsString(obj);
 
         //add product
-        Product res = given(requestSpecification)
+        ProductDTO res = RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .body(json)
                 .log().all()
                 .post("/products")
                 .then()
-                .extract().body().as(Product.class);
+                .extract().body().as(ProductDTO.class);
         Assertions.assertEquals(res.getProducer(), "producer");
 
         //modify product
@@ -84,55 +103,74 @@ public class ProductApiIntegrationTest extends TestContainerInitializer {
         String json2 = objectMapper.writeValueAsString(res);
 
         //update product
-        Product res2 = given(requestSpecification)
+        ProductDTO res2 = RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .body(json2)
                 .log().all()
-                .patch("/products/{id}", res.getId())
+                .put("/products/{id}", res.getId())
                 .then()
-                .extract().body().as(Product.class);
+                .extract().body().as(ProductDTO.class);
         Assertions.assertEquals(res2.getProducer(), "changed");
     }
 
     @Test
-    public void deleteProductTest() throws InterruptedException, JsonProcessingException {
-        Product obj = new Tv(2, 200.0, "name", "producer", "desc", "40", "8", "3", "IPS");
+    public void deleteProductDTOTest() throws InterruptedException, JsonProcessingException {
+        ProductDTO obj = TvDTO.builder()
+                .name("name")
+                .producer("producer")
+                .productDescription("description")
+                .price(20.2)
+                .availableAmount(20)
+                .refreshRate("fast")
+                .resolution("big")
+                .panelType("eesss")
+                .screenSize("koxxx").build();
         String json = objectMapper.writeValueAsString(obj);
 
         //add product
-        Product res = given(requestSpecification)
+        ProductDTO res = RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .body(json)
                 .log().all()
                 .post("/products")
                 .then()
-                .extract().body().as(Product.class);
+                .extract().body().as(ProductDTO.class);
         Assertions.assertEquals(res.getProducer(), "producer");
 
         //delete product
-        given(requestSpecification)
+        RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .log().all()
-                .delete("/products/{id}", res.getId());
+                .delete("/products/{id}", res.getId())
+                .then().statusCode(200);
 
         //findById should return error
-        String messageWithError = given(requestSpecification)
+        String messageWithError = RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .log().all()
                 .get("/products/{id}", res.getId())
                 .then()
                 .statusCode(404)
                 .extract().body().asString();
-        assertTrue(messageWithError.contains("Entity with given ID doesn't exist"));
+        assertTrue(messageWithError.contains("Entity doesn't exist"));
     }
 
     @Test
-    public void addProductWithLongerThanRequiredScreensizeParameterValueTest() throws InterruptedException, JsonProcessingException {
-        Product obj = new Tv(2, 200.0, "name", "producer", "desc", "ogroooooooomnyooooo", "8", "3", "IPS");
+    public void addProductDTOWithLongerThanRequiredScreensizeParameterValueTest() throws InterruptedException, JsonProcessingException {
+        ProductDTO obj = TvDTO.builder()
+                .name("name")
+                .producer("producer")
+                .productDescription("description")
+                .price(20.2)
+                .availableAmount(20)
+                .refreshRate("fast")
+                .resolution("big")
+                .panelType("eesss")
+                .screenSize("kox").build();
         String json = objectMapper.writeValueAsString(obj);
 
         //add product
-        String messageWithExpectedError = given(requestSpecification)
+        String messageWithExpectedError = RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .body(json)
                 .log().all()
@@ -140,14 +178,14 @@ public class ProductApiIntegrationTest extends TestContainerInitializer {
                 .then()
                 .statusCode(400)
                 .extract().body().asString();
-        assertTrue(messageWithExpectedError.contains("The request sent by the client was syntactically incorrect."));
+        assertTrue(messageWithExpectedError.contains("Bad request"));
     }
-    private Product getProductById(UUID id) {
-        return given(requestSpecification)
+    private ProductDTO getProductDTOById(UUID id) {
+        return RestAssured.given(requestSpecification)
                 .header("Content-Type", "application/json")
                 .log().all()
                 .get("/products/{id}", id)
                 .then()
-                .extract().body().as(Product.class);
+                .extract().body().as(ProductDTO.class);
     }
-}*/
+}

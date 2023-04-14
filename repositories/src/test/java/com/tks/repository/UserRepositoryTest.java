@@ -32,7 +32,7 @@ public class UserRepositoryTest extends BaseTest {
         String newFirstName = "changed";
         user.setFirstName(newFirstName);
         userEntRepository.update(user.getId(), user);
-        Assertions.assertEquals(userEntRepository.findById(user.getId()).orElse(null).getFirstName(), newFirstName);
+        Assertions.assertEquals(userEntRepository.findById(user.getId()).getFirstName(), newFirstName);
     }
 
     @Test
@@ -41,6 +41,6 @@ public class UserRepositoryTest extends BaseTest {
         UserEnt user = userEntRepository.add(admin);
         admin.setId(user.getId());
         Assertions.assertEquals(userEntRepository.findAll().size(), 1);
-        Assertions.assertEquals(admin, userEntRepository.findById(user.getId()).orElse(null));
+        Assertions.assertEquals(admin, userEntRepository.findById(user.getId()));
     }
 }

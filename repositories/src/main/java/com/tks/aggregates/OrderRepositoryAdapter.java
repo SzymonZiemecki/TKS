@@ -1,11 +1,13 @@
 package com.tks.aggregates;
 
+import com.tks.data.product.ProductEnt;
 import com.tks.security.OrderRepositoryPort;
 import com.tks.model.Order;
 import com.tks.data.model.OrderEnt;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import com.tks.repository.OrderEntRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -58,12 +60,17 @@ public class OrderRepositoryAdapter implements OrderRepositoryPort {
 
     @Override
     public boolean exists(String id) {
-        return orderRepository.findById(UUID.fromString(id)).isPresent();
+        try {
+            orderRepository.findById(UUID.fromString(id));
+            return true;
+        } catch (EntityNotFoundException e) {
+            return false;
+        }
     }
 
     @Override
-    public Optional<Order> findById(UUID id) {
-        return Optional.of(OrderEnt.orderEntToDomainModel(orderRepository.findById(id).get()));
+    public Order findById(UUID id) {
+        return OrderEnt.orderEntToDomainModel(orderRepository.findById(id));
     }
 
     @Override

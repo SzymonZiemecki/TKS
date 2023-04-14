@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getOrderById(UUID id) {
-        return orderRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return orderRepository.findById(id);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order createOrder(UUID userId, Address shippingAddress) {
-        User customer = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+        User customer = userRepository.findById(userId);
         List<CartItem> orderItems = customer.getCart().getCartItems();
         Double orderValue = calculateOrderValue(orderItems);
 

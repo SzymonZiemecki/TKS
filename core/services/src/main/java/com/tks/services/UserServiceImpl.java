@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(UUID id) {
-        return userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return userRepository.findById(id);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Cart addToCart(UUID userId, UUID productId, Long quantity) {
         User user = getUserById(userId);
-        Product product = productRepository.findById(productId).orElseThrow(EntityNotFoundException::new);
+        Product product = productRepository.findById(productId);
         List<CartItem> itemsInCart = user.getCart().getCartItems();
         itemsInCart.add(new CartItem(product, quantity));
         user.setCart(new Cart(itemsInCart));
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Cart removeFromCart(UUID userId, UUID productId) {
         User user = getUserById(userId);
-        Product product = productRepository.findById(productId).orElseThrow(EntityNotFoundException::new);
+        Product product = productRepository.findById(productId);
         List<CartItem> itemsInCart = user.getCart().getCartItems();
         deleteItemFromCartItems(itemsInCart, product);
         user.setCart(new Cart(itemsInCart));

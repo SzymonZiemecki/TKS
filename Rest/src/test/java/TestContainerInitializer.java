@@ -1,9 +1,8 @@
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.builder.RequestSpecBuilder;
-import com.jayway.restassured.specification.RequestSpecification;
-import org.junit.Before;
+import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.testcontainers.containers.GenericContainer;
@@ -17,7 +16,7 @@ import java.nio.file.Paths;
 @Testcontainers
 public class TestContainerInitializer {
     static MountableFile warFile = MountableFile.forHostPath(
-            Paths.get("target/RestApi-1.0-SNAPSHOT.war").toAbsolutePath(), 0777);
+            Paths.get("target/rest-1.0-SNAPSHOT.war").toAbsolutePath(), 0777);
 
     public static String baseUri;
 
@@ -32,16 +31,16 @@ public class TestContainerInitializer {
 
     @BeforeEach
     public void setup() {
-        RestAssured.baseURI = microContainer.getHost();
-        RestAssured.port = microContainer.getMappedPort(8080);
-        baseUri = "http://" + microContainer.getHost() + ":" + microContainer.getMappedPort(8080) + "/app";
+        RestAssured.baseURI = shopApp.getHost();
+        RestAssured.port = shopApp.getMappedPort(8080);
+        baseUri = "http://" + shopApp.getHost() + ":" + shopApp.getMappedPort(8080) + "/rest-1.0-SNAPSHOT/api/v1";
         requestSpecification = new RequestSpecBuilder().setBaseUri(baseUri).build();
     }
 
     @Container
-    static GenericContainer microContainer = new GenericContainer("payara/micro:5.2021.9-jdk11")
+    static GenericContainer shopApp = new GenericContainer("payara/server-full:6.2023.3-jdk17")
             .withExposedPorts(8080)
-            .withCopyFileToContainer(warFile, "/opt/payara/deployments/app.war")
+            .withCopyFileToContainer(warFile, "/opt/payara/deployments/rest-1.0-SNAPSHOT.war")
             .withCommand()
-            .waitingFor(Wait.forHttp("/RestApi-1.0-SNAOPSHOT/api/v1/healthCheck"));
+            .waitingFor(Wait.forHttp("/health/ready").forPort(8080).forStatusCode(200));
 }

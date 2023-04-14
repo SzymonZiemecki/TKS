@@ -45,14 +45,14 @@ public class ProductApiImpl implements ProductRestApi {
     }
 
     @POST
-    public Response addProduct(@Valid Product product) {
-        return Response.ok().entity(ProductDTO.productToDTO(productManager.addItem(product))).build();
+    public Response addProduct(@Valid ProductDTO product) {
+        return Response.ok().entity(ProductDTO.productToDTO(productManager.addItem(ProductDTO.productDTOToDomainModel(product)))).build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response updateProduct(@PathParam("id") UUID id, @Valid Product product) {
-        return Response.ok().entity(ProductDTO.productToDTO(productManager.updateProduct(id, product))).build();
+    public Response updateProduct(@PathParam("id") UUID id, @Valid ProductDTO product) {
+        return Response.ok().entity(ProductDTO.productToDTO(productManager.updateProduct(id, ProductDTO.productDTOToDomainModel(product)))).build();
     }
 
     @DELETE

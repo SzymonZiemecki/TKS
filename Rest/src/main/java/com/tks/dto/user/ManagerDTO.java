@@ -1,7 +1,12 @@
 package com.tks.dto.user;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class ManagerDTO extends UserDTO{
+@NoArgsConstructor
+public class ManagerDTO extends UserDTO {
+    public ManagerDTO(final UserDTO dto) {
+        super(dto);
+    }
 }
