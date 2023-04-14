@@ -18,7 +18,7 @@ public class ProductServiceImpl implements ProductService {
     ProductRepositoryPort productRepository;
     @Override
     public Product findById(UUID id) {
-        return productRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return productRepository.findById(id);
     }
 
     @Override

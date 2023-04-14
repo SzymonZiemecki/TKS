@@ -45,9 +45,9 @@ public class OrderRepositoryTest extends BaseTest {
         Assertions.assertEquals(orderEntRepository.findAll().size(), 0);
         orderEntRepository.add(orderEnt);
         Assertions.assertEquals(orderEntRepository.findAll().size(), 1);
-        Assertions.assertNotEquals(orderEntRepository.findById(orderEnt.getId()).get().getPrice(), 1000.0);
+        Assertions.assertNotEquals(orderEntRepository.findById(orderEnt.getId()).getPrice(), 1000.0);
         orderEnt.setPrice(1000.0);
         orderEntRepository.update(orderEnt.getId(), orderEnt);
-        Assertions.assertEquals(orderEntRepository.findById(orderEnt.getId()).get().getPrice(), 1000.0);
+        Assertions.assertEquals(orderEntRepository.findById(orderEnt.getId()).getPrice(), 1000.0);
     }
 }

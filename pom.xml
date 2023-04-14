@@ -34,7 +34,7 @@
         <jackson-databind.version>2.13.4.2</jackson-databind.version>
         <jakarta-faces-api.version>3.0.0</jakarta-faces-api.version>
         <jaxb-api.verison>2.3.0</jaxb-api.verison>
-        <restassured.version>2.9.0</restassured.version>
+        <restassured.version>5.3.0</restassured.version>
         <jersey-media-json-jackson.version>3.1.0</jersey-media-json-jackson.version>
         <jakartaEE-api.version>9.1.0</jakartaEE-api.version>
         <jakarta.ws.rs-api.version>3.0.0</jakarta.ws.rs-api.version>
@@ -49,6 +49,7 @@
         <mockito.version>5.1.1</mockito.version>
         <apache-commons.version>3.12.0</apache-commons.version>
         <testcontainers.version>1.16.3</testcontainers.version>
+        <microprofile-health.version>4.0.1</microprofile-health.version>
     </properties>
 
     <dependencyManagement>
@@ -58,6 +59,11 @@
                 <groupId>jakarta.platform</groupId>
                 <artifactId>jakarta.jakartaee-api</artifactId>
                 <version>${jakartaEE-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.microprofile.health</groupId>
+                <artifactId>microprofile-health-api</artifactId>
+                <version>${microprofile-health.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.validation</groupId>
@@ -171,7 +177,7 @@
             <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>com.jayway.restassured</groupId>
+                <groupId>io.rest-assured</groupId>
                 <artifactId>rest-assured</artifactId>
                 <version>${restassured.version}</version>
                 <scope>test</scope>

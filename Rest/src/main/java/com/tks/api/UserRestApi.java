@@ -23,7 +23,7 @@ public interface UserRestApi {
 
     Response getAllUserOrders(@PathParam("id") UUID userId);
 
-    Response updateUser(@PathParam("id") UUID id, UserDTO updatedUser, @HeaderParam("If-Match") String ifMatch) throws ParseException, JOSEException;
+    Response updateUser(@PathParam("id") UUID id, UserDTO updatedUser) throws ParseException, JOSEException;
 
     Response changePassword(@PathParam("id") UUID id, ChangePasswordDTO changePasswordDTO);
 
@@ -35,9 +35,9 @@ public interface UserRestApi {
 
     Response removeFromCart(@PathParam("id") UUID userId, @QueryParam("productId") UUID productId);
 
-    Response register(@Valid RegisterDTO user);
+    Response register(@Valid UserDTO user);
 
-    Response addUser(@Valid RegisterDTO user);
+    Response addUser(@Valid UserDTO user);
 
     Response suspendOrResumeUser(@PathParam("id") UUID userId);
 }

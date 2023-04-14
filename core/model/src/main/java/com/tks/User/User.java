@@ -12,6 +12,7 @@ import lombok.SneakyThrows;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Data
@@ -65,6 +66,7 @@ public class  User extends IdTrait implements Cloneable {
 
     public User() {
         this.address=new Address();
+        this.cart = new Cart(new ArrayList<>());
     }
 
     @Override
