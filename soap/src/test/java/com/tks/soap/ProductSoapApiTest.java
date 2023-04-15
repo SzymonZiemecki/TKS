@@ -19,7 +19,7 @@ public class ProductSoapApiTest extends TestContainerInitializer {
     @BeforeAll
     public void setup() {
         super.setup();
-        String wsdlUrl = baseUri + "/soap-1.0-SNAPSHOT/productSoapApi?wsdl";
+        String wsdlUrl = baseUri + "/soap-1.0-SNAPSHOT/productEndpointApi?wsdl";
         JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
         factory.setServiceClass(ProductEndpointApi.class);
         factory.setAddress(wsdlUrl);

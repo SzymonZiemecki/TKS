@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@WebService(serviceName = "productEndpointApi", endpointInterface = "com.tks.soap.endpoints.ProductEndpointApi")
+@WebService(serviceName = "productSoapApi", endpointInterface = "com.tks.soap.endpoints.ProductEndpointApi")
 
 public class ProductEndpointImpl implements ProductEndpointApi {
     @Inject

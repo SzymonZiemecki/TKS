@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.Network;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -37,14 +38,17 @@ public class TestContainerInitializer {
     public void setup() {
         RestAssured.baseURI = microContainer.getHost();
         RestAssured.port = microContainer.getMappedPort(8080);
-        baseUri = "http://" + microContainer.getHost() + ":" + microContainer.getMappedPort(8080) + "/app";
+        baseUri = "http://" + microContainer.getHost() + ":" + microContainer.getMappedPort(8080);
         requestSpecification = new RequestSpecBuilder().setBaseUri(baseUri).build();
     }
+
+    private static final Network network = Network.newNetwork();
 
     @Container
     static GenericContainer microContainer = new GenericContainer("payara/micro:5.2021.9-jdk11")
             .withExposedPorts(8080)
             .withCopyFileToContainer(warFile, "/opt/payara/deployments/app.war")
             .withCommand()
-            .waitingFor(Wait.forHttp("/soap-1.0-SNAPSHOT/productSoapApi?wsdl"));
+            .withNetwork(network)
+            .waitingFor(Wait.forHttp("/soap-1.0-SNAPSHOT/productSoapApi?wsdl").forPort(8080).forStatusCode(200));
 }
