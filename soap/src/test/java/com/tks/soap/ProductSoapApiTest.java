@@ -8,10 +8,12 @@ import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.util.List;
 
-public class ProductSoapApiTest extends TestContainerInitializer {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class ProductSoapApiTest extends TestContainerInitializer {
 
     static ProductEndpointApi productSoapApi;
 

@@ -13,6 +13,7 @@ import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
+import org.testcontainers.utility.DockerImageName;
 import org.testcontainers.utility.MountableFile;
 
 import java.nio.file.Paths;
@@ -20,8 +21,12 @@ import java.nio.file.Paths;
 @Testcontainers
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestContainerInitializer {
-    static MountableFile warFile = MountableFile.forHostPath(
-            Paths.get("target/soap-1.0-SNAPSHOT.war").toAbsolutePath(), 0777);
+    private static final DockerImageName PAYARA_IMAGE = DockerImageName
+            .parse("payara/server-full")
+            .withTag("6.2023.3-jdk17");
+    private static final int PORT = 8080;
+    private static final String PACKAGE_NAME = "soap-1.0-SNAPSHOT.war";
+    private static final String CONTAINER_DEPLOYMENT_PATH = "/opt/payara/deployments/";
 
     public static String baseUri;
 
@@ -29,26 +34,24 @@ public class TestContainerInitializer {
 
     public static ObjectMapper objectMapper = new ObjectMapper();
 
-    @BeforeAll
-    public static void init() {
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    }
-
-    @BeforeEach
-    public void setup() {
-        RestAssured.baseURI = microContainer.getHost();
-        RestAssured.port = microContainer.getMappedPort(8080);
-        baseUri = "http://" + microContainer.getHost() + ":" + microContainer.getMappedPort(8080);
-        requestSpecification = new RequestSpecBuilder().setBaseUri(baseUri).build();
-    }
-
     private static final Network network = Network.newNetwork();
 
-    @Container
-    static GenericContainer microContainer = new GenericContainer("payara/micro:5.2021.9-jdk11")
-            .withExposedPorts(8080)
-            .withCopyFileToContainer(warFile, "/opt/payara/deployments/app.war")
-            .withCommand()
+    protected static GenericContainer microContainer = new GenericContainer(PAYARA_IMAGE)
+            .withExposedPorts(PORT)
+            .withCopyFileToContainer(
+                    MountableFile.forHostPath("target/" + PACKAGE_NAME),
+                    CONTAINER_DEPLOYMENT_PATH + PACKAGE_NAME)
             .withNetwork(network)
-            .waitingFor(Wait.forHttp("/soap-1.0-SNAPSHOT/productSoapApi?wsdl").forPort(8080).forStatusCode(200));
+            .waitingFor(Wait.forHttp("/soap-1.0-SNAPSHOT/productSoapApi?wsdl").forPort(PORT).forStatusCode(200));
+
+    @BeforeAll
+    protected void setup() {
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        if (!microContainer.isRunning())
+            microContainer.start();
+
+        baseUri = "http://" +
+                microContainer.getHost() + ":" +
+                microContainer.getMappedPort(PORT);
+    }
 }

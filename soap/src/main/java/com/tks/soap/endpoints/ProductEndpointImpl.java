@@ -14,7 +14,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @WebService(serviceName = "productSoapApi", endpointInterface = "com.tks.soap.endpoints.ProductEndpointApi")
-
 public class ProductEndpointImpl implements ProductEndpointApi {
     @Inject
     ProductService productManager;
