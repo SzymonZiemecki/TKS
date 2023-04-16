@@ -6,9 +6,24 @@ import com.tks.Product.Product;
 import com.tks.Product.Tv;
 import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.NotSupportedException;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlType;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.beanutils.BeanUtils;
 
+@Data
+@NoArgsConstructor
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "clientSoap", propOrder = {
+        "availableAmount",
+        "price",
+        "name",
+        "producer",
+        "productDescription"
+})
 public class ProductSoap {
     private int availableAmount;
     private Double price;
