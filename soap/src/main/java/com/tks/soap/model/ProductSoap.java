@@ -8,7 +8,9 @@ import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.NotSupportedException;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -25,14 +27,28 @@ import org.apache.commons.beanutils.BeanUtils;
         "productDescription"
 })
 public class ProductSoap {
+    @XmlElement(name = "availableAmount")
     private int availableAmount;
+
+    @XmlElement(name = "price")
     private Double price;
+    @XmlElement(name = "name")
     @Size(min = 2, max = 20)
     private String name;
+    @XmlElement(name = "producer")
     @Size(min = 2, max = 20)
     private String producer;
+    @XmlElement(name = "productDescription")
     private String productDescription;
 
+    @Builder
+    public ProductSoap(final int availableAmount, final Double price, final String name, final String producer, final String productDescription) {
+        this.availableAmount = availableAmount;
+        this.price = price;
+        this.name = name;
+        this.producer = producer;
+        this.productDescription = productDescription;
+    }
 
     @SneakyThrows
     public static ProductSoap productToSoap(Product product) {
