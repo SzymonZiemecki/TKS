@@ -1,8 +1,7 @@
-package com.tks.soap.model;
+package com.example.soapSpring.model;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlType;
 import lombok.*;
 
@@ -18,13 +17,9 @@ import lombok.*;
         "panelType"
 })
 public class TvSoap extends ProductSoap {
-    @XmlElement(name = "screenSize")
     private String screenSize;
-    @XmlElement(name = "resolution")
     private String resolution;
-    @XmlElement(name = "refreshRate")
     private String refreshRate;
-    @XmlElement(name = "panelType")
     private String panelType;
 
     public TvSoap(final int availableAmount, final Double price, final String name, final String producer, final String productDescription,

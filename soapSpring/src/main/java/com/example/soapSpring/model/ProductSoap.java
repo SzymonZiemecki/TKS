@@ -1,9 +1,12 @@
-package com.tks.soap.model;
+package com.example.soapSpring.model;
+
+import org.apache.commons.beanutils.BeanUtils;
 
 import com.tks.Product.Laptop;
 import com.tks.Product.MobilePhone;
 import com.tks.Product.Product;
 import com.tks.Product.Tv;
+
 import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.NotSupportedException;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -14,12 +17,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
-import org.apache.commons.beanutils.BeanUtils;
 
 @Data
 @NoArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "productSoap", propOrder = {
+@XmlType(name = "clientSoap", propOrder = {
         "availableAmount",
         "price",
         "name",
@@ -33,10 +35,8 @@ public class ProductSoap {
     @XmlElement(name = "price")
     private Double price;
     @XmlElement(name = "name")
-    @Size(min = 2, max = 20)
     private String name;
     @XmlElement(name = "producer")
-    @Size(min = 2, max = 20)
     private String producer;
     @XmlElement(name = "productDescription")
     private String productDescription;

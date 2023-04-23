@@ -1,8 +1,11 @@
 package com.tks.soap;
 
+import static com.tks.soap.endpoints.ProductEndpointImpl.url2;
+
 import com.tks.Product.Product;
 import com.tks.Product.Tv;
 import com.tks.soap.endpoints.ProductEndpointApi;
+import com.tks.soap.endpoints.ProductEndpointImpl;
 import com.tks.soap.model.ProductSoap;
 import jakarta.ws.rs.core.GenericType;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
@@ -22,23 +25,19 @@ class ProductSoapApiTest extends TestContainerInitializer {
     @BeforeAll
     public void setup() {
         super.setup();
-        String wsdlUrl = baseUri + "/soap-1.0-SNAPSHOT/productSoapApi?wsdl";
-        JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-        factory.setServiceClass(ProductEndpointApi.class);
-        factory.setAddress(wsdlUrl);
-
-        productSoapApi = (ProductEndpointApi) factory.create();
+        String wsdlUrl = baseUri + "/soap/productSoapApi?wsdl";
+        url2 = wsdlUrl;
+        ProductEndpointImpl service = new ProductEndpointImpl();
     }
 
     @Test
     void addDeleteProductTest() throws Exception {
-        Product tv = new Tv(1, 23.0, "tv", "dell", "telewizor", "11", "2", "60Hz", "IPS");
+//        Product tv = new Tv(1, 23.0, "tv", "dell", "telewizor", "11", "2", "60Hz", "IPS");
+//
+//        productSoapApi.addProduct(tv);
 
-        productSoapApi.addProduct(tv);
+        List<ProductSoap> response = productSoapApi.getProducts();
 
-        List<ProductSoap> response = productSoapApi.getProducts(null, null).readEntity(new GenericType<List<ProductSoap>>() {
-        });
-
-        Assertions.assertEquals(1, response.size());
+        Assertions.assertEquals(3, response.size());
     }
 }

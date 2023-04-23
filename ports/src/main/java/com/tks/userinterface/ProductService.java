@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import jakarta.inject.Named;
+
 public interface ProductService {
     Product findById(UUID id);
     List<Product> findAllProducts();

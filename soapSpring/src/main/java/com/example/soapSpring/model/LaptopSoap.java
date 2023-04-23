@@ -1,7 +1,6 @@
-package com.tks.soap.model;
+package com.example.soapSpring.model;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlType;
 import lombok.*;
 
 @XmlRootElement
@@ -10,15 +9,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@XmlType(name = "laptopSoap", propOrder = {
-        "cpu",
-        "ramAmount",
-        "screenSize",
-        "resolution",
-        "batterySize",
-        "diskSize",
-        "panelType"
-})
 public class LaptopSoap extends ProductSoap {
     private String cpu;
     private int ramAmount;

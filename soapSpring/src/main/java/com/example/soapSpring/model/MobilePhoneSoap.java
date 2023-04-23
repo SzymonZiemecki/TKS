@@ -1,7 +1,6 @@
-package com.tks.soap.model;
+package com.example.soapSpring.model;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlType;
 import lombok.*;
 
 @XmlRootElement
@@ -9,18 +8,6 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@XmlType(name = "mobilePhoneSoap", propOrder = {
-        "cpu",
-        "ramAmount",
-        "screenSize",
-        "resolution",
-        "batterySize",
-        "memorySize",
-        "panelType",
-        "operatingSystem",
-        "audioJackPresent",
-        "nfcPresent"
-})
 public class MobilePhoneSoap extends ProductSoap {
     private String cpu;
     private int ramAmount;

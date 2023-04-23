@@ -1,21 +1,37 @@
 package com.tks.soap.endpoints;
 
 import com.tks.Product.Product;
-import jakarta.jws.WebService;
-import jakarta.ws.rs.core.Response;
+import com.tks.soap.model.ProductSoap;
 
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebResult;
+import jakarta.jws.WebService;
+import jakarta.jws.soap.SOAPBinding;
+import jakarta.ws.rs.core.Response;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
+import jakarta.xml.ws.Action;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@WebService
+import javax.naming.spi.ObjectFactory;
+
+@WebService(name = "CountryService", targetNamespace = "http://server.ws.soap.baeldung.com/")
+@SOAPBinding(style = SOAPBinding.Style.RPC)
+@XmlSeeAlso({ ObjectFactory.class })
 public interface ProductEndpointApi {
-    Response getProducts(Optional<String> producer, Optional<String> name);
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://server.ws.soap.baeldung.com/CountryService/findByNameRequest",
+            output = "http://server.ws.soap.baeldung.com/CountryService/findByNameResponse")
+    List<ProductSoap> getProducts();
 
-    Response getProductById(UUID id);
+    ProductSoap getProductById(UUID id);
 
-    Response addProduct(Product product);
+    ProductSoap addProduct(Product product);
 
-    Response updateProduct(UUID id, Product product);
+    ProductSoap updateProduct(UUID id, Product product);
 
-    Response deleteProduct(UUID id);
+    void deleteProduct(UUID id);
 }

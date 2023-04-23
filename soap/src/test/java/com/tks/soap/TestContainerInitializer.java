@@ -42,7 +42,7 @@ public class TestContainerInitializer {
                     MountableFile.forHostPath("target/" + PACKAGE_NAME),
                     CONTAINER_DEPLOYMENT_PATH + PACKAGE_NAME)
             .withNetwork(network)
-            .waitingFor(Wait.forHttp("/soap-1.0-SNAPSHOT/productSoapApi?wsdl").forPort(PORT).forStatusCode(200));
+            .waitingFor(Wait.forHttp("/soap/productSoapApi?wsdl").forPort(PORT).forStatusCode(200));
 
     @BeforeAll
     protected void setup() {

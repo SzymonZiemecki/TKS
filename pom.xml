@@ -16,6 +16,7 @@
         <module>core</module>
         <module>rest</module>
         <module>soap</module>
+<!--        <module>soapSpring</module>-->
     </modules>
 
     <properties>
@@ -34,7 +35,6 @@
         <jackson.version>2.13.4</jackson.version>
         <jackson-databind.version>2.13.4.2</jackson-databind.version>
         <jakarta-faces-api.version>3.0.0</jakarta-faces-api.version>
-        <jaxb-api.verison>2.3.0</jaxb-api.verison>
         <restassured.version>5.3.0</restassured.version>
         <jersey-media-json-jackson.version>3.1.0</jersey-media-json-jackson.version>
         <jakartaEE-api.version>9.1.0</jakartaEE-api.version>
@@ -55,7 +55,16 @@
 
     <dependencyManagement>
         <dependencies>
-
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-core</artifactId>
+                <version>4.0.2</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.activation</groupId>
+                <artifactId>jakarta.activation-api</artifactId>
+                <version>2.1.1</version>
+            </dependency>
             <dependency>
                 <groupId>jakarta.platform</groupId>
                 <artifactId>jakarta.jakartaee-api</artifactId>
