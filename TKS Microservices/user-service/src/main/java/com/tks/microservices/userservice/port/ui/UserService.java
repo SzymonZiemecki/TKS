@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.tks.microservices.userservice.core.model.User;
+import com.tks.microservices.userservice.rest.dto.UpdateUserDTO;
 
 
 public interface UserService {

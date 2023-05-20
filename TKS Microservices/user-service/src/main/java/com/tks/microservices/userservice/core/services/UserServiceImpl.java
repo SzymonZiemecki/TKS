@@ -10,6 +10,8 @@ import com.tks.microservices.userservice.core.model.User;
 import com.tks.microservices.userservice.port.security.UserRepositoryPort;
 import com.tks.microservices.userservice.port.ui.UserService;
 import com.tks.microservices.userservice.repository.api.UserRepository;
+import com.tks.microservices.userservice.rest.dto.AddressDTO;
+import com.tks.microservices.userservice.rest.dto.UpdateUserDTO;
 
 import jdk.jshell.spi.ExecutionControl;
 import lombok.SneakyThrows;
@@ -44,6 +46,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateUser(UUID id, UpdateUserDTO dto) {
+        User updatedUser = userRepository.findById(id);
+        updatedUser.setFirstName(dto.getFirstName());
+        updatedUser.setLastName(dto.getLastName());
+        updatedUser.setAddress(AddressDTO.addressDTOToDomainModel(dto.getAddress()));
+        updatedUser.setAccountBalance(dto.getAccountBalance());
     public User updateUser(UUID id, User updatedUser) {
         return userRepository.update(id, updatedUser);
     }
