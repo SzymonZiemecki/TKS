@@ -47,13 +47,15 @@ spring:
 
 springdoc:
   swagger-ui:
+    path: /swagger-ui.html
     urls:
-      - name: employee
-        url: /v3/api-docs/employee
-      - name: department
-        url: /v3/api-docs/department
-      - name: organization
-        url: /v3/api-docs/organization
+      - name: user
+        url: /v3/api-docs/user
+      - name: product
+        url: /v3/api-docs/product
+      - name: order
+        url: /v3/api-docs/order
+
 
 management:
   tracing:
