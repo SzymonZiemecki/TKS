@@ -7,6 +7,8 @@ eureka:
       defaultZone: http://localhost:8061/eureka/
 
 logging:
+  level:
+    root: DEBUG
   pattern: 
     console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId:-},%X{spanId:-}] ${LOG_LEVEL_PATTERN:-%5p} %m%n"
               
@@ -26,24 +28,33 @@ spring:
         - Path=/user/**
         filters:
         - RewritePath=/user/(?<path>.*), /$\{path}
+        - AuthenticationFilter
       - id: product-service
         uri: lb://product-service
         predicates:
         - Path=/product/**
         filters:
         - RewritePath=/product/(?<path>.*), /$\{path}
+        - AuthenticationFilter
       - id: order-service
         uri: lb://order-service
         predicates:
-        - Path=/organization/**
+        - Path=/order/**
         filters:
         - RewritePath=/order/(?<path>.*), /$\{path}
+        - AuthenticationFilter
       - id: openapi
         uri: http://localhost:${server.port}
         predicates:
         - Path=/v3/api-docs/**
         filters:
         - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+      - id: authorization-service
+        uri: lb://AUTHORIZATION-SERVICE
+        predicates:
+          - Path=/auth/**
+        filters:
+          - AuthenticationFilter
 
 springdoc:
   swagger-ui:

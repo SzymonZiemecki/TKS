@@ -2,7 +2,12 @@ package com.tks.microservices.orderservice.rest.api;
 
 import java.util.UUID;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.tks.microservices.orderservice.rest.dto.AddressDTO;
+import com.tks.microservices.orderservice.rest.dto.CreateClientDto;
 
 import jakarta.validation.Valid;
 import jakarta.ws.rs.PathParam;
@@ -10,17 +15,23 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 
 public interface OrderRestApi {
-    Response getAllOrders();
+    ResponseEntity getAllOrders();
 
-    Response getOrderById(@PathParam("id") UUID id);
+    ResponseEntity getOrderById(@PathParam("id") UUID id);
 
-    Response getOngoingOrders();
+    ResponseEntity getOngoingOrders();
 
-    Response getFinishedOrders();
+    ResponseEntity getFinishedOrders();
 
-    Response createOrder(@QueryParam("userId") UUID userId, @Valid AddressDTO shippingAddress);
+    ResponseEntity createOrder(@QueryParam("userId") UUID userId, @Valid AddressDTO shippingAddress);
 
-    Response deliverOrder(@PathParam("id") UUID orderId);
+    ResponseEntity deliverOrder(@PathParam("id") UUID orderId);
 
-    Response deleteOrder(@PathParam("id") UUID orderId);
+    ResponseEntity deleteOrder(@PathParam("id") UUID orderId);
+
+    ResponseEntity create(@RequestBody CreateClientDto dto);
+
+    ResponseEntity addToCart(@PathParam("id") UUID orderId, @RequestParam("productId") UUID id);
+
+    ResponseEntity removeFromCart(@PathParam("id") UUID orderId, @RequestParam("productId") UUID id);
 }

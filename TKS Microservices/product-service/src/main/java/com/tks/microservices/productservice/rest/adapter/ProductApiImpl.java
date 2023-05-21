@@ -66,4 +66,12 @@ public class ProductApiImpl {
         productService.removeItem(id);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{id}/amount")
+    public ResponseEntity updateProductAvailableAmount(@PathVariable("id") UUID id, @RequestParam("amount") int amount) {
+        Product product = productService.findById(id);
+        product.setAvailableAmount(amount);
+        productService.updateProduct(id, product);
+        return ResponseEntity.ok().build();
+    }
 }

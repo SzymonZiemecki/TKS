@@ -17,7 +17,6 @@ public class BaseUserDTO extends UserDTO {
         setLastName(dto.getLastName());
         setLogin(dto.getLogin());
         setAddress(dto.getAddress());
-        setSuspended(dto.isSuspended());
         setAccountBalance(100);
     }
 }

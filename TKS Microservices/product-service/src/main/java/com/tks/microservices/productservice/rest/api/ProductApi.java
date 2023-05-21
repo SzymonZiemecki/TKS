@@ -16,4 +16,5 @@ public interface ProductApi {
     ResponseEntity addProduct(@Validated ProductDTO product);
     ResponseEntity updateProduct(@PathVariable("id") UUID id, @Validated ProductDTO product);
     ResponseEntity deleteProduct(@PathVariable("id") UUID id);
+    ResponseEntity updateProductAvailableAmount(@PathVariable("id") UUID id, @RequestParam("amount") Long amount);
 }

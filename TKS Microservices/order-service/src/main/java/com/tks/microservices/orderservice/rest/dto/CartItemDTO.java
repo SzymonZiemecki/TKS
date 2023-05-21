@@ -26,6 +26,7 @@ public class CartItemDTO {
     @SneakyThrows
     public static CartItemDTO cartItemToDTO(CartItem cartItem) {
         CartItemDTO cartItemDTO = new CartItemDTO();
+        cartItemDTO.setProductId(cartItem.getProductId());
         cartItemDTO.setQuantity(cartItem.getQuantity());
         return cartItemDTO;
     }
@@ -33,6 +34,7 @@ public class CartItemDTO {
     @SneakyThrows
     public static CartItem cartItemDTOToDomainModel(CartItemDTO cartItemDTO) {
         CartItem cartItem = new CartItem();
+        cartItem.setProductId(cartItemDTO.getProductId());
         cartItem.setQuantity(cartItemDTO.getQuantity());
         return cartItem;
     }

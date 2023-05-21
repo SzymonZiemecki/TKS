@@ -19,5 +19,4 @@ public class RegisterDTO {
     @Size(min = 2, max = 20)
     private String password;
     private AddressDTO address;
-    private boolean suspended;
 }

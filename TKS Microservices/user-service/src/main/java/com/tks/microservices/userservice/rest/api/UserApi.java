@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.tks.microservices.userservice.repository.model.security.CustomUserDetails;
 import com.tks.microservices.userservice.rest.dto.ChangePasswordDTO;
 import com.tks.microservices.userservice.rest.dto.RegisterDTO;
 import com.tks.microservices.userservice.rest.dto.UpdateUserDTO;
@@ -21,23 +23,26 @@ import jakarta.ws.rs.PathParam;
 
 public interface UserApi {
     @GetMapping("/list")
-    public ResponseEntity getUsers();
+    ResponseEntity getUsers();
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity getUserById(@PathVariable("id") UUID id);
+    ResponseEntity getUserById(@PathVariable("id") UUID id);
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity updateUser(@PathVariable("id") UUID id, @RequestBody UpdateUserDTO updatedUser);
+    ResponseEntity updateUser(@PathVariable("id") UUID id, @RequestBody UpdateUserDTO updatedUser);
 
     @PutMapping(value = "/{id}/changePassword")
-    public ResponseEntity changePassword(@PathVariable("id") UUID id, @RequestBody ChangePasswordDTO changePasswordDTO);
+    ResponseEntity changePassword(@PathVariable("id") UUID id, @RequestBody ChangePasswordDTO changePasswordDTO);
 
     @PostMapping(value = "/register")
-    public ResponseEntity register(@Valid @RequestBody RegisterDTO registerDto);
+    ResponseEntity register(@Valid @RequestBody RegisterDTO registerDto);
 
     @PostMapping(value = "/addUser")
-    public ResponseEntity addUser(@Valid @RequestBody UserDTO user);
+    ResponseEntity addUser(@Valid @RequestBody UserDTO user);
 
     @PutMapping(value = "/{id}/suspendOrResume")
-    public ResponseEntity suspendOrResumeUser(@PathParam("id") UUID userId);
+    ResponseEntity suspendOrResumeUser(@PathParam("id") UUID userId);
+
+    @GetMapping("/find")
+    CustomUserDetails findUserForAuthorization(@RequestParam("login") String login);
 }

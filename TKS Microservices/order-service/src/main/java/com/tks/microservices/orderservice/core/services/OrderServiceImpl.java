@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.tks.microservices.orderservice.client.CartItemClient;
+import com.tks.microservices.orderservice.client.ProductApiClient;
 import com.tks.microservices.orderservice.core.model.Address;
 import com.tks.microservices.orderservice.core.model.Cart;
 import com.tks.microservices.orderservice.core.model.CartItem;
@@ -39,13 +39,13 @@ public class OrderServiceImpl implements OrderService {
 
     private ClientRepositoryPort clientRepository;
 
-    private CartItemClient cartItemClient;
+    private ProductApiClient productApiClient;
 
     public OrderServiceImpl(final OrderRepositoryPort orderRepository, final ClientRepositoryPort clientRepository,
-                            final CartItemClient cartItemClient) {
+                            final ProductApiClient productApiClient) {
         this.orderRepository = orderRepository;
         this.clientRepository = clientRepository;
-        this.cartItemClient = cartItemClient;
+        this.productApiClient = productApiClient;
     }
 
     @Override
@@ -75,10 +75,7 @@ public class OrderServiceImpl implements OrderService {
 
         Map<Product, Long> products = orderItems.stream()
                 .collect(Collectors.toMap(
-                        orderItem ->
-                                new Product(cartItemClient.findById(orderItem.getProductId()).getPrice(),
-                                cartItemClient.findById(orderItem.getProductId()).getAvailableAmount()),
-                        CartItem::getQuantity));
+                        orderItem -> productApiClient.findById(orderItem.getProductId()), CartItem::getQuantity));
 
         Double orderValue = calculateOrderValue(products);
 
@@ -138,6 +135,7 @@ public class OrderServiceImpl implements OrderService {
     private synchronized void process(Client user, Map<Product, Long> products, Double orderValue) {
         user.setAccountBalance(user.getAccountBalance() - orderValue);
         products.forEach((product, quantity) -> product.setAvailableAmount((product.getAvailableAmount() - quantity)));
+        products.forEach((product, quantity) -> productApiClient.updateProductAvailableAmount(product.getId(), product.getAvailableAmount()));
     }
 
     private void clearUserCart(Client client) {

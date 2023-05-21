@@ -6,6 +6,12 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8061/eureka/
 
+logging:
+  level:
+    root: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId:-},%X{spanId:-}] ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+
 springdoc:
   packagesToScan: com.tks.microservices.userservice
 

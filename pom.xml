@@ -11,12 +11,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>repositories</module>
-        <module>ports</module>
-        <module>core</module>
-        <module>rest</module>
-        <module>soap</module>
-<!--        <module>soapSpring</module>-->
+        <module>TKS Microservices</module>
     </modules>
 
     <properties>

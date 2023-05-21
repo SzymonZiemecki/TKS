@@ -28,6 +28,7 @@ public class CartItemEnt {
     @SneakyThrows
     public static CartItemEnt cartItemToEnt(CartItem cartItem) {
         CartItemEnt cartItemEnt = new CartItemEnt();
+        cartItemEnt.setProductId(cartItem.getProductId());
         cartItemEnt.setQuantity(cartItem.getQuantity());
         return cartItemEnt;
     }
@@ -35,6 +36,7 @@ public class CartItemEnt {
     @SneakyThrows
     public static CartItem cartItemEntToDomainModel(CartItemEnt cartItemEnt) {
         CartItem cartItem = new CartItem();
+        cartItem.setProductId(cartItemEnt.getProductId());
         cartItem.setQuantity(cartItemEnt.getQuantity());
         return cartItem;
     }

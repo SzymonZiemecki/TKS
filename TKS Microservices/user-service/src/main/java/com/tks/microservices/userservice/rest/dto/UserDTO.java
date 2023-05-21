@@ -69,7 +69,7 @@ public class UserDTO extends IdTrait {
     }
 
     @SneakyThrows
-    public static User userDTOToDomainModel(UserDTO userDTO) {
+    public static User userDTOToDomainModel(UserDTO userDTO, String password) {
         User user;
         if (userDTO instanceof BaseUserDTO) {
             user = new BaseUser();
@@ -80,14 +80,15 @@ public class UserDTO extends IdTrait {
         } else {
             throw new NotSupportedException();
         }
-        copyUserDTOProperties(user, userDTO);
+        copyUserDTOProperties(user, userDTO, password);
         return user;
     }
 
-    private static void copyUserDTOProperties(User user, UserDTO userDTO) {
+    private static void copyUserDTOProperties(User user, UserDTO userDTO, String password) {
         user.setId(userDTO.getId());
         user.setSuspended(userDTO.isSuspended());
         user.setFirstName(userDTO.getFirstName());
+        user.setPassword(password);
         user.setLastName(userDTO.getLastName());
         user.setLogin(userDTO.getLogin());
         user.setAddress(AddressDTO.addressDTOToDomainModel(userDTO.getAddress() == null ? null : userDTO.getAddress()));

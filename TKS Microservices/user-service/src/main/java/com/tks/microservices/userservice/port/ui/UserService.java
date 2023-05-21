@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.tks.microservices.userservice.core.model.User;
+import com.tks.microservices.userservice.repository.model.security.CustomUserDetails;
 import com.tks.microservices.userservice.rest.dto.UpdateUserDTO;
 import com.tks.microservices.userservice.rest.dto.UserDTO;
 
@@ -17,4 +18,5 @@ public interface UserService {
     void changeUserPassword(UUID id, String currentPassword, String newPassword);
     User addUser(User user);
     void suspendOrResumeUser(UUID userId);
+    CustomUserDetails findUserForAuthorization(String login);
 }

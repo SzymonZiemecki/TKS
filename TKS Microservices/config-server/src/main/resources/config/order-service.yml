@@ -7,7 +7,9 @@ eureka:
       defaultZone: http://localhost:8061/eureka/
       
 logging:
-  pattern: 
+  level:
+    root: DEBUG
+  pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId:-},%X{spanId:-}] ${LOG_LEVEL_PATTERN:-%5p} %m%n"
 
 springdoc:
