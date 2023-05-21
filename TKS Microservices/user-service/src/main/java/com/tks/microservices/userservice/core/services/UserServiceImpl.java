@@ -52,7 +52,6 @@ public class UserServiceImpl implements UserService {
         updatedUser.setLastName(dto.getLastName());
         updatedUser.setAddress(AddressDTO.addressDTOToDomainModel(dto.getAddress()));
         updatedUser.setAccountBalance(dto.getAccountBalance());
-    public User updateUser(UUID id, User updatedUser) {
         return userRepository.update(id, updatedUser);
     }
 
